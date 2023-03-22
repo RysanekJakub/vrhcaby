@@ -1,10 +1,10 @@
-
-from Figurka import Figurka
+rom Figurka import Figurka
 from Kostky_Kelimek import Kostky
 from Pole import Pole
 from Sachovnice import Sachovnice
 from Bar import Bar
 from Domecek import Domecek
+
 
 
 
