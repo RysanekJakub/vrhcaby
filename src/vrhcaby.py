@@ -7,6 +7,7 @@ from Domecek import Domecek
 
 
 
+
 domecek_X = Domecek()
 domecek_O = Domecek()
 
