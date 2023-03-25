@@ -1,7 +1,7 @@
 import random
 import os
 
-# zajišťuje barvy textu
+# zajistuje barvy textu
 os.system("")
 
 class style():
@@ -53,37 +53,39 @@ class Game:
     def throw_dice(self, dice) -> None:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
+        # kontrola hozenych hodnot
         if hod1 != hod2:
             dice.append(str(hod1))
             dice.append(str(hod2))
             return dice
+        # pokud se cisla rovnaji, vrati se 4x
         else:
             for _ in range(4):
                 dice.append(str(hod1))
             return dice
     
     def spike_occupancy(self, spike_list:list) -> str:
+        # nedokonceny system
+        # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
-            remaining_spaces = " " * 5
-        else:
-            remaining_spaces = " " * 4
+            remaining_spaces = " " * 5 # <-- doplneni mezer
+        else:                          #    |
+            remaining_spaces = " " * 4 # <--|
         return f"[{len(spike_list)}]{remaining_spaces}"
 
 
     def gameboard_final(self, values:list, spikes:list) -> str:
-        s = spikes
-        
-        
-        
-        # dopočet chybějících mezer kvůli formátování
+        # dopocet chybejicich mezer kvuli formatovani
         if len(values) == 2:
             spaces = 156*" "
         else:
             spaces = 150*" "
         
+        # tvorba cislovani spiku
         spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
 
+        # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
              _________________________________________________________________________________________________________________________________________________________________________________
             | Kolo: {self._turn}                                                                                                                                                                         |
@@ -118,13 +120,17 @@ class Game:
             |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
             |_________________________________________________________________________________________________________________________________________________________________________________|
             """
+        # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
         
 def main():  
     game1 = Game(1,1, "hrac1", "hrac2")
-    
+    # hod kostkami
     game1.doubledice = game1.throw_dice(game1.doubledice)
+    # vypis hry do konzole
     print(game1.gameboard_final(game1.doubledice, game1.spikes))
+    
     print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+
 if __name__ == "__main__":
     main()
