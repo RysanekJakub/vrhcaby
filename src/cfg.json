@@ -1,0 +1,20 @@
+{
+    "menu_options": ["PLAY (AI)", "PLAY (PvP)", "QUIT"],
+    "game_save":{
+        "game_stat":{
+            "round": 0,
+            "player_turn": "",
+            "last_dice": []
+        },
+        "player1":{
+            "name": "",
+            "color": "",
+            "score": ""
+        },
+        "player2":{
+            "name": "",
+            "color": "",
+            "score": ""
+        }
+    }
+}
