@@ -19,15 +19,16 @@ class style():
 
 print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
 
-
 class Game:
     
     def __init__(self, gameboard, pozice, player1, player2) -> None:
+        # herni pole
         self._gameboard = gameboard
+        # dvojkostka
         self._doubledice = []
         self._spikes = [[] for j in range(24)]
-        # nevim co je myšlený továrnou
-        self._tovarna = ...
+        # bar
+        self._bar = ...
         self._stone = pozice
         self._turn = 0
         self._player_turn = "player1"
@@ -65,6 +66,7 @@ class Game:
             return dice
     
     def spike_occupancy(self, spike_list:list) -> str:
+        
         # nedokonceny system
         # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
@@ -75,6 +77,7 @@ class Game:
 
 
     def gameboard_final(self, values:list, spikes:list) -> str:
+        s = spikes
         # dopocet chybejicich mezer kvuli formatovani
         if len(values) == 2:
             spaces = 156*" "
@@ -122,8 +125,47 @@ class Game:
             """
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
-        
-def main():  
+
+
+class Menu:
+    def __init__(self, options, config) -> None:
+        self._options = options
+        self._conf = config
+
+
+    """
+        Predstava funkce menu:
+            -> uzivatel vybere moznost PLAY:
+                -> podle vyberu herniho modu se pokracuje
+                    PvE:
+                    - zatim nic
+                    PvP:
+                    - pokud pote vybere moznost nacist, hra pres load() vezme data z configu a pokracuje se ve hre
+                    - pokud vybere moznost Nova hra, spusti se funkce game_setup(), 
+                        data se ulozi/prepisou do configu a nasledne se spusti funkce load()
+            -> uzivatel vybere moznost QUIT:
+                - cela hra se vypne 
+    """
+
+    def game_setup(self) -> str:
+        # input -> jmena hracu, mozna i barva kamenu (tohle muzem udelat i pres random)
+        # idealni by bylo vyprintovat nejakou pozitivni/negativni hlasku
+        ...
+
+    def load():
+        # v pripade vyberu moznosti nacist hru
+        ...
+
+    def play():
+        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
+        ...
+
+    def quit_game():
+        quit()
+
+
+def main():
+    menu = ()
     game1 = Game(1,1, "hrac1", "hrac2")
     # hod kostkami
     game1.doubledice = game1.throw_dice(game1.doubledice)
