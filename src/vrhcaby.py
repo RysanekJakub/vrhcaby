@@ -132,7 +132,6 @@ class Menu:
         self._options = options
         self._conf = config
 
-
     """
         Predstava funkce menu:
             -> uzivatel vybere moznost PLAY:
@@ -165,7 +164,6 @@ class Menu:
 
 
 def main():
-    menu = ()
     game1 = Game(1,1, "hrac1", "hrac2")
     # hod kostkami
     game1.doubledice = game1.throw_dice(game1.doubledice)
