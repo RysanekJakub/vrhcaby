@@ -65,6 +65,21 @@ class Game:
     def last_command(self, value):
         self._last_command = value
 
+    @property
+    def turn(self):
+        return self._turn
+    
+    @turn.setter
+    def turn(self, value):
+        self._turn = value
+
+    def next_turn(self, current_turn, player_turn):
+        """
+        Funkce bude přičítat kola a měnit hráče na tahu.
+        """
+        
+        ...
+
     def throw_dice(self, dice:list) -> None:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
@@ -149,7 +164,7 @@ class Game:
         
         if command in all_commands:
             if command == "presun":
-                ...
+                command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
             elif command == "hod":
                 self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
@@ -268,7 +283,7 @@ def main():
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
-        
+        style.clear()
         print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
