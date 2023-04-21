@@ -1,4 +1,5 @@
-# vrhcaby
-Repozitář projektu se skvělou verzí hry vrhcáby
+# **Vrhcáby**
 
-<h1>Test commitu</h1>
+Projektový repozitář pro hru Vrhcáby
+
+> Made by: Ryšánek, Thomas, Kepič
