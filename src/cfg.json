@@ -1,9 +1,5 @@
 {
     "menu_options": ["PLAY (AI)", "PLAY (PvP)", "QUIT"],
-
-    "commands": ["presun", "hod"],
-
-
     "game_save":{
         "game_stat":{
             "round": 0,
@@ -21,8 +17,4 @@
             "score": ""
         }
     }
-
 }
-
-}
->
