@@ -1,0 +1,15 @@
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+*.pydevproject
+*.project
+*.cproject
+
+# Testing
+/.pytest_cache/
+/pytest.ini
