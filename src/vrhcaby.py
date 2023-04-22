@@ -1,5 +1,6 @@
 import random
 import os
+import json
 
 # zajistuje barvy textu
 os.system("")
@@ -17,7 +18,9 @@ class style():
     UNDERLINE = '\033[4m'
     RESET = '\033[0m'
 
-print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+    # vycisti konzoli
+    def clear():
+         os.system("cls")
 
 class Game:
     
@@ -34,6 +37,7 @@ class Game:
         self._player_turn = "player1"
         self._player1 = player1
         self._player2 = player2
+        self._last_command = ""
 
     @property
     def doubledice(self):
@@ -50,6 +54,29 @@ class Game:
     @property
     def spikes(self):
         return self._spikes
+    
+    @property
+    def last_command(self):
+        return self._last_command
+    
+    @last_command.setter
+    def last_command(self, value):
+        self._last_command = value
+
+    @property
+    def turn(self):
+        return self._turn
+    
+    @turn.setter
+    def turn(self, value):
+        self._turn = value
+
+    def next_turn(self, current_turn, player_turn):
+        """
+        Funkce bude přičítat kola a měnit hráče na tahu.
+        """
+        
+        ...
 
     def throw_dice(self, dice) -> None:
         dice.clear()
@@ -76,7 +103,7 @@ class Game:
         return f"[{len(spike_list)}]{remaining_spaces}"
 
 
-    def gameboard_final(self, values:list, spikes:list) -> str:
+    def gameboard_final(self, values:list, spikes:list, command:str) -> str:
         s = spikes
         # dopocet chybejicich mezer kvuli formatovani
         if len(values) == 2:
@@ -90,7 +117,10 @@ class Game:
 
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
+            
              _________________________________________________________________________________________________________________________________________________________________________________
+            | Poslední příkaz: {command}
+            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
             | Kolo: {self._turn}                                                                                                                                                                         |
             | Hraje: {self._player_turn}                                                                                                                                                                  |
             |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -125,13 +155,33 @@ class Game:
             """
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
-
+    def command_detection(self, command:str, cfg:str) -> str:
+        command = command.lower()
+        with open(cfg, 'r') as config_file:
+            all_commands = json.load(config_file)['commands']
+        
+        if command in all_commands:
+            if command == "presun":
+                command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
+            elif command == "hod":
+                self.throw_dice(self.doubledice)
+            command = f"{style.GREEN}{command}{style.RESET}"
+        else:
+            command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
+        self.last_command = command
 
 class Menu:
     def __init__(self, options, config) -> None:
         self._options = options
         self._conf = config
 
+    @property
+    def self_options(self):
+        return self._options
+    
+    @property
+    def self_conf(self):
+        return self._conf
 
     """
         Predstava funkce menu:
@@ -221,14 +271,21 @@ class Menu:
 
 
 def main():
-    menu = ()
+    config_file = './cfg.json'
+    #menu1 = Menu('', 'cfg.json')
+    #menu1.game_setup()
     game1 = Game(1,1, "hrac1", "hrac2")
     # hod kostkami
-    game1.doubledice = game1.throw_dice(game1.doubledice)
+    #game1.doubledice = game1.throw_dice(game1.doubledice)
     # vypis hry do konzole
-    print(game1.gameboard_final(game1.doubledice, game1.spikes))
-    
-    print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+    style.clear()
+    print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+    while True:
+        style.clear()
+        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))
+        print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+        cmd_line = input("> ")
+        game1.command_detection(cmd_line, config_file)
 
 if __name__ == "__main__":
     main()
