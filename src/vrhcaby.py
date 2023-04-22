@@ -30,11 +30,10 @@ class Game:
         # dvojkostka
         self._doubledice = []
         self._spikes = [[] for j in range(24)]
-        # bar
         self._bar = ...
         self._stone = pozice
         self._turn = 0
-        self._player_turn = "player1"
+        self._player_turn = player1     # defaultni hodnota
         self._player1 = player1
         self._player2 = player2
         self._last_command = ""
@@ -71,12 +70,30 @@ class Game:
     def turn(self, value):
         self._turn = value
 
-    def next_turn(self, current_turn, player_turn):
-        """
-        Funkce bude přičítat kola a měnit hráče na tahu.
-        """
-        
-        ...
+    @property
+    def player_turn(self):
+        return self._player_turn
+    
+    @player_turn.setter
+    def player_turn(self, value):
+        self._player_turn = value
+    
+    @property
+    def player1(self):
+        return self._player1
+    
+    @property
+    def player2(self):
+        return self._player2
+
+
+    def next_turn(self, p_turn):
+        self.turn += 1
+        if p_turn == self.player1:
+            self.player_turn = self.player2
+        else:
+            self.player_turn = self.player1
+
 
     def throw_dice(self, dice) -> None:
         dice.clear()
@@ -92,8 +109,8 @@ class Game:
                 dice.append(str(hod1))
             return dice
     
+
     def spike_occupancy(self, spike_list:list) -> str:
-        
         # nedokonceny system
         # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
@@ -103,7 +120,7 @@ class Game:
         return f"[{len(spike_list)}]{remaining_spaces}"
 
 
-    def gameboard_final(self, values:list, spikes:list, command:str) -> str:
+    def gameboard_final(self, values:list, spikes:list, command:str, cur_turn: int, p_turn: str) -> str:
         s = spikes
         # dopocet chybejicich mezer kvuli formatovani
         if len(values) == 2:
@@ -121,8 +138,8 @@ class Game:
              _________________________________________________________________________________________________________________________________________________________________________________
             | Poslední příkaz: {command}
             |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | Kolo: {self._turn}                                                                                                                                                                         |
-            | Hraje: {self._player_turn}                                                                                                                                                                  |
+            | Kolo: {cur_turn}                                                                                                                                                                         |
+            | Hraje: {p_turn}                                                                                                                                                                  |
             |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
             | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
             |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -155,7 +172,9 @@ class Game:
             """
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
-    def command_detection(self, command:str, cfg:str) -> str:
+    
+
+    def command_detection(self, command:str, cfg:str, p_turn:str) -> str:
         command = command.lower()
         with open(cfg, 'r') as config_file:
             all_commands = json.load(config_file)['commands']
@@ -166,9 +185,11 @@ class Game:
             elif command == "hod":
                 self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
+            self.next_turn(p_turn)
         else:
             command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
         self.last_command = command
+
 
 class Menu:
     def __init__(self, options, config) -> None:
@@ -275,17 +296,15 @@ def main():
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
     game1 = Game(1,1, "hrac1", "hrac2")
-    # hod kostkami
-    #game1.doubledice = game1.throw_dice(game1.doubledice)
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))
+        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command, game1.turn, game1.player_turn))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
-        game1.command_detection(cmd_line, config_file)
+        game1.command_detection(cmd_line, config_file, game1.player_turn)
 
 if __name__ == "__main__":
     main()
