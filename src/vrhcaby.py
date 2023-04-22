@@ -1,8 +1,6 @@
 
 import json
 
-import random
-
 import os
 
 # zajistuje barvy textu
@@ -11,9 +9,9 @@ os.system("")
 
 class style:
 
-class style():
+    class style:
 
-    BLACK = '\033[30m'
+        BLACK: str = '\033[30m'
     RED = '\033[31m'
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
@@ -36,9 +34,26 @@ class style():
 class Game:
 
 
-print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+ print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
 
-class Game:
+
+def throw_dice(dice) -> None:
+
+    dice.clear()
+    hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
+    # kontrola hozenych hodnot
+    if hod1 != hod2:
+        dice.append(str(hod1))
+        dice.append(str(hod2))
+        return dice
+    # pokud se cisla rovnaji, vrati se 4x
+    else:
+        for _ in range(4):
+            dice.append(str(hod1))
+        return dice
+
+
+class Game2:
     
 
     def __init__(self, gameboard, pozice, player1, player2) -> None:
@@ -49,7 +64,7 @@ class Game:
 
         self._spikes = [[] for _ in range(24)]
 
-        self._spikes = [[] for j in range(24)]
+        self._spikes = [[] for _ in range(24)]
 
         # bar
         self._bar = ...
@@ -62,10 +77,10 @@ class Game:
         self._last_command = ""
 
     @property
-    def doubledice(self):
+    def doubledice2(self):
         return self._doubledice
 
-    @doubledice.setter
+    @doubledice2.setter
     def doubledice(self, value):
         self._doubledice = value
 
@@ -103,118 +118,32 @@ class Game:
     @staticmethod
     def throw_dice(dice:list) -> list:
 
-
-    @property
-    def doubledice(self):
+        pass
+    def doubledice2(self):
         return self._doubledice
 
-    @doubledice.setter
-    def doubledice(self, value):
+    @doubledice2.setter
+    def doubledice2(self, value):
         self._doubledice = value
     
     @property
-    def gameboard(self):
-        return self._gameboard
+    def deska(self):
+        return self._deska
     
     @property
-    def spikes(self):
+    def spikes2(self):
         return self._spikes
 
-    def throw_dice(self, dice) -> None:
-
-        dice.clear()
-        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
-        # kontrola hozenych hodnot
-        if hod1 != hod2:
-            dice.append(str(hod1))
-            dice.append(str(hod2))
-            return dice
-        # pokud se cisla rovnaji, vrati se 4x
-        else:
-            for _ in range(4):
-                dice.append(str(hod1))
-            return dice
-
-
     @staticmethod
-    def spike_occupancy(spike_list:list) -> str:
+    def spike_occupancy() -> str:
 
-
-    
-    def spike_occupancy(self, spike_list:list) -> str:
-        
-
-        # nedokonceny system
-        # vypisuje obsazenost spiku a zajistuje formatovani
-        if 0 <= len(spike_list) < 10:
-            remaining_spaces = " " * 5 # <-- doplneni mezer
-        else:                          #    |
-            remaining_spaces = " " * 4 # <--|
-        return f"[{len(spike_list)}]{remaining_spaces}"
+        pass
 
 
 
-    def gameboard_final(self, values:list, spikes:list, command:str) -> str:
+    def gameboard_final(self, command:str) -> str:
 
-    def gameboard_final(self, values:list, spikes:list) -> str:
-
-        s = spikes
-        # dopocet chybejicich mezer kvuli formatovani
-        if len(values) == 2:
-            spaces = 156*" "
-        else:
-            spaces = 150*" "
-
-
-
-        
-
-        # tvorba cislovani spiku
-        spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
-        spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
-
-        # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
-        gameboard = f"""
-             _________________________________________________________________________________________________________________________________________________________________________________
-
-            | Poslední příkaz: {command}
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-
-
-            | Kolo: {self._turn}                                                                                                                                                                         |
-            | Hraje: {self._player_turn}                                                                                                                                                                  |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |{style.RED}       {"             ".join(spike_row1[0])}                    {"             ".join(spike_row1[1])}             {"            ".join(spike_row1[2])}{style.RESET}       |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | \    {self.spike_occupancy(s[0])}/\     {s[1]}     /\     {s[2]}     /\     {s[3]}     /\     {s[4]}     /\     {s[5]}     /  | |  \            /\            /\            /\            /\            /\            / |
-            |  \          /  \          /  \          /  \          /  \          /  \          /   | |   \          /  \          /  \          /  \          /  \          /  \          /  |
-            |   \        /    \        /    \        /    \        /    \        /    \        /    | |    \        /    \        /    \        /    \        /    \        /    \        /   |
-            |    \      /      \      /      \      /      \      /      \      /      \      /     | |     \      /      \      /      \      /      \      /      \      /      \      /    |
-            |     \    /        \    /        \    /        \    /        \    /        \    /      | |      \    /        \    /        \    /        \    /        \    /        \    /     |
-            |      \  /          \  /          \  /          \  /          \  /          \  /       | |       \  /          \  /          \  /          \  /          \  /          \  /      |
-            |       \/            \/            \/            \/            \/            \/        | |        \/            \/            \/            \/            \/            \/       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |       /\            /\            /\            /\            /\            /\        | |        /\            /\            /\            /\            /\            /\       |
-            |      /  \          /  \          /  \          /  \          /  \          /  \       | |       /  \          /  \          /  \          /  \          /  \          /  \      |
-            |     /    \        /    \        /    \        /    \        /    \        /    \      | |      /    \        /    \        /    \        /    \        /    \        /    \     |
-            |    /      \      /      \      /      \      /      \      /      \      /      \     | |     /      \      /      \      /      \      /      \      /      \      /      \    |
-            |   /        \    /        \    /        \    /        \    /        \    /        \    | |    /        \    /        \    /        \    /        \    /        \    /        \   |
-            |  /          \  /          \  /          \  /          \  /          \  /          \   | |   /          \  /          \  /          \  /          \  /          \  /          \  |
-            | /            \/            \/            \/            \/            \/            \  | |  /            \/            \/            \/            \/            \/            \ |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |{style.RED}       {"            ".join(spike_row2[0])}                   {"            ".join(spike_row2[1])}{style.WHITE}       |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |_________________________________________________________________________________________________________________________________________________________________________________|
-            """
-        # vrati samotny gameboard s doplnenymi hodnotami
-        return gameboard
+        pass
 
 
     def command_detection(self, command:str, cfg:str) -> str:
@@ -226,7 +155,7 @@ class Game:
             if command == "presun":
                 command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
             elif command == "hod":
-                self.throw_dice(self.doubledice)
+                throw_dice(self.doubledice2)
             command = f"{style.GREEN}{command}{style.RESET}"
         else:
             command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
@@ -234,6 +163,8 @@ class Game:
 
 class Menu:
     def __init__(self, options, config) -> None:
+        self._player2_barvy = None
+        self._player1_barvy = None
         self._player1 = None
         self._player2 = None
         self._options = options
@@ -248,7 +179,6 @@ class Menu:
         return self._conf
 
 
-class Menu:
     def __init__(self, options, config) -> None:
         self._options = options
         self._conf = config
@@ -281,7 +211,8 @@ class Menu:
             volba.lower()
 
 
-    def game_setup(self):
+    @property
+    def herni_nastaveni(self):
         
         # volba PVP, PVE
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
@@ -297,16 +228,8 @@ class Menu:
                 print(f"Vybrali jste mod : {volba}\n")
                 break
 
-        # zmena jmena
-        def zmena_jmena(i: int):
-
-            while True:
-                max_delka: int = 10
-                print(f"\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10")
-                vybrane_jmeno = input("Zvolene jmeno: ")
 
 
-        
         # zmena jmena
         def zmena_jmena(i: int):
                 
@@ -342,7 +265,7 @@ class Menu:
 
 
         
-        def nastaveni_barvy(barvy: list, i: int):
+        def nastaveni_barvy(barvy: list):
             while True:
                 print(f"\nVyberte barvu z nasledujicich: {barvy}")
                 vybrana_barva = input("Zvolena barva: ")
@@ -373,15 +296,16 @@ class Menu:
 
             
         
-        # volba jmen PvE
-        if volba == "pve":
+
+
             
 
-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
-            self._player1 = zmena_jmena(1)
-            #self._player1_barvy = nastaveni_barvy(barvy, 1)
-            self._player2 = "AI"
-            #self._player2_barvy = nastaveni_barvy(barvy, 2)
+
+         barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
+         self._player1 = zmena_jmena(1)
+         self._player1_barvy = nastaveni_barvy(barvy, 1)
+         self._player2 = "AI"
+         self._player2_barvy = nastaveni_barvy(barvy, 2)
 
 
     def load(self):
@@ -392,19 +316,69 @@ class Menu:
         # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
         ...
 
+
+class prvek:
+    def __init__(self, hodnota, nasledujici=None):
+        self.hodnota = hodnota
+        self.nasledujici = nasledujici
+        self.pos_list = []
+
+class Seznam:
+    def __init__(self, hlavicka):
+        self.hlavicka = Prvek(hlavicka)
+    def pridej_prvek(self, hodnota):
+        novy_prvek = Prvek(hodnota)
+        prvek = self.hlavicka
+        while prvek.nasledujici is not None:
+            prvek = prvek.nasledujici
+
+        prvek.nasledujici = novy_prvek
+
     @staticmethod
+    def prvek_na_indexu(index):
+        if index < 0:
+            raise Exception("Index has to be positive")
+    prvek = self.hlavicka
+    for i in range(index):
+        if prvek.nasledujici is not None:
+            prvek = prvek.nasledujici
+        else:
+            raise Exception("Index out of range")
 
-    def load():
-        # v pripade vyberu moznosti nacist hru
-        ...
-
-    def play():
-        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
-        ...
 
 
-    def quit_game():
-        quit()
+
+    def __iter__(self):
+        self.x = self.hlavicka
+        return self
+
+    def __next__(self):
+        aktualni = self.x
+        if aktualni is None:
+            raise StopIteration
+        else:
+            self.c = aktualni.nasledujici
+        return aktualni
+
+class Zasobnik(Seznam):
+    def add_item(self, hodnota):
+        newitem = Prvek(hodnota)
+        newitem.nasledujici = self.hlavicka
+        self.hlavicka = newitem
+
+    def odeber_prvek(self):
+        if self.hlavicka is None:
+            raise Exception("nelze odebrat neexistujici prvek")
+        else:
+            pomocnik = self.hlavicka.hodnota
+            self.hlavicka = self.hlavicka.nasledujici
+        return pomocnik
+
+
+
+
+
+
 
 
 
@@ -523,7 +497,7 @@ def main():
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
-    game1 = Game(1,1, "hrac1", "hrac2")
+    game1 = Game2(1, 1, "hrac1", "hrac2")
     # hod kostkami
     #game1.doubledice = game1.throw_dice(game1.doubledice)
     # vypis hry do konzole
@@ -531,7 +505,7 @@ def main():
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))
+        print(game1.gameboard_final(game1.last_command))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         game1.command_detection(cmd_line, config_file)
@@ -543,12 +517,11 @@ if __name__ == "__main__":
     main()
 
 def main():
-    menu = ()
-    game1 = Game(1,1, "hrac1", "hrac2")
+    game1 = Game2(1, 1, "hrac1", "hrac2")
     # hod kostkami
-    game1.doubledice = game1.throw_dice(game1.doubledice)
+    throw_dice(game1.doubledice2)
     # vypis hry do konzole
-    print(game1.gameboard_final(game1.doubledice, game1.spikes))
+    print(game1.gameboard_final())
     
     print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
 
