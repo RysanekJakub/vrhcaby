@@ -1,12 +1,21 @@
-import random
-import os
 import json
+import os
+import random
 
 # zajistuje barvy textu
 os.system("")
 
-class style():
+
+
+class style:
+
+    class style:
+
+        BLACK: str = '\033[30m'
+
+class style:
     BLACK = '\033[30m'
+
     RED = '\033[31m'
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
@@ -19,17 +28,54 @@ class style():
     RESET = '\033[0m'
 
     # vycisti konzoli
+    @staticmethod
     def clear():
-         os.system("cls")
+
+        os.system("cls")
+
+
 
 class Game:
+
+
+ print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+
+os.system("cls")
+
+
+
+def throw_dice(dice) -> None:
+
+    dice.clear()
+    hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
+    # kontrola hozenych hodnot
+    if hod1 != hod2:
+        dice.append(str(hod1))
+        dice.append(str(hod2))
+        return dice
+    # pokud se cisla rovnaji, vrati se 4x
+    else:
+        for _ in range(4):
+            dice.append(str(hod1))
+        return dice
+
+
+class Game2:
     
     def __init__(self, gameboard, pozice, player1, player2) -> None:
         # herni pole
         self._gameboard = gameboard
         # dvojkostka
         self._doubledice = []
-        self._spikes = [[] for j in range(24)]
+
+
+        self._spikes = [[] for _ in range(24)]
+
+        self._spikes = [[] for _ in range(24)]
+
+        # bar
+
+        self._spikes = [[] for _ in range(24)]
         self._bar = ...
         self._stone = pozice
         self._turn = 0
@@ -39,10 +85,10 @@ class Game:
         self._last_command = ""
 
     @property
-    def doubledice(self):
+    def doubledice2(self):
         return self._doubledice
 
-    @doubledice.setter
+    @doubledice2.setter
     def doubledice(self, value):
         self._doubledice = value
     
@@ -70,6 +116,44 @@ class Game:
     def turn(self, value):
         self._turn = value
 
+
+    def next_turn(self, current_turn, player_turn):
+        """
+        Funkce bude přičítat kola a měnit hráče na tahu.
+        """
+
+        ...
+
+    @staticmethod
+    def throw_dice(dice:list) -> list:
+
+        pass
+    def doubledice2(self):
+        return self._doubledice
+
+    @doubledice2.setter
+    def doubledice2(self, value):
+        self._doubledice = value
+    
+    @property
+    def deska(self):
+        return self._deska
+    
+    @property
+    def spikes2(self):
+        return self._spikes
+
+    @staticmethod
+    def spike_occupancy() -> str:
+
+        pass
+
+
+
+    def gameboard_final(self, command:str) -> str:
+
+        pass
+
     @property
     def player_turn(self):
         return self._player_turn
@@ -95,7 +179,8 @@ class Game:
             self.player_turn = self.player1
 
 
-    def throw_dice(self, dice) -> None:
+    @staticmethod
+    def throw_dice(dice) -> None:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
         # kontrola hozenych hodnot
@@ -110,7 +195,8 @@ class Game:
             return dice
     
 
-    def spike_occupancy(self, spike_list:list) -> str:
+    @staticmethod
+    def spike_occupancy(spike_list:list) -> str:
         # nedokonceny system
         # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
@@ -174,6 +260,7 @@ class Game:
         return gameboard
     
 
+
     def command_detection(self, command:str, cfg:str, p_turn:str) -> str:
         command = command.lower()
         with open(cfg, 'r') as config_file:
@@ -183,7 +270,7 @@ class Game:
             if command == "presun":
                 command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
             elif command == "hod":
-                self.throw_dice(self.doubledice)
+                throw_dice(self.doubledice2)
             command = f"{style.GREEN}{command}{style.RESET}"
             self.next_turn(p_turn)
         else:
@@ -193,6 +280,10 @@ class Game:
 
 class Menu:
     def __init__(self, options, config) -> None:
+        self._player2_barvy = None
+        self._player1_barvy = None
+        self._player1 = None
+        self._player2 = None
         self._options = options
         self._conf = config
 
@@ -203,6 +294,16 @@ class Menu:
     @property
     def self_conf(self):
         return self._conf
+
+
+
+    def __init__(self, options, config) -> None:
+        self._options = options
+        self._conf = config
+
+
+
+
 
     """
         Predstava funkce menu:
@@ -218,7 +319,27 @@ class Menu:
                 - cela hra se vypne 
     """
 
+
+
+    @property
     def game_setup(self):
+
+        # volba PVP, PVE
+        print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
+
+        while True:
+            volba = input("vase volba : ")
+            volba.lower()
+
+
+    @property
+    def herni_nastaveni(self):
+        pass
+
+    @property
+    def game_setup(self):
+        pass
+
         
         # volba PVP, PVE
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
@@ -232,7 +353,12 @@ class Menu:
             else:
                 print(f"Vybrali jste mod : {volba}\n")
                 break
+
+
+
+
         
+
         # zmena jmena
         def zmena_jmena(i: int):
                 
@@ -247,7 +373,11 @@ class Menu:
                 else:
                     return vybrane_jmeno
         
-        def nastaveni_barvy(barvy: list, i: int):
+        def nastaveni_barvy(barvy: list) -> object:
+            """
+
+            :rtype: object
+            """
             while True:
                 print(f"\nVyberte barvu z nasledujicich: {barvy}")
                 vybrana_barva = input("Zvolena barva: ")
@@ -263,30 +393,97 @@ class Menu:
         # volba jmen PVP
         if volba == "pvp":
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
-            
             self._player1 = zmena_jmena(1)
-            #self._player1_barvy = nastaveni_barvy(barvy, 1)
+            self._player1_barvy = nastaveni_barvy(barvy, 1)
             self._player2 = zmena_jmena(2)
-            #self._player2_barvy = nastaveni_barvy(barvy, 2)
+            self._player2_barvy = nastaveni_barvy(barvy, 2)
             
         
-        # volba jmen PvE
-        if volba == "pve":
-            
-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
-            self._player1 = zmena_jmena(1)
-            #self._player1_barvy = nastaveni_barvy(barvy, 1)
-            self._player2 = "AI"
-            #self._player2_barvy = nastaveni_barvy(barvy, 2)
 
-    def load():
+
+            
+
+
+    def load(self):
         # v pripade vyberu moznosti nacist hru
         ...
 
-    def play():
+    def play(self):
         # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
         ...
 
+
+class prvek:
+    def __init__(self, hodnota, nasledujici=None):
+        self.hodnota = hodnota
+        self.nasledujici = nasledujici
+        self.pos_list = []
+
+class Seznam:
+    def __init__(self, hlavicka):
+        self.hlavicka = Prvek(hlavicka)
+    def pridej_prvek(self, hodnota):
+        novy_prvek = Prvek(hodnota)
+        prvek = self.hlavicka
+        while prvek.nasledujici is not None:
+            prvek = prvek.nasledujici
+
+        prvek.nasledujici = novy_prvek
+
+    @staticmethod
+    def prvek_na_indexu(index):
+        if index < 0:
+            raise Exception("Index has to be positive")
+    prvek = self.hlavicka
+    for i in range(index):
+        if prvek.nasledujici is not None:
+            prvek = prvek.nasledujici
+        else:
+            raise Exception("Index out of range")
+
+
+
+
+    def __iter__(self):
+        self.x = self.hlavicka
+        return self
+
+    def __next__(self):
+        aktualni = self.x
+        if aktualni is None:
+            raise StopIteration
+        else:
+            self.c = aktualni.nasledujici
+        return aktualni
+
+class Zasobnik(Seznam):
+    def add_item(self, hodnota):
+        newitem = Prvek(hodnota)
+        newitem.nasledujici = self.hlavicka
+        self.hlavicka = newitem
+
+    def odeber_prvek(self):
+        if self.hlavicka is None:
+            raise Exception("nelze odebrat neexistujici prvek")
+        else:
+            pomocnik = self.hlavicka.hodnota
+            self.hlavicka = self.hlavicka.nasledujici
+        return pomocnik
+
+
+
+
+
+
+    def load(self):
+        # v pripade vyberu moznosti nacist hru
+        ...
+
+    def play(self):
+        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
+        ...
+
+    @staticmethod
     def quit_game():
         quit()
 
@@ -295,16 +492,40 @@ def main():
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
+
+    game1 = Game2(1, 1, "hrac1", "hrac2")
+    # hod kostkami
+    #game1.doubledice = game1.throw_dice(game1.doubledice)
+
     game1 = Game(1,1, "hrac1", "hrac2")
+
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
+        print(game1.gameboard_final(game1.last_command))
+
         print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command, game1.turn, game1.player_turn))
+
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         game1.command_detection(cmd_line, config_file, game1.player_turn)
 
 if __name__ == "__main__":
     main()
+
+
+def main():
+    game1 = Game2(1, 1, "hrac1", "hrac2")
+    # hod kostkami
+    throw_dice(game1.doubledice2)
+    # vypis hry do konzole
+    print(game1.gameboard_final())
+    
+    print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+
+if __name__ == "__main__":
+    main()
+
+

@@ -1,0 +1,464 @@
+Index: src/vrhcaby.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\nimport json\r\n\r\nimport random\r\n\r\nimport os\r\n\r\n# zajistuje barvy textu\r\nos.system(\"\")\r\n\r\n\r\nclass style:\r\n\r\nclass style():\r\n\r\n    BLACK = '\\033[30m'\r\n    RED = '\\033[31m'\r\n    GREEN = '\\033[32m'\r\n    YELLOW = '\\033[33m'\r\n    BLUE = '\\033[34m'\r\n    LIGHT_BLUE = '\\033[38;2;0;255;243m'\r\n    MAGENTA = '\\033[35m'\r\n    CYAN = '\\033[36m'\r\n    WHITE = '\\033[37m'\r\n    UNDERLINE = '\\033[4m'\r\n    RESET = '\\033[0m'\r\n\r\n\r\n    # vycisti konzoli\r\n    @staticmethod\r\n    def clear():\r\n        os.system(\"cls\")\r\n\r\n\r\n\r\nclass Game:\r\n\r\n\r\nprint(style.YELLOW + \"Vítejte ve hře Vrhcáby\" + style.RESET)\r\n\r\nclass Game:\r\n    \r\n\r\n    def __init__(self, gameboard, pozice, player1, player2) -> None:\r\n        # herni pole\r\n        self._gameboard = gameboard\r\n        # dvojkostka\r\n        self._doubledice = []\r\n\r\n        self._spikes = [[] for _ in range(24)]\r\n\r\n        self._spikes = [[] for j in range(24)]\r\n\r\n        # bar\r\n        self._bar = ...\r\n        self._stone = pozice\r\n        self._turn = 0\r\n        self._player_turn = \"player1\"\r\n        self._player1 = player1\r\n        self._player2 = player2\r\n\r\n        self._last_command = \"\"\r\n\r\n    @property\r\n    def doubledice(self):\r\n        return self._doubledice\r\n\r\n    @doubledice.setter\r\n    def doubledice(self, value):\r\n        self._doubledice = value\r\n\r\n    @property\r\n    def gameboard(self):\r\n        return self._gameboard\r\n\r\n    @property\r\n    def spikes(self):\r\n        return self._spikes\r\n\r\n    @property\r\n    def last_command(self):\r\n        return self._last_command\r\n\r\n    @last_command.setter\r\n    def last_command(self, value):\r\n        self._last_command = value\r\n\r\n    @property\r\n    def turn(self):\r\n        return self._turn\r\n\r\n    @turn.setter\r\n    def turn(self, value):\r\n        self._turn = value\r\n\r\n    def next_turn(self, current_turn, player_turn):\r\n        \"\"\"\r\n        Funkce bude přičítat kola a měnit hráče na tahu.\r\n        \"\"\"\r\n\r\n        ...\r\n\r\n    @staticmethod\r\n    def throw_dice(dice:list) -> list:\r\n\r\n\r\n    @property\r\n    def doubledice(self):\r\n        return self._doubledice\r\n\r\n    @doubledice.setter\r\n    def doubledice(self, value):\r\n        self._doubledice = value\r\n    \r\n    @property\r\n    def gameboard(self):\r\n        return self._gameboard\r\n    \r\n    @property\r\n    def spikes(self):\r\n        return self._spikes\r\n\r\n    def throw_dice(self, dice) -> None:\r\n\r\n        dice.clear()\r\n        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)\r\n        # kontrola hozenych hodnot\r\n        if hod1 != hod2:\r\n            dice.append(str(hod1))\r\n            dice.append(str(hod2))\r\n            return dice\r\n        # pokud se cisla rovnaji, vrati se 4x\r\n        else:\r\n            for _ in range(4):\r\n                dice.append(str(hod1))\r\n            return dice\r\n\r\n\r\n    @staticmethod\r\n    def spike_occupancy(spike_list:list) -> str:\r\n\r\n\r\n    \r\n    def spike_occupancy(self, spike_list:list) -> str:\r\n        \r\n\r\n        # nedokonceny system\r\n        # vypisuje obsazenost spiku a zajistuje formatovani\r\n        if 0 <= len(spike_list) < 10:\r\n            remaining_spaces = \" \" * 5 # <-- doplneni mezer\r\n        else:                          #    |\r\n            remaining_spaces = \" \" * 4 # <--|\r\n        return f\"[{len(spike_list)}]{remaining_spaces}\"\r\n\r\n\r\n\r\n    def gameboard_final(self, values:list, spikes:list, command:str) -> str:\r\n\r\n    def gameboard_final(self, values:list, spikes:list) -> str:\r\n\r\n        s = spikes\r\n        # dopocet chybejicich mezer kvuli formatovani\r\n        if len(values) == 2:\r\n            spaces = 156*\" \"\r\n        else:\r\n            spaces = 150*\" \"\r\n\r\n\r\n\r\n        \r\n\r\n        # tvorba cislovani spiku\r\n        spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])\r\n        spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])\r\n\r\n        # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni\r\n        gameboard = f\"\"\"\r\n             _________________________________________________________________________________________________________________________________________________________________________________\r\n\r\n            | Poslední příkaz: {command}\r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n\r\n\r\n            | Kolo: {self._turn}                                                                                                                                                                         |\r\n            | Hraje: {self._player_turn}                                                                                                                                                                  |\r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n            | Hozené hodnoty: {style.LIGHT_BLUE}{\"  \".join(values)}{style.RESET}{spaces}| \r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n            |{style.RED}       {\"             \".join(spike_row1[0])}                    {\"             \".join(spike_row1[1])}             {\"            \".join(spike_row1[2])}{style.RESET}       |\r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n            | \\    {self.spike_occupancy(s[0])}/\\     {s[1]}     /\\     {s[2]}     /\\     {s[3]}     /\\     {s[4]}     /\\     {s[5]}     /  | |  \\            /\\            /\\            /\\            /\\            /\\            / |\r\n            |  \\          /  \\          /  \\          /  \\          /  \\          /  \\          /   | |   \\          /  \\          /  \\          /  \\          /  \\          /  \\          /  |\r\n            |   \\        /    \\        /    \\        /    \\        /    \\        /    \\        /    | |    \\        /    \\        /    \\        /    \\        /    \\        /    \\        /   |\r\n            |    \\      /      \\      /      \\      /      \\      /      \\      /      \\      /     | |     \\      /      \\      /      \\      /      \\      /      \\      /      \\      /    |\r\n            |     \\    /        \\    /        \\    /        \\    /        \\    /        \\    /      | |      \\    /        \\    /        \\    /        \\    /        \\    /        \\    /     |\r\n            |      \\  /          \\  /          \\  /          \\  /          \\  /          \\  /       | |       \\  /          \\  /          \\  /          \\  /          \\  /          \\  /      |\r\n            |       \\/            \\/            \\/            \\/            \\/            \\/        | |        \\/            \\/            \\/            \\/            \\/            \\/       |\r\n            |                                                                                       | |                                                                                       |\r\n            |                                                                                       | |                                                                                       |\r\n            |                                                                                       | |                                                                                       |\r\n            |                                                                                       | |                                                                                       |\r\n            |                                                                                       | |                                                                                       |\r\n            |                                                                                       | |                                                                                       |\r\n            |       /\\            /\\            /\\            /\\            /\\            /\\        | |        /\\            /\\            /\\            /\\            /\\            /\\       |\r\n            |      /  \\          /  \\          /  \\          /  \\          /  \\          /  \\       | |       /  \\          /  \\          /  \\          /  \\          /  \\          /  \\      |\r\n            |     /    \\        /    \\        /    \\        /    \\        /    \\        /    \\      | |      /    \\        /    \\        /    \\        /    \\        /    \\        /    \\     |\r\n            |    /      \\      /      \\      /      \\      /      \\      /      \\      /      \\     | |     /      \\      /      \\      /      \\      /      \\      /      \\      /      \\    |\r\n            |   /        \\    /        \\    /        \\    /        \\    /        \\    /        \\    | |    /        \\    /        \\    /        \\    /        \\    /        \\    /        \\   |\r\n            |  /          \\  /          \\  /          \\  /          \\  /          \\  /          \\   | |   /          \\  /          \\  /          \\  /          \\  /          \\  /          \\  |\r\n            | /            \\/            \\/            \\/            \\/            \\/            \\  | |  /            \\/            \\/            \\/            \\/            \\/            \\ |\r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n            |{style.RED}       {\"            \".join(spike_row2[0])}                   {\"            \".join(spike_row2[1])}{style.WHITE}       |\r\n            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\r\n            |_________________________________________________________________________________________________________________________________________________________________________________|\r\n            \"\"\"\r\n        # vrati samotny gameboard s doplnenymi hodnotami\r\n        return gameboard\r\n\r\n\r\n    def command_detection(self, command:str, cfg:str) -> str:\r\n        command = command.lower()\r\n        with open(cfg, 'r') as config_file:\r\n            all_commands = json.load(config_file)['commands']\r\n\r\n        if command in all_commands:\r\n            if command == \"presun\":\r\n                command = f\"{style.CYAN}Prikaz \\'{command}\\' zatím nemá zatím implementovanou funkci{style.RESET}\"\r\n            elif command == \"hod\":\r\n                self.throw_dice(self.doubledice)\r\n            command = f\"{style.GREEN}{command}{style.RESET}\"\r\n        else:\r\n            command = f\"{style.RED}Prikaz {command} nenalezen{style.RESET}\"\r\n        self.last_command = command\r\n\r\nclass Menu:\r\n    def __init__(self, options, config) -> None:\r\n        self._player1 = None\r\n        self._player2 = None\r\n        self._options = options\r\n        self._conf = config\r\n\r\n    @property\r\n    def self_options(self):\r\n        return self._options\r\n\r\n    @property\r\n    def self_conf(self):\r\n        return self._conf\r\n\r\n\r\nclass Menu:\r\n    def __init__(self, options, config) -> None:\r\n        self._options = options\r\n        self._conf = config\r\n\r\n\r\n\r\n    \"\"\"\r\n        Predstava funkce menu:\r\n            -> uzivatel vybere moznost PLAY:\r\n                -> podle vyberu herniho modu se pokracuje\r\n                    PvE:\r\n                    - zatim nic\r\n                    PvP:\r\n                    - pokud pote vybere moznost nacist, hra pres load() vezme data z configu a pokracuje se ve hre\r\n                    - pokud vybere moznost Nova hra, spusti se funkce game_setup(), \r\n                        data se ulozi/prepisou do configu a nasledne se spusti funkce load()\r\n            -> uzivatel vybere moznost QUIT:\r\n                - cela hra se vypne \r\n    \"\"\"\r\n\r\n\r\n    @property\r\n    def game_setup(self):\r\n\r\n        # volba PVP, PVE\r\n        print(\" VITEJTE VE HRE VRHCABY! \\n      MOZNOSTI HRY        \\n       PvE    PvP\\n\")\r\n\r\n        while True:\r\n            volba = input(\"vase volba : \")\r\n            volba.lower()\r\n\r\n\r\n    def game_setup(self):\r\n        \r\n        # volba PVP, PVE\r\n        print(\" VITEJTE VE HRE VRHCABY! \\n      MOZNOSTI HRY        \\n       PvE    PvP\\n\")\r\n        \r\n        while True:\r\n            volba = input(\"vase volba : \")\r\n            volba.lower()\r\n            \r\n\r\n            if volba not in [\"pve\", \"pvp\"]:\r\n                print(\"Tento mod neni v nabidce.\")\r\n            else:\r\n                print(f\"Vybrali jste mod : {volba}\\n\")\r\n                break\r\n\r\n        # zmena jmena\r\n        def zmena_jmena(i: int):\r\n\r\n            while True:\r\n                max_delka: int = 10\r\n                print(f\"\\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10\")\r\n                vybrane_jmeno = input(\"Zvolene jmeno: \")\r\n\r\n\r\n        \r\n        # zmena jmena\r\n        def zmena_jmena(i: int):\r\n                \r\n            while True:\r\n                max_delka = 10\r\n                print(f\"\\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10\")\r\n                vybrane_jmeno = input(\"Zvolene jmeno: \")\r\n                        \r\n\r\n                if len(vybrane_jmeno) < 3 or len(vybrane_jmeno) > 10:\r\n                    print(\"Jmeno nesplnuje podminky!\")\r\n\r\n                else:\r\n                    return vybrane_jmeno\r\n\r\n\r\n        def nastaveni_barvy(barvy: list):\r\n            while True:\r\n                print(f\"\\nVyberte barvu z nasledujicich: {barvy}\")\r\n                vybrana_barva = input(\"Zvolena barva: \")\r\n\r\n                if vybrana_barva in barvy:\r\n                    barvy.remove(vybrana_barva)\r\n                    return vybrana_barva, barvy\r\n\r\n                else:\r\n                    print(\"Tato barva se nenachazi v moznostech!\")\r\n\r\n\r\n        # volba jmen PVP\r\n        if volba == \"pvp\":\r\n            barvy = [\"a\", \"b\", \"c\", \"d\"]                          # zatim orientacne, jen potreba doplnit barvy\r\n\r\n\r\n        \r\n        def nastaveni_barvy(barvy: list, i: int):\r\n            while True:\r\n                print(f\"\\nVyberte barvu z nasledujicich: {barvy}\")\r\n                vybrana_barva = input(\"Zvolena barva: \")\r\n                \r\n                if vybrana_barva in barvy:\r\n                    barvy.remove(vybrana_barva)\r\n                    return vybrana_barva, barvy\r\n                \r\n                else:\r\n                    print(\"Tato barva se nenachazi v moznostech!\")\r\n                    \r\n    \r\n        # volba jmen PVP\r\n        if volba == \"pvp\":\r\n            barvy = [\"a\", \"b\", \"c\", \"d\"]                          # zatim orientacne, jen potreba doplnit barvy\r\n            \r\n\r\n            self._player1 = zmena_jmena(1)\r\n            #self._player1_barvy = nastaveni_barvy(barvy, 1)\r\n            self._player2 = zmena_jmena(2)\r\n            #self._player2_barvy = nastaveni_barvy(barvy, 2)\r\n\r\n\r\n\r\n        # volba jmen PvE\r\n        if volba == \"pve\":\r\n\r\n\r\n            \r\n        \r\n        # volba jmen PvE\r\n        if volba == \"pve\":\r\n            \r\n\r\n            barvy = [\"a\", \"b\", \"c\", \"d\"]                          # zatim orientacne, jen potreba doplnit barvy\r\n            self._player1 = zmena_jmena(1)\r\n            #self._player1_barvy = nastaveni_barvy(barvy, 1)\r\n            self._player2 = \"AI\"\r\n            #self._player2_barvy = nastaveni_barvy(barvy, 2)\r\n\r\n\r\n    def load(self):\r\n        # v pripade vyberu moznosti nacist hru\r\n        ...\r\n\r\n    def play(self):\r\n        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru\r\n        ...\r\n\r\n    @staticmethod\r\n\r\n    def load():\r\n        # v pripade vyberu moznosti nacist hru\r\n        ...\r\n\r\n    def play():\r\n        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru\r\n        ...\r\n\r\n\r\n    def quit_game():\r\n        quit()\r\n\r\n\r\n\r\n# kostky\r\nimport random\r\nclass Dicebasket:\r\n    def __init__(self, dicecount):\r\n        self.dicecount = dicecount\r\n        self. dicevalue = []\r\n\r\n    def throw(self):\r\n        for i in range(self.dicecount):\r\n            self.dicevalue.append(random.randirt(1, 6))\r\n        if len(set(self.dicevalue)) == 1:\r\n            for i in range(self.dicecount):\r\n                self.dicevalue.append(self.dicevalue[0])\r\n    def __repr__(self):\r\n        pass\r\n\r\n    kostky = Dicebasket(2)\r\n    kostky.throw()\r\n    print(kostky.dicevalue)\r\n\r\n    #gameboard(hrací deska)\r\n\r\nimport Queue_class\r\nclass Gameboard:\r\n    def __init__(self):\r\n        self.gameboard1 = Queue_class.Zasobnik(None)\r\n        self.gameboard2 = Queue_class.Zasobnik(None)\r\n        self.gameboard3 = Queue_class.Zasobnik(None)\r\n        self.gameboard4 = Queue_class.Zasobnik(None)\r\n        self.gameboard5 = Queue_class.Zasobnik(None)\r\n        self.gameboard6 = Queue_class.Zasobnik(None)\r\n        self.gameboard7 = Queue_class.Zasobnik(None)\r\n        self.gameboard8 = Queue_class.Zasobnik(None)\r\n        self.gameboard9 = Queue_class.Zasobnik(None)\r\n        self.gameboard10 = Queue_class.Zasobnik(None)\r\n        self.gameboard11 = Queue_class.Zasobnik(None)\r\n        self.gameboard12 = Queue_class.Zasobnik(None)\r\n        self.gameboard13 = Queue_class.Zasobnik(None)\r\n        self.gameboard14 = Queue_class.Zasobnik(None)\r\n        self.gameboard15 = Queue_class.Zasobnik(None)\r\n        self.gameboard16 = Queue_class.Zasobnik(None)\r\n        self.gameboard17 = Queue_class.Zasobnik(None)\r\n        self.gameboard18 = Queue_class.Zasobnik(None)\r\n        self.gameboard19 = Queue_class.Zasobnik(None)\r\n        self.gameboard20 = Queue_class.Zasobnik(None)\r\n        self.gameboard21 = Queue_class.Zasobnik(None)\r\n        self.gameboard22 = Queue_class.Zasobnik(None)\r\n        self.gameboard23 = Queue_class.Zasobnik(None)\r\n        self.gameboard24 = Queue_class.Zasobnik(None)\r\n        self.whitebar = Queue_class.Zasobnik(None)\r\n        self.blackbar = Queue_class.Zasobnik(None)\r\n        self.whitehouse = Queue_class.Zasobnik(None)\r\n        self.blackhouse = Queue_class.Zasobnik(None)\r\n\r\n        self.gameboard_directionary = {\r\n            0: self.gameboard1,\r\n            1: self.gameboard2,\r\n            2: self.gameboard3,\r\n            3: self.gameboard4,\r\n            4: self.gameboard5,\r\n            5: self.gameboard6,\r\n            6: self.gameboard7,\r\n            7: self.gameboard8,\r\n            8: self.gameboard9,\r\n            9: self.gameboard10,\r\n            10: self.gameboard11,\r\n            11: self.gameboard12,\r\n            12: self.gameboard13,\r\n            13: self.gameboard14,\r\n            14: self.gameboard15,\r\n            15: self.gameboard16,\r\n            16: self.gameboard17,\r\n            17: self.gameboard18,\r\n            18: self.gameboard19,\r\n            19: self.gameboard20,\r\n            20: self.gameboard21,\r\n            21: self.gameboard22,\r\n            22: self.gameboard23,\r\n            23: self.gameboard24,\r\n            24: self.whitebar,\r\n            25: self.blackbar,\r\n            26: self.whitehouse,\r\n            27: self.blackhouse\r\n        }\r\n        for i in range(5):\r\n            self.gameboard_dictioanary[5].add_item(\"O\")\r\n            self.gameboard_dictioanary[12].add_item(\"O\")\r\n            self.gameboard_dictioanary[11].add_item(\"X\")\r\n            self.gameboard_dictioanary[18].add_item(\"X\")\r\n        for i in range(2):\r\n            self.gameboard_dictioanary[0].add_item(\"X\")\r\n            self.gameboard_dictioanary[23].add_item(\"O\")\r\n        for i in range(3):\r\n            self.gameboard_dictioanary[7].add_item(\"O\")\r\n            self.gameboard_dictioanary[16].add_item(\"X\")\r\n    def print_current_state(self):\r\n        for key in self.gameboard_directionary.keys():\r\n            print(\"pole\", key+1, \": \", self.gameboard_directionary[key])\r\n    def __repr__(self):\r\n        pass\r\n    def move_stone(self, frompos, topos):\r\n        pass\r\n    def get_position(self):\r\n        pass\r\n\r\npole = Gameboard()\r\nprint(pole.print_current_state())\r\n\r\n\r\n\r\n\r\ndef main():\r\n    config_file = './cfg.json'\r\n    #menu1 = Menu('', 'cfg.json')\r\n    #menu1.game_setup()\r\n    game1 = Game(1,1, \"hrac1\", \"hrac2\")\r\n    # hod kostkami\r\n    #game1.doubledice = game1.throw_dice(game1.doubledice)\r\n    # vypis hry do konzole\r\n    style.clear()\r\n    print(style.YELLOW + \"Vítejte ve hře Vrhcáby\" + style.RESET)\r\n    while True:\r\n        style.clear()\r\n        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))\r\n        print(style.GREEN + \"Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič\" + style.RESET)\r\n        cmd_line = input(\"> \")\r\n        game1.command_detection(cmd_line, config_file)\r\n\r\n\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n\r\ndef main():\r\n    menu = ()\r\n    game1 = Game(1,1, \"hrac1\", \"hrac2\")\r\n    # hod kostkami\r\n    game1.doubledice = game1.throw_dice(game1.doubledice)\r\n    # vypis hry do konzole\r\n    print(game1.gameboard_final(game1.doubledice, game1.spikes))\r\n    \r\n    print(style.GREEN + \"Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič\" + style.RESET)\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/vrhcaby.py b/src/vrhcaby.py
+--- a/src/vrhcaby.py	
++++ b/src/vrhcaby.py	
+@@ -1,8 +1,5 @@
+ 
+ import json
+-
+-import random
+-
+ import os
+ 
+ # zajistuje barvy textu
+@@ -11,7 +8,7 @@
+ 
+ class style:
+ 
+-class style():
++ class style:
+ 
+     BLACK = '\033[30m'
+     RED = '\033[31m'
+@@ -36,12 +33,12 @@
+ class Game:
+ 
+ 
+-print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
++ print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+ 
+-class Game:
++class Game2:
+     
+ 
+-    def __init__(self, gameboard, pozice, player1, player2) -> None:
++    def __init__(self, gameboard: object, pozice: object, player1: object, player2: object) -> None:
+         # herni pole
+         self._gameboard = gameboard
+         # dvojkostka
+@@ -49,7 +46,7 @@
+ 
+         self._spikes = [[] for _ in range(24)]
+ 
+-        self._spikes = [[] for j in range(24)]
++        self._spikes = [[] for _ in range(24)]
+ 
+         # bar
+         self._bar = ...
+@@ -103,120 +100,43 @@
+     @staticmethod
+     def throw_dice(dice:list) -> list:
+ 
+-
++        pass
+     @property
+-    def doubledice(self):
++    def doubledice2(self) -> object:
++        """
++
++        :return:
++        """
+         return self._doubledice
+ 
+-    @doubledice.setter
+-    def doubledice(self, value):
++    @doubledice2.setter
++    def doubledice2(self, value):
+         self._doubledice = value
+     
+     @property
+-    def gameboard(self):
++    def gameboard2(self):
++        """
++
++        :return:
++        """
+         return self._gameboard
+     
+     @property
+-    def spikes(self):
++    def spikes2(self):
+         return self._spikes
+ 
+-    def throw_dice(self, dice) -> None:
+-
+-        dice.clear()
+-        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
+-        # kontrola hozenych hodnot
+-        if hod1 != hod2:
+-            dice.append(str(hod1))
+-            dice.append(str(hod2))
+-            return dice
+-        # pokud se cisla rovnaji, vrati se 4x
+-        else:
+-            for _ in range(4):
+-                dice.append(str(hod1))
+-            return dice
+-
+-
+     @staticmethod
+-    def spike_occupancy(spike_list:list) -> str:
+-
+-
+-    
+-    def spike_occupancy(self, spike_list:list) -> str:
+-        
+-
+-        # nedokonceny system
+-        # vypisuje obsazenost spiku a zajistuje formatovani
+-        if 0 <= len(spike_list) < 10:
+-            remaining_spaces = " " * 5 # <-- doplneni mezer
+-        else:                          #    |
+-            remaining_spaces = " " * 4 # <--|
+-        return f"[{len(spike_list)}]{remaining_spaces}"
+-
+-
+-
+-    def gameboard_final(self, values:list, spikes:list, command:str) -> str:
+-
+-    def gameboard_final(self, values:list, spikes:list) -> str:
+-
+-        s = spikes
+-        # dopocet chybejicich mezer kvuli formatovani
+-        if len(values) == 2:
+-            spaces = 156*" "
+-        else:
+-            spaces = 150*" "
++    def spike_occupancy() -> str:
+ 
++        pass
+ 
+ 
+-        
+ 
+-        # tvorba cislovani spiku
+-        spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
+-        spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
++    def gameboard_final(self, command:str) -> str:
+ 
+-        # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
+-        gameboard = f"""
+-             _________________________________________________________________________________________________________________________________________________________________________________
++        pass
+ 
+-            | Poslední příkaz: {command}
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ 
+-
+-            | Kolo: {self._turn}                                                                                                                                                                         |
+-            | Hraje: {self._player_turn}                                                                                                                                                                  |
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+-            | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+-            |{style.RED}       {"             ".join(spike_row1[0])}                    {"             ".join(spike_row1[1])}             {"            ".join(spike_row1[2])}{style.RESET}       |
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+-            | \    {self.spike_occupancy(s[0])}/\     {s[1]}     /\     {s[2]}     /\     {s[3]}     /\     {s[4]}     /\     {s[5]}     /  | |  \            /\            /\            /\            /\            /\            / |
+-            |  \          /  \          /  \          /  \          /  \          /  \          /   | |   \          /  \          /  \          /  \          /  \          /  \          /  |
+-            |   \        /    \        /    \        /    \        /    \        /    \        /    | |    \        /    \        /    \        /    \        /    \        /    \        /   |
+-            |    \      /      \      /      \      /      \      /      \      /      \      /     | |     \      /      \      /      \      /      \      /      \      /      \      /    |
+-            |     \    /        \    /        \    /        \    /        \    /        \    /      | |      \    /        \    /        \    /        \    /        \    /        \    /     |
+-            |      \  /          \  /          \  /          \  /          \  /          \  /       | |       \  /          \  /          \  /          \  /          \  /          \  /      |
+-            |       \/            \/            \/            \/            \/            \/        | |        \/            \/            \/            \/            \/            \/       |
+-            |                                                                                       | |                                                                                       |
+-            |                                                                                       | |                                                                                       |
+-            |                                                                                       | |                                                                                       |
+-            |                                                                                       | |                                                                                       |
+-            |                                                                                       | |                                                                                       |
+-            |                                                                                       | |                                                                                       |
+-            |       /\            /\            /\            /\            /\            /\        | |        /\            /\            /\            /\            /\            /\       |
+-            |      /  \          /  \          /  \          /  \          /  \          /  \       | |       /  \          /  \          /  \          /  \          /  \          /  \      |
+-            |     /    \        /    \        /    \        /    \        /    \        /    \      | |      /    \        /    \        /    \        /    \        /    \        /    \     |
+-            |    /      \      /      \      /      \      /      \      /      \      /      \     | |     /      \      /      \      /      \      /      \      /      \      /      \    |
+-            |   /        \    /        \    /        \    /        \    /        \    /        \    | |    /        \    /        \    /        \    /        \    /        \    /        \   |
+-            |  /          \  /          \  /          \  /          \  /          \  /          \   | |   /          \  /          \  /          \  /          \  /          \  /          \  |
+-            | /            \/            \/            \/            \/            \/            \  | |  /            \/            \/            \/            \/            \/            \ |
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+-            |{style.RED}       {"            ".join(spike_row2[0])}                   {"            ".join(spike_row2[1])}{style.WHITE}       |
+-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+-            |_________________________________________________________________________________________________________________________________________________________________________________|
+-            """
+-        # vrati samotny gameboard s doplnenymi hodnotami
+-        return gameboard
+-
+-
+     def command_detection(self, command:str, cfg:str) -> str:
+         command = command.lower()
+         with open(cfg, 'r') as config_file:
+@@ -226,12 +146,29 @@
+             if command == "presun":
+                 command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
+             elif command == "hod":
+-                self.throw_dice(self.doubledice)
++                throw_dice(self.doubledice2)
+             command = f"{style.GREEN}{command}{style.RESET}"
+         else:
+             command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
+         self.last_command = command
+ 
++
++def throw_dice(dice) -> None:
++
++    dice.clear()
++    hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
++    # kontrola hozenych hodnot
++    if hod1 != hod2:
++        dice.append(str(hod1))
++        dice.append(str(hod2))
++        return dice
++    # pokud se cisla rovnaji, vrati se 4x
++    else:
++        for _ in range(4):
++            dice.append(str(hod1))
++        return dice
++
++
+ class Menu:
+     def __init__(self, options, config) -> None:
+         self._player1 = None
+@@ -248,8 +185,10 @@
+         return self._conf
+ 
+ 
+-class Menu:
++class Menu2:
+     def __init__(self, options, config) -> None:
++        self._player2 = None
++        self._player1 = None
+         self._options = options
+         self._conf = config
+ 
+@@ -281,7 +220,8 @@
+             volba.lower()
+ 
+ 
+-    def game_setup(self):
++    @property
++    def game_setup2(self):
+         
+         # volba PVP, PVE
+         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
+@@ -297,21 +237,13 @@
+                 print(f"Vybrali jste mod : {volba}\n")
+                 break
+ 
++
++
+         # zmena jmena
+         def zmena_jmena(i: int):
+-
++                
+             while True:
+-                max_delka: int = 10
+-                print(f"\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10")
+-                vybrane_jmeno = input("Zvolene jmeno: ")
+-
+-
+-        
+-        # zmena jmena
+-        def zmena_jmena(i: int):
+-                
+-            while True:
+-                max_delka = 10
++                10
+                 print(f"\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10")
+                 vybrane_jmeno = input("Zvolene jmeno: ")
+                         
+@@ -322,42 +254,13 @@
+                 else:
+                     return vybrane_jmeno
+ 
+-
+-        def nastaveni_barvy(barvy: list):
+-            while True:
+-                print(f"\nVyberte barvu z nasledujicich: {barvy}")
+-                vybrana_barva = input("Zvolena barva: ")
+-
+-                if vybrana_barva in barvy:
+-                    barvy.remove(vybrana_barva)
+-                    return vybrana_barva, barvy
+-
+-                else:
+-                    print("Tato barva se nenachazi v moznostech!")
+-
+-
+         # volba jmen PVP
+         if volba == "pvp":
+-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
++            ["a", "b", "c", "d"]
+ 
+-
+-        
+-        def nastaveni_barvy(barvy: list, i: int):
+-            while True:
+-                print(f"\nVyberte barvu z nasledujicich: {barvy}")
+-                vybrana_barva = input("Zvolena barva: ")
+-                
+-                if vybrana_barva in barvy:
+-                    barvy.remove(vybrana_barva)
+-                    return vybrana_barva, barvy
+-                
+-                else:
+-                    print("Tato barva se nenachazi v moznostech!")
+-                    
+-    
+         # volba jmen PVP
+         if volba == "pvp":
+-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
++            ["a", "b", "c", "d"]
+             
+ 
+             self._player1 = zmena_jmena(1)
+@@ -373,11 +276,11 @@
+ 
+             
+         
+-        # volba jmen PvE
+-        if volba == "pve":
+-            
+-
+-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
++
++
++            
++
++            ["a", "b", "c", "d"]
+             self._player1 = zmena_jmena(1)
+             #self._player1_barvy = nastaveni_barvy(barvy, 1)
+             self._player2 = "AI"
+@@ -392,21 +295,23 @@
+         # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
+         ...
+ 
++    def play_2(self):
++        """
++
++        """
++        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
++        ...
++
++
+     @staticmethod
++    def quit_game():
++        quit()
++
+ 
+-    def load():
+-        # v pripade vyberu moznosti nacist hru
+-        ...
++def load():
++    # v pripade vyberu moznosti nacist hru
++    ...
+ 
+-    def play():
+-        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
+-        ...
+-
+-
+-    def quit_game():
+-        quit()
+-
+-
+ 
+ # kostky
+ import random
+@@ -523,7 +428,7 @@
+     config_file = './cfg.json'
+     #menu1 = Menu('', 'cfg.json')
+     #menu1.game_setup()
+-    game1 = Game(1,1, "hrac1", "hrac2")
++    game1 = Game2(1, 1, "hrac1", "hrac2")
+     # hod kostkami
+     #game1.doubledice = game1.throw_dice(game1.doubledice)
+     # vypis hry do konzole
+@@ -531,7 +436,7 @@
+     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
+     while True:
+         style.clear()
+-        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command))
++        print(game1.gameboard_final(game1.last_command))
+         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+         cmd_line = input("> ")
+         game1.command_detection(cmd_line, config_file)
+@@ -543,12 +448,11 @@
+     main()
+ 
+ def main():
+-    menu = ()
+-    game1 = Game(1,1, "hrac1", "hrac2")
++    game1 = Game2(1, 1, "hrac1", "hrac2")
+     # hod kostkami
+-    game1.doubledice = game1.throw_dice(game1.doubledice)
++    throw_dice(game1.doubledice2)
+     # vypis hry do konzole
+-    print(game1.gameboard_final(game1.doubledice, game1.spikes))
++    print(game1.gameboard_final())
+     
+     print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"63d3e3b0-8be7-437e-a2d6-8546de8b83fb\" name=\"Changes\" comment=\"pridany nejake detaily\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <favorite-branches>\r\n      <branch-storage>\r\n        <map>\r\n          <entry type=\"REMOTE\">\r\n            <value>\r\n              <list>\r\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin/not_main\" />\r\n              </list>\r\n            </value>\r\n          </entry>\r\n        </map>\r\n      </branch-storage>\r\n    </favorite-branches>\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">\r\n    <option name=\"selectedUrlAndAccountId\">\r\n      <UrlAndAccount>\r\n        <option name=\"accountId\" value=\"7ea42297-b45d-4ed5-86c4-db67d6d7a9ee\" />\r\n        <option name=\"url\" value=\"https://github.com/RysanekJakub/vrhcaby.git\" />\r\n      </UrlAndAccount>\r\n    </option>\r\n  </component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$PROJECT_DIR$/src/vrhcaby.py\" root0=\"FORCE_HIGHLIGHTING\" />\r\n    <setting file=\"file://$PROJECT_DIR$/venv/Lib/site-packages/_virtualenv.py\" root0=\"FORCE_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2O7NBm11FN5WCikPBpqHmyCnQIQ\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;hlavní__soubor&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/ondra/PycharmProjects/python/vrhcaby/.gitignore&quot;,\r\n    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;Csv.Editor.Settings&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\ondra\\PycharmProjects\\python\\vrhcaby\\src\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"vrhcaby\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"vrhcaby\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/src\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/src/vrhcaby.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.vrhcaby\" />\r\n        <item itemvalue=\"Python.vrhcaby\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"63d3e3b0-8be7-437e-a2d6-8546de8b83fb\" name=\"Changes\" comment=\"\" />\r\n      <created>1680907526520</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1680907526520</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"pridany nejake detaily\">\r\n      <created>1682115537154</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682115537154</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"RECENT_FILTERS\">\r\n      <map>\r\n        <entry key=\"Branch\">\r\n          <value>\r\n            <list>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/not_main\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/restore_test\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"main\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"not_main\" />\r\n                </option>\r\n              </RecentGroup>\r\n            </list>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"hlavní_soubor\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"pridany nejake detaily\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"pridany nejake detaily\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,7 +4,10 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="63d3e3b0-8be7-437e-a2d6-8546de8b83fb" name="Changes" comment="pridany nejake detaily" />
++    <list default="true" id="63d3e3b0-8be7-437e-a2d6-8546de8b83fb" name="Changes" comment="pridany nejake detaily">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/vrhcaby.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/vrhcaby.py" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -53,6 +56,7 @@
+   </component>
+   <component name="ProblemsViewState">
+     <option name="selectedTabId" value="CurrentFile" />
++    <option name="showPreview" value="true" />
+   </component>
+   <component name="ProjectId" id="2O7NBm11FN5WCikPBpqHmyCnQIQ" />
+   <component name="ProjectViewState">
+@@ -61,6 +65,7 @@
+   </component>
+   <component name="PropertiesComponent">{
+   &quot;keyToString&quot;: {
++    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;hlavní__soubor&quot;,
+     &quot;last_opened_file_path&quot;: &quot;C:/Users/ondra/PycharmProjects/python/vrhcaby/.gitignore&quot;,
+@@ -118,7 +123,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1682115537154</updated>
+     </task>
+-    <option name="localTasksCounter" value="2" />
++    <task id="LOCAL-00002" summary="pridany nejake detaily">
++      <created>1682115651970</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1682115651970</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -162,7 +174,7 @@
+                   <entry key="branch">
+                     <value>
+                       <list>
+-                        <option value="hlavní_soubor" />
++                        <option value="origin/main" />
+                       </list>
+                     </value>
+                   </entry>
