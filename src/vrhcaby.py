@@ -191,6 +191,9 @@ class Game:
             command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
         self.last_command = command
 
+class Kamen:
+    def __init__(self):
+        ...
 
 class Menu:
     def __init__(self, options, config) -> None:
