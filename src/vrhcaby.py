@@ -5,17 +5,8 @@ import random
 # zajistuje barvy textu
 os.system("")
 
-
-
-class style:
-
-    class style:
-
-        BLACK: str = '\033[30m'
-
-class style:
+class style():
     BLACK = '\033[30m'
-
     RED = '\033[31m'
     GREEN = '\033[32m'
     YELLOW = '\033[33m'
@@ -28,54 +19,17 @@ class style:
     RESET = '\033[0m'
 
     # vycisti konzoli
-    @staticmethod
     def clear():
-
-        os.system("cls")
-
-
+         os.system("cls")
 
 class Game:
-
-
- print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
-
-os.system("cls")
-
-
-
-def throw_dice(dice) -> None:
-
-    dice.clear()
-    hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
-    # kontrola hozenych hodnot
-    if hod1 != hod2:
-        dice.append(str(hod1))
-        dice.append(str(hod2))
-        return dice
-    # pokud se cisla rovnaji, vrati se 4x
-    else:
-        for _ in range(4):
-            dice.append(str(hod1))
-        return dice
-
-
-class Game2:
     
     def __init__(self, gameboard, pozice, player1, player2) -> None:
         # herni pole
         self._gameboard = gameboard
         # dvojkostka
         self._doubledice = []
-
-
-        self._spikes = [[] for _ in range(24)]
-
-        self._spikes = [[] for _ in range(24)]
-
-        # bar
-
-        self._spikes = [[] for _ in range(24)]
+        self._spikes = [[] for j in range(24)]
         self._bar = ...
         self._stone = pozice
         self._turn = 0
@@ -85,10 +39,10 @@ class Game2:
         self._last_command = ""
 
     @property
-    def doubledice2(self):
+    def doubledice(self):
         return self._doubledice
 
-    @doubledice2.setter
+    @doubledice.setter
     def doubledice(self, value):
         self._doubledice = value
     
@@ -116,44 +70,6 @@ class Game2:
     def turn(self, value):
         self._turn = value
 
-
-    def next_turn(self, current_turn, player_turn):
-        """
-        Funkce bude přičítat kola a měnit hráče na tahu.
-        """
-
-        ...
-
-    @staticmethod
-    def throw_dice(dice:list) -> list:
-
-        pass
-    def doubledice2(self):
-        return self._doubledice
-
-    @doubledice2.setter
-    def doubledice2(self, value):
-        self._doubledice = value
-    
-    @property
-    def deska(self):
-        return self._deska
-    
-    @property
-    def spikes2(self):
-        return self._spikes
-
-    @staticmethod
-    def spike_occupancy() -> str:
-
-        pass
-
-
-
-    def gameboard_final(self, command:str) -> str:
-
-        pass
-
     @property
     def player_turn(self):
         return self._player_turn
@@ -179,8 +95,7 @@ class Game2:
             self.player_turn = self.player1
 
 
-    @staticmethod
-    def throw_dice(dice) -> None:
+    def throw_dice(self, dice) -> None:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
         # kontrola hozenych hodnot
@@ -195,8 +110,7 @@ class Game2:
             return dice
     
 
-    @staticmethod
-    def spike_occupancy(spike_list:list) -> str:
+    def spike_occupancy(self, spike_list:list) -> str:
         # nedokonceny system
         # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
@@ -220,46 +134,44 @@ class Game2:
 
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
-            
-             _________________________________________________________________________________________________________________________________________________________________________________
-            | Poslední příkaz: {command}
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | Kolo: {cur_turn}                                                                                                                                                                         |
-            | Hraje: {p_turn}                                                                                                                                                                  |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |{style.RED}       {"             ".join(spike_row1[0])}                    {"             ".join(spike_row1[1])}             {"            ".join(spike_row1[2])}{style.RESET}       |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            | \    {self.spike_occupancy(s[0])}/\     {s[1]}     /\     {s[2]}     /\     {s[3]}     /\     {s[4]}     /\     {s[5]}     /  | |  \            /\            /\            /\            /\            /\            / |
-            |  \          /  \          /  \          /  \          /  \          /  \          /   | |   \          /  \          /  \          /  \          /  \          /  \          /  |
-            |   \        /    \        /    \        /    \        /    \        /    \        /    | |    \        /    \        /    \        /    \        /    \        /    \        /   |
-            |    \      /      \      /      \      /      \      /      \      /      \      /     | |     \      /      \      /      \      /      \      /      \      /      \      /    |
-            |     \    /        \    /        \    /        \    /        \    /        \    /      | |      \    /        \    /        \    /        \    /        \    /        \    /     |
-            |      \  /          \  /          \  /          \  /          \  /          \  /       | |       \  /          \  /          \  /          \  /          \  /          \  /      |
-            |       \/            \/            \/            \/            \/            \/        | |        \/            \/            \/            \/            \/            \/       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |                                                                                       | |                                                                                       |
-            |       /\            /\            /\            /\            /\            /\        | |        /\            /\            /\            /\            /\            /\       |
-            |      /  \          /  \          /  \          /  \          /  \          /  \       | |       /  \          /  \          /  \          /  \          /  \          /  \      |
-            |     /    \        /    \        /    \        /    \        /    \        /    \      | |      /    \        /    \        /    \        /    \        /    \        /    \     |
-            |    /      \      /      \      /      \      /      \      /      \      /      \     | |     /      \      /      \      /      \      /      \      /      \      /      \    |
-            |   /        \    /        \    /        \    /        \    /        \    /        \    | |    /        \    /        \    /        \    /        \    /        \    /        \   |
-            |  /          \  /          \  /          \  /          \  /          \  /          \   | |   /          \  /          \  /          \  /          \  /          \  /          \  |
-            | /            \/            \/            \/            \/            \/            \  | |  /            \/            \/            \/            \/            \/            \ |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |{style.RED}       {"            ".join(spike_row2[0])}                   {"            ".join(spike_row2[1])}{style.WHITE}       |
-            |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-            |_________________________________________________________________________________________________________________________________________________________________________________|
-            """
+ _________________________________________________________________________________________________________________________________________________________________________________
+| Poslední příkaz: {command}
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Kolo: {cur_turn}                                                                                                                                                                         |
+| Hraje: {p_turn}                                                                                                                                                                  |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|{style.RED}       {"             ".join(spike_row1[0])}                    {"             ".join(spike_row1[1])}             {"            ".join(spike_row1[2])}{style.RESET}       |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| \    {self.spike_occupancy(s[0])}/\     {s[1]}     /\     {s[2]}     /\     {s[3]}     /\     {s[4]}     /\     {s[5]}     /  | |  \            /\            /\            /\            /\            /\            / |
+|  \          /  \          /  \          /  \          /  \          /  \          /   | |   \          /  \          /  \          /  \          /  \          /  \          /  |
+|   \        /    \        /    \        /    \        /    \        /    \        /    | |    \        /    \        /    \        /    \        /    \        /    \        /   |
+|    \      /      \      /      \      /      \      /      \      /      \      /     | |     \      /      \      /      \      /      \      /      \      /      \      /    |
+|     \    /        \    /        \    /        \    /        \    /        \    /      | |      \    /        \    /        \    /        \    /        \    /        \    /     |
+|      \  /          \  /          \  /          \  /          \  /          \  /       | |       \  /          \  /          \  /          \  /          \  /          \  /      |
+|       \/            \/            \/            \/            \/            \/        | |        \/            \/            \/            \/            \/            \/       |
+|                                                                                       | |                                                                                       |
+|                                                                                       | |                                                                                       |
+|                                                                                       | |                                                                                       |
+|                                                                                       | |                                                                                       |
+|                                                                                       | |                                                                                       |
+|                                                                                       | |                                                                                       |
+|       /\            /\            /\            /\            /\            /\        | |        /\            /\            /\            /\            /\            /\       |
+|      /  \          /  \          /  \          /  \          /  \          /  \       | |       /  \          /  \          /  \          /  \          /  \          /  \      |
+|     /    \        /    \        /    \        /    \        /    \        /    \      | |      /    \        /    \        /    \        /    \        /    \        /    \     |
+|    /      \      /      \      /      \      /      \      /      \      /      \     | |     /      \      /      \      /      \      /      \      /      \      /      \    |
+|   /        \    /        \    /        \    /        \    /        \    /        \    | |    /        \    /        \    /        \    /        \    /        \    /        \   |
+|  /          \  /          \  /          \  /          \  /          \  /          \   | |   /          \  /          \  /          \  /          \  /          \  /          \  |
+| /            \/            \/            \/            \/            \/            \  | |  /            \/            \/            \/            \/            \/            \ |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|{style.RED}       {"            ".join(spike_row2[0])}                   {"            ".join(spike_row2[1])}{style.WHITE}       |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|_________________________________________________________________________________________________________________________________________________________________________________|
+"""
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
     
-
 
     def command_detection(self, command:str, cfg:str, p_turn:str) -> str:
         command = command.lower()
@@ -270,7 +182,7 @@ class Game2:
             if command == "presun":
                 command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
             elif command == "hod":
-                throw_dice(self.doubledice2)
+                self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
             self.next_turn(p_turn)
         else:
@@ -295,15 +207,9 @@ class Menu:
     def self_conf(self):
         return self._conf
 
-
-
     def __init__(self, options, config) -> None:
         self._options = options
         self._conf = config
-
-
-
-
 
     """
         Predstava funkce menu:
@@ -318,8 +224,6 @@ class Menu:
             -> uzivatel vybere moznost QUIT:
                 - cela hra se vypne 
     """
-
-
 
     @property
     def game_setup(self):
@@ -353,11 +257,6 @@ class Menu:
             else:
                 print(f"Vybrali jste mod : {volba}\n")
                 break
-
-
-
-
-        
 
         # zmena jmena
         def zmena_jmena(i: int):
@@ -397,87 +296,6 @@ class Menu:
             self._player1_barvy = nastaveni_barvy(barvy, 1)
             self._player2 = zmena_jmena(2)
             self._player2_barvy = nastaveni_barvy(barvy, 2)
-            
-        
-
-
-            
-
-
-    def load(self):
-        # v pripade vyberu moznosti nacist hru
-        ...
-
-    def play(self):
-        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
-        ...
-
-
-class prvek:
-    def __init__(self, hodnota, nasledujici=None):  # =None nepoviný atribut konstruktoru
-        self.hodnota = hodnota
-        self.nasledujici = nasledujici
-        self.pos_list = []
-
-class Seznam:
-    def __init__(self, hlavicka):
-        self.hlavicka = Prvek(hlavicka)
-    def pridej_prvek(self, hodnota):
-        novy_prvek = Prvek(hodnota)
-        prvek = self.hlavicka
-        while prvek.nasledujici is not None:
-            prvek = prvek.nasledujici
-
-        prvek.nasledujici = novy_prvek
-        
-         # najít poslední prvek/prvek.nasledujici == None
-        # tomuto prvku nastavit prvek.nasledujici=novy_prvek
-
-    @staticmethod
-    def prvek_na_indexu(index):
-        
-       procházíme seznam, počítadlo, které počítá kolik prvků jsme si prohlédli
-          až se pomocná proměnná bude rovnat zadanému indexu, ukončí cyklus a vrátí hodnotu
-          pokud index leží mimo sesznam vyhodí se výjimka Raise
-        
-        if index < 0:
-            raise Exception("Index has to be positive")
-    prvek = self.hlavicka
-    for i in range(index):
-        if prvek.nasledujici is not None:
-            prvek = prvek.nasledujici
-        else:
-            raise Exception("Index out of range")
-
-
-     
-    def __iter__(self): # nastavení prvního prvku pro iteraci
-        self.x = self.hlavicka # uloží se do vlastnosti, kterou využijeme jakok iterační proměnou
-        return self
-
-    def __next__(self):
-        aktualni = self.x
-        if aktualni is None: # kontrola, jestli je možné se posunout dál v sesznamu
-            raise StopIteration # když neexistuje, vyhodí se vyjímka
-        else:
-            self.c = aktualni.nasledujici # nahradí stávající hlavičku na novou hlavičku
-        return aktualni
-
-class Zasobnik(Seznam): 
-    def add_item(self, hodnota):# nahradí stávající hlavičku na novou hlavičku
-        newitem = Prvek(hodnota)
-        newitem.nasledujici = self.hlavicka
-        self.hlavicka = newitem
-
-    def odeber_prvek(self):  # vrátí hlavičku a následující prvek nastaví na novou hlavičku
-        if self.hlavicka is None:
-            raise Exception("nelze odebrat neexistujici prvek")
-        else:
-            pomocnik = self.hlavicka.hodnota
-            self.hlavicka = self.hlavicka.nasledujici
-        return pomocnik
-
-
 
 
 
@@ -490,49 +308,89 @@ class Zasobnik(Seznam):
         # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
         ...
 
-    @staticmethod
     def quit_game():
         quit()
+
+def ondra():
+    class prvek:
+        def __init__(self, hodnota, nasledujici=None):  # =None nepoviný atribut konstruktoru
+            self.hodnota = hodnota
+            self.nasledujici = nasledujici
+            self.pos_list = []
+
+    class Seznam:
+        def __init__(self, hlavicka):
+            self.hlavicka = Prvek(hlavicka)
+        def pridej_prvek(self, hodnota):
+            novy_prvek = Prvek(hodnota)
+            prvek = self.hlavicka
+            while prvek.nasledujici is not None:
+                prvek = prvek.nasledujici
+
+            prvek.nasledujici = novy_prvek
+            
+            # najít poslední prvek/prvek.nasledujici == None
+            # tomuto prvku nastavit prvek.nasledujici=novy_prvek
+
+        @staticmethod
+        def prvek_na_indexu(index):
+            
+            #procházíme seznam, počítadlo, které počítá kolik prvků jsme si prohlédli
+            #až se pomocná proměnná bude rovnat zadanému indexu, ukončí cyklus a vrátí hodnotu
+            #pokud index leží mimo sesznam vyhodí se výjimka Raise
+            
+            if index < 0:
+                raise Exception("Index has to be positive")
+        prvek = self.hlavicka
+        for i in range(index):
+            if prvek.nasledujici is not None:
+                prvek = prvek.nasledujici
+            else:
+                raise Exception("Index out of range")
+
+
+        
+        def __iter__(self): # nastavení prvního prvku pro iteraci
+            self.x = self.hlavicka # uloží se do vlastnosti, kterou využijeme jakok iterační proměnou
+            return self
+
+        def __next__(self):
+            aktualni = self.x
+            if aktualni is None: # kontrola, jestli je možné se posunout dál v sesznamu
+                raise StopIteration # když neexistuje, vyhodí se vyjímka
+            else:
+                self.c = aktualni.nasledujici # nahradí stávající hlavičku na novou hlavičku
+            return aktualni
+
+    class Zasobnik(Seznam): 
+        def add_item(self, hodnota):# nahradí stávající hlavičku na novou hlavičku
+            newitem = Prvek(hodnota)
+            newitem.nasledujici = self.hlavicka
+            self.hlavicka = newitem
+
+        def odeber_prvek(self):  # vrátí hlavičku a následující prvek nastaví na novou hlavičku
+            if self.hlavicka is None:
+                raise Exception("nelze odebrat neexistujici prvek")
+            else:
+                pomocnik = self.hlavicka.hodnota
+                self.hlavicka = self.hlavicka.nasledujici
+            return pomocnik
 
 
 def main():
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
-
-    game1 = Game2(1, 1, "hrac1", "hrac2")
-    # hod kostkami
-    #game1.doubledice = game1.throw_dice(game1.doubledice)
-
     game1 = Game(1,1, "hrac1", "hrac2")
-
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.last_command))
-
         print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command, game1.turn, game1.player_turn))
-
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         game1.command_detection(cmd_line, config_file, game1.player_turn)
 
 if __name__ == "__main__":
     main()
-
-
-def main():
-    game1 = Game2(1, 1, "hrac1", "hrac2")
-    # hod kostkami
-    throw_dice(game1.doubledice2)
-    # vypis hry do konzole
-    print(game1.gameboard_final())
-    
-    print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
-
-if __name__ == "__main__":
-    main()
-
-
