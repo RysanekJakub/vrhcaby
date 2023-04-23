@@ -5,7 +5,7 @@ import random
 # zajistuje barvy textu
 os.system("")
 
-class style():
+class style:
     BLACK = '\033[30m'
     RED = '\033[31m'
     GREEN = '\033[32m'
@@ -19,7 +19,8 @@ class style():
     RESET = '\033[0m'
 
     # vycisti konzoli
-    def clear():
+    @staticmethod
+    def clear() -> object:
          os.system("cls")
 
 class Game:
@@ -29,7 +30,7 @@ class Game:
         self._gameboard = gameboard
         # dvojkostka
         self._doubledice = []
-        self._spikes = [[] for j in range(24)]
+        self._spikes = [[] for _ in range(24)]
         self._bar = ...
         self._stone = pozice
         self._turn = 0
@@ -110,7 +111,8 @@ class Game:
             return dice
     
 
-    def spike_occupancy(self, spike_list:list) -> str:
+    @staticmethod
+    def spike_occupancy(spike_list:list) -> str:
         # nedokonceny system
         # vypisuje obsazenost spiku a zajistuje formatovani
         if 0 <= len(spike_list) < 10:
@@ -308,76 +310,18 @@ class Menu:
         # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
         ...
 
+    @staticmethod
     def quit_game():
         quit()
 
-def ondra():
-    class prvek:
-        def __init__(self, hodnota, nasledujici=None):  # =None nepoviný atribut konstruktoru
-            self.hodnota = hodnota
-            self.nasledujici = nasledujici
-            self.pos_list = []
-
-    class Seznam:
-        def __init__(self, hlavicka):
-            self.hlavicka = Prvek(hlavicka)
-        def pridej_prvek(self, hodnota):
-            novy_prvek = Prvek(hodnota)
-            prvek = self.hlavicka
-            while prvek.nasledujici is not None:
-                prvek = prvek.nasledujici
-
-            prvek.nasledujici = novy_prvek
-            
-            # najít poslední prvek/prvek.nasledujici == None
-            # tomuto prvku nastavit prvek.nasledujici=novy_prvek
-
-        @staticmethod
-        def prvek_na_indexu(index):
-            
-            #procházíme seznam, počítadlo, které počítá kolik prvků jsme si prohlédli
-            #až se pomocná proměnná bude rovnat zadanému indexu, ukončí cyklus a vrátí hodnotu
-            #pokud index leží mimo sesznam vyhodí se výjimka Raise
-            
-            if index < 0:
-                raise Exception("Index has to be positive")
-        prvek = self.hlavicka
-        for i in range(index):
-            if prvek.nasledujici is not None:
-                prvek = prvek.nasledujici
-            else:
-                raise Exception("Index out of range")
 
 
-        
-        def __iter__(self): # nastavení prvního prvku pro iteraci
-            self.x = self.hlavicka # uloží se do vlastnosti, kterou využijeme jakok iterační proměnou
-            return self
 
-        def __next__(self):
-            aktualni = self.x
-            if aktualni is None: # kontrola, jestli je možné se posunout dál v sesznamu
-                raise StopIteration # když neexistuje, vyhodí se vyjímka
-            else:
-                self.c = aktualni.nasledujici # nahradí stávající hlavičku na novou hlavičku
-            return aktualni
+def main() -> object:
+    """
 
-    class Zasobnik(Seznam): 
-        def add_item(self, hodnota):# nahradí stávající hlavičku na novou hlavičku
-            newitem = Prvek(hodnota)
-            newitem.nasledujici = self.hlavicka
-            self.hlavicka = newitem
-
-        def odeber_prvek(self):  # vrátí hlavičku a následující prvek nastaví na novou hlavičku
-            if self.hlavicka is None:
-                raise Exception("nelze odebrat neexistujici prvek")
-            else:
-                pomocnik = self.hlavicka.hodnota
-                self.hlavicka = self.hlavicka.nasledujici
-            return pomocnik
-
-
-def main():
+    :rtype: object
+    """
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
@@ -392,5 +336,8 @@ def main():
         cmd_line = input("> ")
         game1.command_detection(cmd_line, config_file, game1.player_turn)
 
+
 if __name__ == "__main__":
     main()
+else:
+    pass
