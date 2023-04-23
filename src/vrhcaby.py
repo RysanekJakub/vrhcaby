@@ -226,26 +226,12 @@ class Menu:
             -> uzivatel vybere moznost QUIT:
                 - cela hra se vypne 
     """
-
-    @property
-    def game_setup(self):
-
-        # volba PVP, PVE
-        print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
-
-        while True:
-            volba = input("vase volba : ")
-            volba.lower()
-
-
     @property
     def herni_nastaveni(self):
         pass
 
     @property
     def game_setup(self):
-        pass
-
         
         # volba PVP, PVE
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
@@ -275,10 +261,7 @@ class Menu:
                     return vybrane_jmeno
         
         def nastaveni_barvy(barvy: list) -> object:
-            """
 
-            :rtype: object
-            """
             while True:
                 print(f"\nVyberte barvu z nasledujicich: {barvy}")
                 vybrana_barva = input("Zvolena barva: ")
@@ -299,6 +282,14 @@ class Menu:
             self._player2 = zmena_jmena(2)
             self._player2_barvy = nastaveni_barvy(barvy, 2)
 
+        # volba jmen PvE
+        if volba == "pve":
+            
+            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
+            self._player1 = zmena_jmena(1)
+            #self._player1_barvy = nastaveni_barvy(barvy, 1)
+            self._player2 = "AI"
+            #self._player2_barvy = nastaveni_barvy(barvy, 2)
 
 
 
