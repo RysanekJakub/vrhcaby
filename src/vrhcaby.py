@@ -96,7 +96,8 @@ class Game:
             self.player_turn = self.player1
 
 
-    def throw_dice(self, dice) -> None:
+    @staticmethod
+    def throw_dice(dice) -> None:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
         # kontrola hozenych hodnot
