@@ -414,7 +414,7 @@ class Menu:
 
 
 class prvek:
-    def __init__(self, hodnota, nasledujici=None):
+    def __init__(self, hodnota, nasledujici=None):  # =None nepoviný atribut konstruktoru
         self.hodnota = hodnota
         self.nasledujici = nasledujici
         self.pos_list = []
@@ -429,9 +429,17 @@ class Seznam:
             prvek = prvek.nasledujici
 
         prvek.nasledujici = novy_prvek
+        
+         # najít poslední prvek/prvek.nasledujici == None
+        # tomuto prvku nastavit prvek.nasledujici=novy_prvek
 
     @staticmethod
     def prvek_na_indexu(index):
+        
+       procházíme seznam, počítadlo, které počítá kolik prvků jsme si prohlédli
+          až se pomocná proměnná bude rovnat zadanému indexu, ukončí cyklus a vrátí hodnotu
+          pokud index leží mimo sesznam vyhodí se výjimka Raise
+        
         if index < 0:
             raise Exception("Index has to be positive")
     prvek = self.hlavicka
@@ -442,27 +450,26 @@ class Seznam:
             raise Exception("Index out of range")
 
 
-
-
-    def __iter__(self):
-        self.x = self.hlavicka
+     
+    def __iter__(self): # nastavení prvního prvku pro iteraci
+        self.x = self.hlavicka # uloží se do vlastnosti, kterou využijeme jakok iterační proměnou
         return self
 
     def __next__(self):
         aktualni = self.x
-        if aktualni is None:
-            raise StopIteration
+        if aktualni is None: # kontrola, jestli je možné se posunout dál v sesznamu
+            raise StopIteration # když neexistuje, vyhodí se vyjímka
         else:
-            self.c = aktualni.nasledujici
+            self.c = aktualni.nasledujici # nahradí stávající hlavičku na novou hlavičku
         return aktualni
 
-class Zasobnik(Seznam):
-    def add_item(self, hodnota):
+class Zasobnik(Seznam): 
+    def add_item(self, hodnota):# nahradí stávající hlavičku na novou hlavičku
         newitem = Prvek(hodnota)
         newitem.nasledujici = self.hlavicka
         self.hlavicka = newitem
 
-    def odeber_prvek(self):
+    def odeber_prvek(self):  # vrátí hlavičku a následující prvek nastaví na novou hlavičku
         if self.hlavicka is None:
             raise Exception("nelze odebrat neexistujici prvek")
         else:
