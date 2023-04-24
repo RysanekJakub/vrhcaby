@@ -36,8 +36,11 @@ class Game:
         self._turn = 0
         self._player_turn = player1     # defaultni hodnota
         self._player1 = player1
+        self._player1_barva = ""
         self._player2 = player2
+        self._player2_barva = ""
         self._last_command = ""
+        self._game_mod = ""              # game_mod se nastavi v gamesetup
 
     @property
     def doubledice(self):
@@ -279,7 +282,7 @@ class Menu:
                 else:
                     return vybrane_jmeno
 
-        def nastaveni_barvy(barvy: list, i: int):
+        def nastaveni_barvy(barvy: list):
             while True:
                 print(f"\nVyberte barvu z nasledujicich: {barvy}")
                 vybrana_barva = input("Zvolena barva: ")
@@ -297,20 +300,21 @@ class Menu:
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
 
             self._player1 = zmena_jmena(1)
-            #self._player1_barvy = nastaveni_barvy(barvy, 1)
+            self._player1_barvy = nastaveni_barvy(barvy)
             self._player2 = zmena_jmena(2)
-            #self._player2_barvy = nastaveni_barvy(barvy, 2)
-
+            self._player2_barvy = nastaveni_barvy(barvy)
+            self._game_mod = "pvp"
+            
 
         # volba jmen PvE
         if volba == "pve":
 
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
             self._player1 = zmena_jmena(1)
-            #self._player1_barvy = nastaveni_barvy(barvy, 1)
+            self._player1_barvy = nastaveni_barvy(barvy)
             self._player2 = "AI"
-            #self._player2_barvy = nastaveni_barvy(barvy, 2)
-
+            self._player2_barvy = random.choice(barvy)
+            self._game_mod = "pve"
 
 
     def save(self):
