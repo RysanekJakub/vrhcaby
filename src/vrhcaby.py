@@ -251,15 +251,14 @@ class Menu:
 
     @property
     def game_setup(self):
-        
+
         # volba PVP, PVE
-        global barvy
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
-        
+
         while True:
             volba = input("vase volba : ")
             volba.lower()
-            
+
             if volba not in ["pve", "pvp"]:
                 print("Tento mod neni v nabidce.")
             else:
@@ -268,49 +267,49 @@ class Menu:
 
         # zmena jmena
         def zmena_jmena(i: int):
-                
+
             while True:
                 max_delka = 10
                 print(f"\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10")
                 vybrane_jmeno = input("Zvolene jmeno: ")
-                        
+
                 if len(vybrane_jmeno) < 3 or len(vybrane_jmeno) > 10:
                     print("Jmeno nesplnuje podminky!")
 
                 else:
                     return vybrane_jmeno
 
-        
-        def nastaveni_barvy(barvy: list) -> object:
-
+        def nastaveni_barvy(barvy: list, i: int):
             while True:
                 print(f"\nVyberte barvu z nasledujicich: {barvy}")
                 vybrana_barva = input("Zvolena barva: ")
-                
+
                 if vybrana_barva in barvy:
                     barvy.remove(vybrana_barva)
                     return vybrana_barva, barvy
-                
+
                 else:
                     print("Tato barva se nenachazi v moznostech!")
-                    
-    
+
+
         # volba jmen PVP
         if volba == "pvp":
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
+
             self._player1 = zmena_jmena(1)
-            self._player1_barvy = nastaveni_barvy(barvy, 1)
+            #self._player1_barvy = nastaveni_barvy(barvy, 1)
             self._player2 = zmena_jmena(2)
-            self._player2_barvy = nastaveni_barvy(barvy, 2)
+            #self._player2_barvy = nastaveni_barvy(barvy, 2)
+
 
         # volba jmen PvE
         if volba == "pve":
+
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
             self._player1 = zmena_jmena(1)
             #self._player1_barvy = nastaveni_barvy(barvy, 1)
             self._player2 = "AI"
             #self._player2_barvy = nastaveni_barvy(barvy, 2)
-        return barvy
 
 
 
