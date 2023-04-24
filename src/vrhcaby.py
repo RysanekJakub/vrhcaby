@@ -296,13 +296,63 @@ class Menu:
 
 
 
-    def load(self):
-        # v pripade vyberu moznosti nacist hru
-        ...
+    def save(self):
+        # ulozeni dat do json souboru zpusobem prepsani
+        # aktualni data
+        data = {
+            "menu_options": ["PLAY (AI)", "PLAY (PvP)", "QUIT"],
+            "commands": ["hod"],
+            
+            "game_save": {
+                
+                "game_stat":
+                    {
+                    "round": 0,                           # provizorne
+                    "player_turn": self.player_turn,      # ?
+                    "last_dice": []                       # provizorne
+                    },
+                    
+                "player1":
+                    {
+                    "name": self._player1,
+                    "color": self._player1_barvy,
+                    "score": "",                         # provizorne
+                    },
+                    
+                "player2":
+                    {
+                    "name": self._player2,
+                    "color": self._player2_barvy,
+                    "score": "",                         # provizorne
+                    }
+                }
+            }
+        
+        # existujici soubor, ktery se prepise
+        with open("cfg.json", "w") as f:
+            json.dump(data, f)
 
-    def play(self):
-        # presun do dalsi casti menu, moznosti budou nova hra a nacit hru
-        ...
+            
+    def load(self):
+        # nacteni informaci z json souboru
+        
+        with open("cfg.json", "r") as f:
+            data = json.load(f)
+        
+        # game_stat
+        round = data["game_save"]["game_stat"]["round"]                           # provizorne
+        self.player_turn = data["game_save"]["game_stat"]["player_turn"]          # ?
+        last_dice = data["game_save"]["game_stat"]["last_dice"]                   # provizorne
+        
+        #player1
+        self.player1 = data["game_save"]["player1"]["name"]
+        self._player1_barvy = data["game_save"]["player1"]["color"]
+        #self.player_1.score = data["game_save"]["player1"]["score"]              # zatim provizorne, nejsem si jistej k cemu priradit score
+        
+        #player2
+        self.player2 = data["game_save"]["player2"]["name"]
+        self._player2_barvy = data["game_save"]["player2"]["color"]
+        #self.player_2.score = data["game_save"]["player2"]["score"]              # zatim provizorne, nejsem si jistej k cemu priradit score
 
     @staticmethod
     def quit_game():
