@@ -193,8 +193,20 @@ class Game:
         self.last_command = command
 
 class Kamen:
-    def __init__(self):
-        ...
+    def __init__(self, barva):
+        self.barva = barva
+        self.pamet =[] #seznam uspořádaných dvojic (přidávání pomocí appendu)
+        self.id = 0
+    def vypis(self): #výpis možná bude řešit jiná třída
+      if self.barva == 0:
+        print("kamen je bily")
+      else:
+        print("kamen je cerny")
+#kamen = Kamen(0)
+#print(kamen.barva)
+#kamen.vypis()
+
+
 
 class Menu:
     def __init__(self, options, config) -> None:
@@ -238,6 +250,7 @@ class Menu:
     def game_setup(self):
         
         # volba PVP, PVE
+        global barvy
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
         
         while True:
@@ -263,6 +276,7 @@ class Menu:
 
                 else:
                     return vybrane_jmeno
+
         
         def nastaveni_barvy(barvy: list) -> object:
 
@@ -288,12 +302,12 @@ class Menu:
 
         # volba jmen PvE
         if volba == "pve":
-            
             barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
             self._player1 = zmena_jmena(1)
             #self._player1_barvy = nastaveni_barvy(barvy, 1)
             self._player2 = "AI"
             #self._player2_barvy = nastaveni_barvy(barvy, 2)
+        return barvy
 
 
 
@@ -386,3 +400,5 @@ if __name__ == "__main__":
     main()
 else:
     pass
+
+
