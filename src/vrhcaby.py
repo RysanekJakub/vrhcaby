@@ -195,16 +195,19 @@ class Game:
 class Kamen:
     def __init__(self, barva):
         self.barva = barva
-        self.pamet =[] #seznam uspořádaných dvojic (přidávání pomocí appendu)
+        self.pamet = []  # seznam uspořádaných dvojic (přidávání pomocí appendu)
         self.id = 0
-    def vypis(self): #výpis možná bude řešit jiná třída
-      if self.barva == 0:
-        print("kamen je bily")
-      else:
-        print("kamen je cerny")
-#kamen = Kamen(0)
-#print(kamen.barva)
-#kamen.vypis()
+
+    def vypis(self):  # výpis možná bude řešit jiná třída
+        if self.barva == 0:
+            print("kamen je bily")
+        else:
+            print("kamen je cerny")
+
+
+# kamen = Kamen(0)
+# print(kamen.barva)
+# kamen.vypis()
 
 
 
