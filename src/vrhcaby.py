@@ -315,39 +315,8 @@ class Menu:
 
     def save(self):
         # ulozeni dat do json souboru zpusobem prepsani
-        # aktualni data
-        data = {
-            "menu_options": ["PLAY (AI)", "PLAY (PvP)", "QUIT"],
-            "commands": ["hod"],
-            
-            "game_save": {
-                
-                "game_stat":
-                    {
-                    "round": 0,                           # provizorne
-                    "player_turn": self.player_turn,      # ?
-                    "last_dice": []                       # provizorne
-                    },
-                    
-                "player1":
-                    {
-                    "name": self._player1,
-                    "color": self._player1_barvy,
-                    "score": "",                         # provizorne
-                    },
-                    
-                "player2":
-                    {
-                    "name": self._player2,
-                    "color": self._player2_barvy,
-                    "score": "",                         # provizorne
-                    }
-                }
-            }
-        
-        # existujici soubor, ktery se prepise
-        with open("cfg.json", "w") as f:
-            json.dump(data, f)
+        # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        # smazano - nesmyslna funkce - predelam
 
             
     def load(self):
