@@ -32,7 +32,7 @@
     </tr>
     <tr>
       <td>uložení a obnova stavu hry (s návrhem vlastního JSON formátu pro uložení)</td>
-      <td></td>
+      <td>75% DONE</td>
     </tr>
     <tr>
       <td></td>
