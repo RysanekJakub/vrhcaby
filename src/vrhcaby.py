@@ -30,7 +30,6 @@ class Game:
         self._gameboard = gameboard
         # dvojkostka
         self._doubledice = []
-        self._spikes = [[] for _ in range(24)]
         self._bar = ...
         self._stone = pozice
         self._turn = 0
@@ -41,6 +40,43 @@ class Game:
         self._player2_barva = ""
         self._last_command = ""
         self._game_mod = ""              # game_mod se nastavi v gamesetup
+        
+        # TENHLE SEZNAM JE TU JEN DOCASNE
+        # BUDE VYMENEN VE CHVILI KDY BUDE DOKONCENA IMPLEMENTACE TRIDY SPIKU
+        # seznam necham takto rozbaleny kvuli co mozna nejlepsi citelnosti
+        self._spikes = [[    
+                [1,1,1],
+                ["O"],
+                ["O", "O"],
+                ["O", "O", "O"],
+                ["O"],
+                []
+            ],
+            [    
+                [1,1,1],
+                ["O"],
+                ["O"],
+                ["O", "O", "O", "O", "O", "O", "O"],
+                ["O"],
+                ["O", "O"]
+            ],
+            [    
+                [1,1,1],
+                ["O"],
+                [1,1,1,1,1],
+                ["O", "O"],
+                ["O"],
+                [1,1]
+            ],
+            [    
+                [1,1],
+                ["O"],
+                [],
+                ["O"],
+                [],
+                [1,1]
+            ],
+        ]
 
     @property
     def doubledice(self):
@@ -124,15 +160,60 @@ class Game:
         else:                          #    |
             remaining_spaces = " " * 4 # <--|
         return f"[{len(spike_list)}]{remaining_spaces}"
+    
 
+    def sektor_spiku_vrchni(self, sektor, spikes_lists):
+        rows = []   # zde jsou vsechny radky pro vybrany sektor po formatovani
+        for i in range(7):  # defaultni vyska radku, pozdeji jeste bude potreba upravit pro pripady, kdy se na spike dostane vice nez 7 kamenu
+            row = []    # seznamy radku po jednom
+            for spike in spikes_lists[sektor]:  # zde se ze seznamu sektoru vybere pozadovany sektor, ktery obsahuje seznamy vsech spiku
+                default_mezery = " "*(6-i)  # dopocet mezer uvnitr spiku kvuli formatovani
+                vypln = " "*i   # dopocet mezer okolo spiku kvuli formatovani
+                if i < len(spike):  # pokud je *i* mensi nez delka seznamu spiku, kterym se zrovna prochazi, znamena to, ze tam bude kamen
+                    row.append(f"{vypln}\{default_mezery}O{default_mezery}/{vypln}")    # cely radek se po spojeni zapise do seznamu *row*
+                else:
+                    row.append(f"{vypln}\{default_mezery} {default_mezery}/{vypln}")    # pokud je *i* vetsi nez delka seznamu spiku, znamena to, ze uz tam neni dalsi kamen a tak se zapise mezera
+            rows.append(row)
+        return rows
+
+
+    def sektor_spiku_spodni(self, sektor, spikes_lists):
+        # postup pri vykresleni kamenu je trochu komplikovanejsi kvuli tomu, ze se tentokrat musi kameny vypisovat odspoda nahoru
+        # udelal jsem to tak, ze se vezme list kazdeho spiku a podle poctu kamenu (delky seznamu spiku) se zapisou mezery pred kameny
+        # vypada-li seznam spiku takto: [1,1,1]
+        # tak po teto uprave bude vypadat takto: [" "," "," "," ", 1,1,1]
+        nove_listy = []
+        for sektor_list in spikes_lists[sektor]:    # loop, ktery vytahne seznamy jednotlivych spiku
+            missing = [" " for _ in range(7-len(sektor_list))]  # zde se zapisuji mezery podle poctu kamenu na spiku do noveho seznamu
+            nove_listy.append(missing+sektor_list)  # spojeni seznamu *missing* s mezerami a jiz existujicim seznamem spiku
+
+        # zde uz je postup skoro stejny jako u funkce *sektor_spiku_vrchni*
+        rows = []
+        for i in range(7):
+            row = []
+            for spike in nove_listy:
+                if spike[i] != " ": # pokud se i nerovna mezere, zapise se kamen
+                    default_mezery = " "*i
+                    vypln = " "*(6-i)
+                    row.append(f"{vypln}/{default_mezery}O{default_mezery}\{vypln}")
+                else:
+                    default_mezery = " "*i
+                    vypln = " "*(6-i)
+                    row.append(f"{vypln}/{default_mezery} {default_mezery}\{vypln}")
+
+            rows.append(row)
+        return rows
+    
 
     def gameboard_final(self, values:list, spikes:list, command:str, cur_turn: int, p_turn: str) -> str:
-        s = spikes
         # dopocet chybejicich mezer kvuli formatovani
+        # asi by to slo elegantneji... treba pozdeji :)
         if len(values) == 2:
-            spaces = 156*" "
+            spaces = 166*" "
+        elif len(values) == 4:
+            spaces = 160*" "
         else:
-            spaces = 150*" "
+            spaces = 170*" "
         
         # tvorba cislovani spiku
         spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
@@ -140,40 +221,40 @@ class Game:
 
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
- _________________________________________________________________________________________________________________________________________________________________________________
+ ____________________________________________________________________________________________________________________________________________________________________________________________
 | Poslední příkaz: {command}
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Kolo: {cur_turn}                                                                                                                                                                         |
-| Hraje: {p_turn}                                                                                                                                                                  |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Kolo: {cur_turn}                                                                                                                                                                               
+| Hraje: {p_turn}                                                                                                                                                                             
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|{style.RED}       {"             ".join(spike_row1[0])}                    {"             ".join(spike_row1[1])}             {"            ".join(spike_row1[2])}{style.RESET}       |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| \    {self.spike_occupancy(s[0])}/\     {s[1]}     /\     {s[2]}     /\     {s[3]}     /\     {s[4]}     /\     {s[5]}     /  | |  \            /\            /\            /\            /\            /\            / |
-|  \          /  \          /  \          /  \          /  \          /  \          /   | |   \          /  \          /  \          /  \          /  \          /  \          /  |
-|   \        /    \        /    \        /    \        /    \        /    \        /    | |    \        /    \        /    \        /    \        /    \        /    \        /   |
-|    \      /      \      /      \      /      \      /      \      /      \      /     | |     \      /      \      /      \      /      \      /      \      /      \      /    |
-|     \    /        \    /        \    /        \    /        \    /        \    /      | |      \    /        \    /        \    /        \    /        \    /        \    /     |
-|      \  /          \  /          \  /          \  /          \  /          \  /       | |       \  /          \  /          \  /          \  /          \  /          \  /      |
-|       \/            \/            \/            \/            \/            \/        | |        \/            \/            \/            \/            \/            \/       |
-|                                                                                       | |                                                                                       |
-|                                                                                       | |                                                                                       |
-|                                                                                       | |                                                                                       |
-|                                                                                       | |                                                                                       |
-|                                                                                       | |                                                                                       |
-|                                                                                       | |                                                                                       |
-|       /\            /\            /\            /\            /\            /\        | |        /\            /\            /\            /\            /\            /\       |
-|      /  \          /  \          /  \          /  \          /  \          /  \       | |       /  \          /  \          /  \          /  \          /  \          /  \      |
-|     /    \        /    \        /    \        /    \        /    \        /    \      | |      /    \        /    \        /    \        /    \        /    \        /    \     |
-|    /      \      /      \      /      \      /      \      /      \      /      \     | |     /      \      /      \      /      \      /      \      /      \      /      \    |
-|   /        \    /        \    /        \    /        \    /        \    /        \    | |    /        \    /        \    /        \    /        \    /        \    /        \   |
-|  /          \  /          \  /          \  /          \  /          \  /          \   | |   /          \  /          \  /          \  /          \  /          \  /          \  |
-| /            \/            \/            \/            \/            \/            \  | |  /            \/            \/            \/            \/            \/            \ |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|{style.RED}       {"            ".join(spike_row2[0])}                   {"            ".join(spike_row2[1])}{style.WHITE}       |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|_________________________________________________________________________________________________________________________________________________________________________________|
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|{style.RED}        {"              ".join(spike_row1[0])}                   {"              ".join(spike_row1[1])}             {"             ".join(spike_row1[2])}{style.RESET}        |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[0])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[0])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[1])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[1])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[2])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[2])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[3])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[3])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[4])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[4])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[5])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[5])} |
+| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[6])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[6])} |
+|{" "*92}| |{" "*92}|
+|{" "*92}| |{" "*92}|
+|{" "*92}| |{" "*92}|
+|{" "*92}| |{" "*92}|
+|{" "*92}| |{" "*92}|
+|{" "*92}| |{" "*92}|
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[0])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[0])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[1])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[1])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[2])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[2])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[3])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[3])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[4])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[4])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[5])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[5])} |
+| {"".join(self.sektor_spiku_spodni(2,self.spikes)[6])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[6])} |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|{style.RED}       {"             ".join(spike_row2[0])}                   {"             ".join(spike_row2[1])}{style.WHITE}       |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|___________________________________________________________________________________________________________________________________________________________________________________________|
 """
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
@@ -383,10 +464,6 @@ class Menu:
 
 
 def main() -> object:
-    """
-
-    :rtype: object
-    """
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
@@ -404,7 +481,3 @@ def main() -> object:
 
 if __name__ == "__main__":
     main()
-else:
-    pass
-
-
