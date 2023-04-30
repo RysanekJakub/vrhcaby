@@ -127,7 +127,7 @@ class Game:
         return self._player2
 
 
-    def next_turn(self, p_turn):
+    def next_turn(self, p_turn:int) -> int:
         self.turn += 1
         if p_turn == self.player1:
             self.player_turn = self.player2
@@ -136,7 +136,7 @@ class Game:
 
 
     @staticmethod
-    def throw_dice(dice) -> None:
+    def throw_dice(dice:list) -> list:
         dice.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
         # kontrola hozenych hodnot
@@ -151,18 +151,7 @@ class Game:
             return dice
     
 
-    @staticmethod
-    def spike_occupancy(spike_list:list) -> str:
-        # nedokonceny system
-        # vypisuje obsazenost spiku a zajistuje formatovani
-        if 0 <= len(spike_list) < 10:
-            remaining_spaces = " " * 5 # <-- doplneni mezer
-        else:                          #    |
-            remaining_spaces = " " * 4 # <--|
-        return f"[{len(spike_list)}]{remaining_spaces}"
-    
-
-    def sektor_spiku_vrchni(self, sektor, spikes_lists):
+    def sektor_spiku_vrchni(self, sektor:int, spikes_lists:list) -> list:
         rows = []   # zde jsou vsechny radky pro vybrany sektor po formatovani
         for i in range(7):  # defaultni vyska radku, pozdeji jeste bude potreba upravit pro pripady, kdy se na spike dostane vice nez 7 kamenu
             row = []    # seznamy radku po jednom
@@ -177,7 +166,7 @@ class Game:
         return rows
 
 
-    def sektor_spiku_spodni(self, sektor, spikes_lists):
+    def sektor_spiku_spodni(self, sektor:int, spikes_lists:list) -> list:
         # postup pri vykresleni kamenu je trochu komplikovanejsi kvuli tomu, ze se tentokrat musi kameny vypisovat odspoda nahoru
         # udelal jsem to tak, ze se vezme list kazdeho spiku a podle poctu kamenu (delky seznamu spiku) se zapisou mezery pred kameny
         # vypada-li seznam spiku takto: [1,1,1]
@@ -192,13 +181,11 @@ class Game:
         for i in range(7):
             row = []
             for spike in nove_listy:
+                default_mezery = " "*i
+                vypln = " "*(6-i)
                 if spike[i] != " ": # pokud se i nerovna mezere, zapise se kamen
-                    default_mezery = " "*i
-                    vypln = " "*(6-i)
                     row.append(f"{vypln}/{default_mezery}O{default_mezery}\{vypln}")
                 else:
-                    default_mezery = " "*i
-                    vypln = " "*(6-i)
                     row.append(f"{vypln}/{default_mezery} {default_mezery}\{vypln}")
 
             rows.append(row)
@@ -459,8 +446,6 @@ class Menu:
     @staticmethod
     def quit_game():
         quit()
-
-
 
 
 def main() -> object:
