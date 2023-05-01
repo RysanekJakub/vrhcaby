@@ -294,10 +294,6 @@ class HerniPole:
             if i == 2:
                 self.spike_list[i]["kameny"].append("x")
                 self.spike_list[i]["barva"] = barva_hrace2
-            
-            
-        
-        print(self.spike_list) # provizorne
     
     def presun(self, id_hrace, hod_kostkou):  # id hrace pro smer (hrac = 1, ai = 2), hod_kostkou pro dostupne tahy
         
@@ -314,7 +310,7 @@ class HerniPole:
             
                                                                                                              # dostupne_tahy
                                                                                                              # kontrola spiku v pripade kdyby chtel hrac posunout sutr (aby na tomto spiku nebyl jiny hrac.... pokud by byl a mel by 1 sutr pak ho muze vyhodit)
-            
+                    
             tahy = [] # dvojce .... (Sx, Sy)
             for i in podezrele_dostupne_tahy:
                 if i+hod_kostkou < 24:
@@ -331,7 +327,36 @@ class HerniPole:
                     if len(self.spike_list[i+hod_kostkou]["kameny"]) > 0 and len(self.spike_list[i+hod_kostkou]["kameny"]) < 5 and self.spike_list[i+hod_kostkou]["barva"] == barva_hrace1:
                         tahy.append((i,i+hod_kostkou))
             
-            print(tahy) # provizorne
+            
+            # hracova volba tahu
+            
+            print(f"Hrac: {id_hrace}\nHodil kostkou: {hod_kostkou}")
+            print(f"K posunuti jsou nasledujici kombinace:")
+                
+            kombinace = 1                                               # index zacina od 1 bude treba ho zmensit pokud se s nim bude pracovat jako s prvnim prvkem v seznamu
+            platne_kombinace = []
+            for sx, sy in tahy:
+                print(f"({kombinace}) Kamen z S{sx} na S{sy}")
+                platne_kombinace.append(kombinace)
+                kombinace += 1
+            
+            # vyber
+            
+            while True:
+                volba = input("Pro posunuti zadejte cislo v zavorkach: ")
+                
+                if volba.isnumeric() == True:
+                    volba = int(volba)
+                    if volba in platne_kombinace:
+                        temp = volba-1              # zmensen o 1 aby se s nim dalo pocitat jako s opravdovym prvkem v seznamu.... len(x) != indexy x.... len(x) + 1 == indexy x
+                        print(f"Vybral jste kombinaci {volba} a posouvate S{tahy[temp][0]} na S{tahy[temp][1]}")
+                        break
+                    else:
+                        print("Vase volba se nenachazi v moznostech")
+                else:
+                    print("zadejte cislo")
+                
+            ########
                 
                 
                 
