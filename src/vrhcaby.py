@@ -274,6 +274,75 @@ class Kamen:
             print("kamen je bily")
         else:
             print("kamen je cerny")
+    
+class HerniPole:
+    
+    spike_list = []
+    
+    def funkc_po_spust(self):
+        for _ in range(24):
+            self.spike_list.append({"kameny": [], "barva": None})
+            
+    def nahodne_rozmisteni(self): # provizorne
+        barva_hrace1 = "bila"
+        barva_hrace2 = "cerna"
+        
+        for i in range(len(self.spike_list)):
+            if i % 2 == 0 and i != 4 and i != 8 and i != 2:
+                self.spike_list[i]["kameny"].append("x")
+                self.spike_list[i]["barva"] = barva_hrace1
+            if i == 2:
+                self.spike_list[i]["kameny"].append("x")
+                self.spike_list[i]["barva"] = barva_hrace2
+            
+            
+        
+        print(self.spike_list) # provizorne
+    
+    def presun(self, id_hrace, hod_kostkou):  # id hrace pro smer (hrac = 1, ai = 2), hod_kostkou pro dostupne tahy
+        
+        barva_hrace1 = "bila"
+        barva_hrace2 = "cerna"
+        
+        if id_hrace == 1:
+            
+            # vypis kamenu (spiku), ktere jsou k dispozici
+            podezrele_dostupne_tahy = []                                                     # index spiku .... S1....S2....S3....S4
+            for i in range(len(self.spike_list)):
+                if len(self.spike_list[i]["kameny"]) > 0 and self.spike_list[i]["barva"] == barva_hrace1:    # pokud v spiku je nejaky kamen a ma barvu hrace zapise se do moznych tahu
+                    podezrele_dostupne_tahy.append(i)                                                        # index dostupneho kamene ve spiku self.spike_list[i]
+            
+                                                                                                             # dostupne_tahy
+                                                                                                             # kontrola spiku v pripade kdyby chtel hrac posunout sutr (aby na tomto spiku nebyl jiny hrac.... pokud by byl a mel by 1 sutr pak ho muze vyhodit)
+            
+            tahy = [] # dvojce .... (Sx, Sy)
+            for i in podezrele_dostupne_tahy:
+                if i+hod_kostkou < 24:
+                    
+                       # kontrola poctu kamenu mozneho tahu.... pripsani na seznam dostupnych tahu
+                    if len(self.spike_list[i+hod_kostkou]["kameny"]) == 0:
+                                    # Sx , Sy
+                        tahy.append((i,i+hod_kostkou))
+                    
+                    
+                    if len(self.spike_list[i+hod_kostkou]["kameny"]) == 1 and self.spike_list[i+hod_kostkou]["barva"] == barva_hrace2:
+                        tahy.append((i,i+hod_kostkou))
+                    
+                    if len(self.spike_list[i+hod_kostkou]["kameny"]) > 0 and len(self.spike_list[i+hod_kostkou]["kameny"]) < 5 and self.spike_list[i+hod_kostkou]["barva"] == barva_hrace1:
+                        tahy.append((i,i+hod_kostkou))
+            
+            print(tahy) # provizorne
+                
+                
+                
+        
+        
+        # presun .... S1
+        # VYPIS MOZNYCH PRESUNUTI .... protihrac jeden kamen, prazdny spike []
+        # presunuti .... smazani presunuteho kamene z startovniho spiku a prepsani spiku na cilovy spike
+        
+        
+        
 
 
 # kamen = Kamen(0)
