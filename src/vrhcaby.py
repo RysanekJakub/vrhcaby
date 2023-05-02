@@ -397,12 +397,12 @@ class HerniPole:
         barva_hrace2 = "cerna"
         barva_hrace3 = "cerna"
         
-        # hraje hrac 1
-        if id_hrace == 1:
+        # hraje hrac 1                                                  dulezite poradi
+        if id_hrace == 1:                                             #            #
             self.provest_presun_pro_hrace(id_hrace, hod_kostkou, barva_hrace1, barva_hrace2)
         
         # hraje hrac 2
-        if id_hrace == 2:
+        if id_hrace == 2:                                            #             #
             self.provest_presun_pro_hrace(id_hrace, hod_kostkou, barva_hrace2, barva_hrace1)
         
         # hraje ai , pokud je hra s ai automaticky hraje jen hrac s id1 a ai
