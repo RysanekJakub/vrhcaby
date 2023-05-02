@@ -345,6 +345,8 @@ class HerniPole:
             while True:
                 volba = input("Pro posunuti zadejte cislo v zavorkach: ")
                 
+                spiky_k_presunuti = [tahy[int(volba)-1][0], tahy[int(volba)-1][1]] # slouzi k orientaci mezi indexy vybranych spiku
+                
                 if volba.isnumeric() == True:
                     volba = int(volba)
                     if volba in platne_kombinace:
@@ -357,7 +359,35 @@ class HerniPole:
                     print("zadejte cislo")
                 
             ########
+            # presunuti
+            
+            # presunuti na prazdny spike .... na puvodnim spiku zbyvaji kameny
+            
+            if len(self.spike_list[spiky_k_presunuti[1]]["kameny"]) == 0 and len(self.spike_list[spiky_k_presunuti[0]]["kameny"]) > 1:
+                self.spike_list[spiky_k_presunuti[0]]["kameny"].remove("x")      # kamen se presouva, smazani z puvodniho spiku
+                self.spike_list[spiky_k_presunuti[1]]["kameny"].append("x")      # kamen se pridal na novy spike
+                self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace1    # barva se pridala na novy spike
+            
+            # presunuti na prazdny spike .... na puvodnim spiku nezbyvaji kameny
+            
+            if len(self.spike_list[spiky_k_presunuti[1]]["kameny"]) == 0 and len(self.spike_list[spiky_k_presunuti[0]]["kameny"]) == 1:
+                self.spike_list[spiky_k_presunuti[0]]["kameny"].remove("x")      # kamen se presouva, smazani z puvodniho spiku
+                self.spike_list[spiky_k_presunuti[0]]["barva"] = None            # barva puvodniho spiku se zmeni na None
+                self.spike_list[spiky_k_presunuti[1]]["kameny"].append("x")      # kamen se pridal na novy spike
+                self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace1    # barva se pridala na novy spike
                 
+            # presunuti na spike s jednim kamenem jine barvy .... na puvodnim spiku zbyvaji kameny
+            
+            if len(self.spike_list[spiky_k_presunuti[1]]["kameny"]) == 1 and len(self.spike_list[spiky_k_presunuti[0]]["kameny"]) > 1:
+                self.spike_list[spiky_k_presunuti[0]]["kameny"].remove("x")      # kamen se presouva, smazani z puvodniho spiku
+                self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace1
+                
+            # presunuti na spike s jednim kamenem jine barvy .... na puvodnim spiku nezbyvaji kameny
+            
+            if len(self.spike_list[spiky_k_presunuti[1]]["kameny"]) == 1 and len(self.spike_list[spiky_k_presunuti[0]]["kameny"]) == 1:
+                self.spike_list[spiky_k_presunuti[0]]["kameny"].remove("x")      # kamen se presouva, smazani z puvodniho spiku
+                self.spike_list[spiky_k_presunuti[0]]["barva"] = None            # barva puvodniho spiku se zmeni na None
+                self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace1    # barva se prida na cilovy spike
                 
                 
         
