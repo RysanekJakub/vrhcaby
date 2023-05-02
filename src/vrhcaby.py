@@ -449,16 +449,16 @@ class HerniPole:
             
             # vyber
             
-            while True:
-                volba = random.randint(1, len(platne_kombinace))
+            
+            volba = random.randint(1, len(platne_kombinace))
                 
-                spiky_k_presunuti = [tahy[volba-1][0], tahy[volba-1][1]]
+            spiky_k_presunuti = [tahy[volba-1][0], tahy[volba-1][1]]
                 
-                if volba in platne_kombinace:
-                    temp = volba-1              # zmensen o 1 aby se s nim dalo pocitat jako s opravdovym prvkem v seznamu.... len(x) != indexy x.... len(x) + 1 == indexy x
+            if volba in platne_kombinace:
+                temp = volba-1              # zmensen o 1 aby se s nim dalo pocitat jako s opravdovym prvkem v seznamu.... len(x) != indexy x.... len(x) + 1 == indexy x
                         
-                    print(f"AI posouva kamen z S{tahy[temp][0]} na S{tahy[temp][1]}")
-                    break
+                print(f"AI posouva kamen z S{tahy[temp][0]} na S{tahy[temp][1]}")
+            
                 
             #############################
             
@@ -492,17 +492,7 @@ class HerniPole:
                 self.spike_list[spiky_k_presunuti[0]]["barva"] = None            # barva puvodniho spiku se zmeni na None
                 self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace3    # barva se prida na cilovy spike
             
-            print(self.spike_list)
-                
-                
-        
-        
-        # presun .... S1
-        # VYPIS MOZNYCH PRESUNUTI .... protihrac jeden kamen, prazdny spike []
-        # presunuti .... smazani presunuteho kamene z startovniho spiku a prepsani spiku na cilovy spike
-        
-        
-        
+            print(self.spike_list)               
 
 
 # kamen = Kamen(0)
