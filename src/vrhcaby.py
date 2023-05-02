@@ -390,7 +390,8 @@ class HerniPole:
         print(self.spike_list)
             
     
-    def presun(self, id_hrace, hod_kostkou, barva_hrace1, barva_hrace2):  # id hrace pro smer (hrac = 1, ai = 2), hod_kostkou pro dostupne tahy
+    def presun(self, id_hrace, hod_kostkou, barva_hrace1, barva_hrace2):  # id hrace pro smer, hod_kostkou pro dostupne tahy
+                                                                          # hrac vs hrac (1,2) , hrac vs ai (1,3) .... (x,y) = (barva_hracex, barva_hracey)
         
         barva_hrace1 = "bila"
         barva_hrace2 = "cerna"
