@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import platform
 
 # zajistuje barvy textu
 os.system("")
@@ -21,7 +22,11 @@ class style:
     # vycisti konzoli
     @staticmethod
     def clear() -> object:
-         os.system("cls")
+        # pro zajisteni kompatibility s vice OS
+        if platform.system() == "Windows":
+            os.system("cls")
+        elif platform.system() == "Linux" or platform.system() == "Darwin":
+            os.system("clear")
 
 class Game:
     
@@ -209,6 +214,8 @@ class Game:
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
  ____________________________________________________________________________________________________________________________________________________________________________________________
+|                                                                                          {style.BLUE}VRHCABY{style.RESET}                                                                                          |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Poslední příkaz: {command}
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Kolo: {cur_turn}                                                                                                                                                                               
@@ -717,7 +724,11 @@ def main() -> object:
         print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command, game1.turn, game1.player_turn))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
-        game1.command_detection(cmd_line, config_file, game1.player_turn)
+        try:
+            game1.command_detection(cmd_line, config_file, game1.player_turn)
+        except FileNotFoundError:                                               # terminal ve VS Codu ma oproti normalnimu cmd problem najit cfg soubor
+            config_file = "src/cfg.json"                                        # proto tento odchyt vyjimky
+            game1.command_detection(cmd_line, config_file, game1.player_turn)
 
 
 if __name__ == "__main__":
