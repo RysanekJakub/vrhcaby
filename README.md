@@ -6,5 +6,6 @@ Projektový repozitář pro hru Vrhcáby
 - random
 - os
 - json
+- platform
 
 > Made by: Ryšánek, Thomas, Kepič
