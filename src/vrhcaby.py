@@ -480,6 +480,7 @@ class HerniPole:
                         tahy.append((i,i-hod_kostkou))
             
             
+            #######################################################################################################################################################################################
             # ai vytvoreni voleb
             
             print(f"Hrac: {id_hrace}\nHodil kostkou: {hod_kostkou}")
@@ -491,10 +492,37 @@ class HerniPole:
                 platne_kombinace.append(kombinace)
                 kombinace += 1
             
-            # vyber
+            # ai vyber vhodneho tahu
+            # ai se podiva zda za nemuze vyhodit nekoho v okoli....
+            # ai uprednostnuje:
+            #                   1) ai se blizi cili
+            #                   2) vyhozeni hrace, ktery je za pulkou (bliz k ai zakladne)
+            #                   3) nenechavat kameny o samote (hrozi vyhozeni)
             
+            for sx, sy in tahy:
+                temp_dvojce = (sx, sy)                           # ziskani
+                print(temp_dvojce)
+                if (sx,sy) in tahy:              #           sx = planovana pozice ,  sy = aktualni pozice
+                    
+                    if sy < 6:
+                        volba = tahy.index((sx, sy)) # 1) priorita 1 blizi se k cili
+                        break
+                    
+                    elif sy < 12 and self.spike_list[sy]["barva"] != barva_hrace3: # 2) priorita 2
+                        volba = tahy.index((sx, sy))
+                        break
+                    
+                    elif sy < 12 and len(self.spike_list[sy]["kameny"]) == 1: # 3) priorita 3
+                        volba = tahy.index((sx, sy))
+                        break
+                        
+                    else:
+                        volba = random.randint(1, len(platne_kombinace)) # 4) priorita 4 .... normalni
+
             
-            volba = random.randint(1, len(platne_kombinace))
+            #########################################################################################################################################################################################
+            
+            # uprava volby
                 
             spiky_k_presunuti = [tahy[volba-1][0], tahy[volba-1][1]]
                 
