@@ -368,11 +368,11 @@ class HerniPole:
             while True:
                 volba = input("Pro posunuti zadejte cislo v zavorkach: ")
                 
-                spiky_k_presunuti = [tahy[int(volba)-1][0], tahy[int(volba)-1][1]]
                 
                 if volba.isnumeric() == True:
                     volba = int(volba)
                     if volba in platne_kombinace:
+                        spiky_k_presunuti = [tahy[int(volba)-1][0], tahy[int(volba)-1][1]]
                         temp = volba-1              # zmensen o 1 aby se s nim dalo pocitat jako s opravdovym prvkem v seznamu.... len(x) != indexy x.... len(x) + 1 == indexy x
                     
                         print(f"Vybral jste kombinaci {volba} a posouvate S{tahy[temp][0]} na S{tahy[temp][1]}")
@@ -386,11 +386,11 @@ class HerniPole:
             while True:
                 volba = input("Pro posunuti zadejte cislo v zavorkach: ")
                 
-                spiky_k_presunuti = [tahy[int(volba)-1][0], tahy[int(volba)-1][1]]
                 
                 if volba.isnumeric() == True:
                     volba = int(volba)
                     if volba in platne_kombinace:
+                        spiky_k_presunuti = [tahy[int(volba)-1][0], tahy[int(volba)-1][1]]
                         temp = volba-1              # zmensen o 1 aby se s nim dalo pocitat jako s opravdovym prvkem v seznamu.... len(x) != indexy x.... len(x) + 1 == indexy x
                         
                         print(f"Vybral jste kombinaci {volba} a posouvate S{tahy[temp][1]} na S{tahy[temp][0]}")
