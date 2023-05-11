@@ -271,19 +271,41 @@ class Game:
         self.last_command = command
 
 class Kamen:
+    kamen_seznam = []
+    
     def __init__(self, barva):
         self.barva = barva
         self.pamet = []  # seznam uspořádaných dvojic (přidávání pomocí appendu)
-        self.id = 0
-
-    def vypis(self):  # výpis možná bude řešit jiná třída
-        if self.barva == 0:
-            print("kamen je bily")
-        else:
-            print("kamen je cerny")
     
-import random
+# seznamy kamenu
+    hrac1_kameny = []
+    hrac2_kameny = []
+    ai_kameny = []
 
+
+# generovani kamenu
+    def generovani_kamenu(seznam, barvahrace):
+        for _ in range(15):
+           kamen_seznam.append(Kamen(barva_hrace))
+
+
+# hrac kameny a barva hrace
+    generovani_kamenu(hrac1_kameny, "bila")
+    generovani_kamenu(hrac2_kameny, "cerna")
+    generovani_kamenu(ai_kameny, "cerna")
+
+# vypis informaci pro overeni funkcnost
+ for sutr in ai_kameny:
+    print(sutr.pamet, sutr.barva)
+    
+
+
+
+
+
+
+
+    
 
 class HerniPole:
     
