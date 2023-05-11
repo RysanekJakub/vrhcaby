@@ -259,6 +259,9 @@ class Kamen:
         else:
             print("kamen je cerny")
     
+import random
+
+
 class HerniPole:
     
     spike_list = []
@@ -459,7 +462,6 @@ class HerniPole:
                     if len(self.spike_list[i-hod_kostkou]["kameny"]) > 0 and len(self.spike_list[i-hod_kostkou]["kameny"]) < 5 and self.spike_list[i-hod_kostkou]["barva"] == barva_hrace3:
                         tahy.append((i,i-hod_kostkou))
             
-            
             #######################################################################################################################################################################################
             # ai vytvoreni voleb
             
@@ -482,7 +484,7 @@ class HerniPole:
             for sx, sy in tahy:
                 temp_dvojce = (sx, sy)                           # ziskani
                 print(temp_dvojce)
-                if (sx,sy) in tahy:              #           sx = planovana pozice ,  sy = aktualni pozice
+                if (sx,sy) in tahy:              #           sx = aktualni pozice ,  sy = planovana pozice
                     
                     if sy < 6:
                         volba = tahy.index((sx, sy)) # 1) priorita 1 blizi se k cili
@@ -511,10 +513,6 @@ class HerniPole:
                         
                 print(f"AI posouva kamen z S{tahy[temp][0]} na S{tahy[temp][1]}")
             
-                
-            #############################
-            
-            # presunuti
             
             # presunuti na prazdny spike .... na puvodnim spiku zbyvaji kameny
             
@@ -544,7 +542,14 @@ class HerniPole:
                 self.spike_list[spiky_k_presunuti[0]]["barva"] = None            # barva puvodniho spiku se zmeni na None
                 self.spike_list[spiky_k_presunuti[1]]["barva"] = barva_hrace3    # barva se prida na cilovy spike
             
-            print(self.spike_list) 
+            print(self.spike_list)               
+
+#hra = HerniPole()
+#hra.funkc_po_spust()
+#hra.nahodne_rozmisteni()
+#            - 3 - ai, 1 - hrac, 2 - hrac2
+#           v
+#hra.presun(3, 2, "cerna", "bila")
 
 
 # kamen = Kamen(0)
