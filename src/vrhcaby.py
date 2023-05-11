@@ -504,7 +504,7 @@ class HerniPole:
             for sx, sy in tahy:
                 temp_dvojce = (sx, sy)                           # ziskani
                 print(temp_dvojce)
-                if (sx,sy) in tahy:              #           sx = planovana pozice ,  sy = aktualni pozice
+                if (sx,sy) in tahy:              #           sx = aktualni pozice ,  sy = planovana pozice
                     
                     if sy < 6:
                         volba = tahy.index((sx, sy)) # 1) priorita 1 blizi se k cili
