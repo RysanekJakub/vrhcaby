@@ -49,39 +49,8 @@ class Game:
         # TENHLE SEZNAM JE TU JEN DOCASNE
         # BUDE VYMENEN VE CHVILI KDY BUDE DOKONCENA IMPLEMENTACE TRIDY SPIKU
         # seznam necham takto rozbaleny kvuli co mozna nejlepsi citelnosti
-        self._spikes = [[    
-                [1,1,1],
-                ["O"],
-                ["O", "O"],
-                ["O", "O", "O"],
-                ["O"],
-                []
-            ],
-            [    
-                [1,1,1],
-                ["O"],
-                ["O"],
-                ["O", "O", "O", "O", "O", "O", "O"],
-                ["O"],
-                ["O", "O"]
-            ],
-            [    
-                [1,1,1],
-                ["O"],
-                [1,1,1,1,1],
-                ["O", "O"],
-                ["O"],
-                [1,1]
-            ],
-            [    
-                [1,1],
-                ["O"],
-                [],
-                ["O"],
-                [],
-                [1,1]
-            ],
-        ]
+        self._spikes = [[[]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
+                                                                    # formatovani hry by se jinak rozbilo - takhle to aspon neni tak hrozny
 
     @property
     def doubledice(self):
@@ -130,6 +99,14 @@ class Game:
     @property
     def player2(self):
         return self._player2
+
+    @property
+    def spikes(self):
+        return self._spikes
+    
+    @spikes.setter
+    def spikes(self, value):
+        self._spikes = value
 
 
     def next_turn(self, p_turn:int) -> int:
@@ -285,7 +262,10 @@ class Kamen:
 class HerniPole:
     
     spike_list = []
-    
+    # pozdeji nebude podminka asi ani potreba
+    if len(spike_list) != 0:
+        Game.spikes = [spike_list[0:6], spike_list[6:13], spike_list[13:19], spike_list[19:23]]
+
     def funkc_po_spust(self):
         for _ in range(24):
             self.spike_list.append({"kameny": [], "barva": None})
