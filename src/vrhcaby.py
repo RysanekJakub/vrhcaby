@@ -172,7 +172,25 @@ class Game:
 
             rows.append(row)
         return rows
-    
+
+    class Bar:
+        def __init__(self):
+            self.board = [0] * 24
+            self.bar = [0] * 2
+
+        def add_to_bar(self, player, count=1):
+            self.bar[player] += count
+
+        def remove_from_bar(self, player, count=1):
+            if self.bar[player] >= count:
+                self.bar[player] -= count
+                return True
+            else:
+                return False
+
+
+
+
 
     def gameboard_final(self, values:list, spikes:list, command:str, cur_turn: int, p_turn: str) -> str:
         # dopocet chybejicich mezer kvuli formatovani
@@ -247,42 +265,22 @@ class Game:
             command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
         self.last_command = command
 
+
 class Kamen:
-    kamen_seznam = []
-    
-    def __init__(self, barva):
-        self.barva = barva
-        self.pamet = []  # seznam uspořádaných dvojic (přidávání pomocí appendu)
-    
-# seznamy kamenu
+    # seznamy kamenu
     hrac1_kameny = []
     hrac2_kameny = []
-    ai_kameny = []
+    ai_kameny = []t
 
+    def init(self, barva):
+        self.barva = barva
+        self.pamet = []  # seznam uspořádaných dvojic (přidávání pomocí appendu)
 
-# generovani kamenu
-    def generovani_kamenu(seznam, barvahrace):
-        for _ in range(15):
-           kamen_seznam.append(Kamen(barva_hrace))
-
-
-# hrac kameny a barva hrace
-    generovani_kamenu(hrac1_kameny, "bila")
-    generovani_kamenu(hrac2_kameny, "cerna")
-    generovani_kamenu(ai_kameny, "cerna")
-
-# vypis informaci pro overeni funkcnost
- for sutr in ai_kameny:
-    print(sutr.pamet, sutr.barva)
-    
-
-
-
-
-
-
-
-    
+    # generovani kamenu
+def generovanikamenu(seznam: list, barvahrace: str) -> None:
+    for kamen in range(15):
+        kamen = Kamen(barvahrace)
+        seznam.append(kamen)
 
 class HerniPole:
     
