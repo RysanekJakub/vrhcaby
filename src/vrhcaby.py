@@ -270,7 +270,7 @@ class Kamen:
     # seznamy kamenu
     hrac1_kameny = []
     hrac2_kameny = []
-    ai_kameny = []t
+    ai_kameny = []
 
     def init(self, barva):
         self.barva = barva
@@ -576,6 +576,33 @@ class HerniPole:
 # print(kamen.barva)
 # kamen.vypis()
 
+## popisy událostí co by se stalo
+# Inicializace herní desky
+board = [[0]*24 for _ in range(2)]
+
+# Funkce pro vhození kamene do hry
+def enter_piece(player, point):
+    board[player][point] += 1
+    print(f"Hráč {player} vhozen kámen na pozici {point}")
+
+# Funkce pro vyhození kamene z hry
+def remove_piece(player, point):
+    board[player][point] -= 1
+    print(f"Hráč {player} vyhodil kámen z pozice {point}")
+
+# Funkce pro opuštění hry
+def leave_game(player):
+    print(f"Hráč {player} opustil hru")
+
+# Funkce pro zablokování hráče, který nemůže hrát
+def block_player(player):
+    print(f"Hráč {player} nemůže hrát")
+
+# Příklady použití funkcí
+enter_piece(0, 5)   # Hráč 0 vhozen kámen na pozici 5
+remove_piece(1, 10) # Hráč 1 vyhodil kámen z pozice 10
+leave_game(0)       # Hráč 0 opustil hru
+block_player(1)     # Hráč 1 nemůže hrát
 
 
 class Menu:
