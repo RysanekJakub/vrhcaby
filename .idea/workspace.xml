@@ -4,14 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63d3e3b0-8be7-437e-a2d6-8546de8b83fb" name="Changes" comment="zkouška přidání dalšího kódu">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/dependency-review.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dependency-review.yml" afterDir="false" />
+    <list default="true" id="63d3e3b0-8be7-437e-a2d6-8546de8b83fb" name="Changes" comment="přidány složky pro lepší přehlednost">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <favorite-branches>
@@ -157,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684140645828</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="přidány složky pro lepší přehlednost">
+      <created>1684142292866</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1684142292866</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -225,6 +238,7 @@
     <MESSAGE value="pridana trida kaemn" />
     <MESSAGE value="oprava nefungujícího kodu" />
     <MESSAGE value="zkouška přidání dalšího kódu" />
-    <option name="LAST_COMMIT_MESSAGE" value="zkouška přidání dalšího kódu" />
+    <MESSAGE value="přidány složky pro lepší přehlednost" />
+    <option name="LAST_COMMIT_MESSAGE" value="přidány složky pro lepší přehlednost" />
   </component>
 </project>
