@@ -3,6 +3,8 @@ import os
 import random
 import platform
 
+from kamen import Kamen, generovani_kamenu
+
 # pro zajisteni barev v konzoli
 os.system("")
 
@@ -43,11 +45,7 @@ class Game:
         self._player2 = player2
         self._player2_barva = ""
         self._last_command = ""
-        self._game_mod = ""              # game_mod se nastavi v gamesetup
-        
-        # TENHLE SEZNAM JE TU JEN DOCASNE
-        # BUDE VYMENEN VE CHVILI KDY BUDE DOKONCENA IMPLEMENTACE TRIDY SPIKU
-        # seznam necham takto rozbaleny kvuli co mozna nejlepsi citelnosti
+        self._game_mode = "pvp"              # game_mod se nastavi v gamesetup
         self._spikes = [[[]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
                                                                     # formatovani hry by se jinak rozbilo - takhle to aspon neni tak hrozny
 
@@ -106,6 +104,10 @@ class Game:
     @spikes.setter
     def spikes(self, value):
         self._spikes = value
+
+    @property
+    def game_mode(self):
+        return self._game_mode
 
 
     def next_turn(self, p_turn:int) -> int:
@@ -170,22 +172,6 @@ class Game:
 
             rows.append(row)
         return rows
-
-    class Bar:
-        def __init__(self):
-            self.board = [0] * 24
-            self.bar = [0] * 2
-
-        def add_to_bar(self, player, count=1):
-            self.bar[player] += count
-
-        def remove_from_bar(self, player, count=1):
-            if self.bar[player] >= count:
-                self.bar[player] -= count
-                return True
-            else:
-                return False
-
 
     def gameboard_final(self, values:list, spikes:list, command:str, cur_turn: int, p_turn: str) -> str:
         # dopocet chybejicich mezer kvuli formatovani
@@ -266,7 +252,17 @@ def main() -> object:
     config_file = './cfg.json'
     #menu1 = Menu('', 'cfg.json')
     #menu1.game_setup()
+    
     game1 = Game(1,1, "hrac1", "hrac2")
+
+    # generovani kamenu
+    generovani_kamenu(Kamen.hrac1_kameny, "bila")       # hrac1 je vzdy pritomen, neni co kontrolovat
+    if game1.game_mode == "pvp":                        # druhy hrac je urceny vybranym modem
+        generovani_kamenu(Kamen.hrac2_kameny, "cerna")  # pokud je pritmen skutecny hrac, vygeneruji se kameny do jeho seznamu kamenu
+    else:
+        generovani_kamenu(Kamen.ai_kameny, "cerna")     # jinak se kameny vygeneruji kameny do seznamu pro ai
+                                                        # duvod pro tuto implementaci je, ze manipulace s kameny se pro ai lisi od normalni manipulace
+
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
