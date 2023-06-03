@@ -1,14 +1,12 @@
 class Bar:
-    def __init__(self):
-        self.board = [0] * 24
-        self.bar = [0] * 2
 
-    def add_to_bar(self, player, count=1):
-        self.bar[player] += count
+    def __init__(self) -> None:
+        self._hrac1_kameny = []         # kameny defaultne pro hrace s kameny bile barvy
+        self._hrac2_kameny = []         # kameny defaultne pro hrace s kameny cerne barvy
 
-    def remove_from_bar(self, player, count=1):
-        if self.bar[player] >= count:
-            self.bar[player] -= count
-            return True
-        else:
-            return False
+    @property 
+    def hrac1_kameny(self):
+        return self._hrac1_kameny
+    @property
+    def hrac2_kameny(self):
+        return self._hrac2_kameny
