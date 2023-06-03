@@ -4,17 +4,12 @@ class Kamen:
     hrac2_kameny = []
     ai_kameny = []
 
-    def __init__(self):
-        self.pamet = None
-        self.barva = None
-
-    def init(self, barva):
+    def __init__(self, barva):
         self.barva = barva
         self.pamet = []  # seznam uspořádaných dvojic (přidávání pomocí appendu)
 
 # generovani kamenu
-def generovanikamenu(seznam: list, barvahrace: str) -> None:
-    for kamen in range(15):
+def generovani_kamenu(seznam: list, barvahrace: str) -> None:
+    for _ in range(15):
         kamen = Kamen(barvahrace)
         seznam.append(kamen)
-        
