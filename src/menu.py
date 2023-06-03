@@ -168,6 +168,7 @@ class Menu:
 
      ## návrh pro implementování událostí
     # Inicializace herní desky
+    """
     board = [[0] * 24 for _ in range(2)]
 
     # Funkce pro vhození kamene do hry
@@ -192,4 +193,5 @@ class Menu:
     enter_piece(0, 5)  # Hráč 0 vhozen kámen na pozici 5
     remove_piece(1, 10)  # Hráč 1 vyhodil kámen z pozice 10
     leave_game(0)  # Hráč 0 opustil hru
-    block_player(1)  # Hráč 1 nemůže hrát
+    block_player(1)  # Hráč 1 nemůže hrát"""
+    
