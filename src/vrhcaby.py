@@ -4,6 +4,8 @@ import random
 import platform
 
 from kamen import Kamen, generovani_kamenu
+from domecek import Domecek
+from bar import Bar
 
 # pro zajisteni barev v konzoli
 os.system("")
@@ -173,7 +175,7 @@ class Game:
             rows.append(row)
         return rows
 
-    def gameboard_final(self, values:list, spikes:list, command:str, cur_turn: int, p_turn: str) -> str:
+    def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, domecky_kameny: list, bar: list) -> str:
         # dopocet chybejicich mezer kvuli formatovani
         # asi by to slo elegantneji... treba pozdeji :)
         if len(values) == 2:
@@ -183,21 +185,41 @@ class Game:
         else:
             spaces = 170*" "
         
+        # dopocitani mezer u radku s poslednim prikazem
+        delka_prikazu = len(command)
+        if delka_prikazu > 0:
+            command = command + (177-delka_prikazu)*" "
+        else:
+            command = (168-delka_prikazu)*" "
+
+        delka_tah = len(str(cur_turn))                              # -|
+        if delka_tah > 0:                                           #  |
+            cur_turn = f"{cur_turn}{(179-delka_tah)*' '}"         #  | nevim proc, ale tahle cast se pri vypisu do konzole buguje a je potřeba vzdy rucne upravit 
+                                                                    #  | velikost okna konzole
+        delka_jmena_hrace = len(hrac_tah)                           #  |
+        hrac_tah = f"{hrac_tah}{(178-delka_jmena_hrace)*' '}"     # -|
+
+        bily_domecek = ["O" for _ in range(len(domecky_kameny[0]))]
+        cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
+
         # tvorba cislovani spiku
         spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
 
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
         gameboard = f"""
+
  ____________________________________________________________________________________________________________________________________________________________________________________________
 |                                                                                          {style.BLUE}VRHCABY{style.RESET}                                                                                          |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Poslední příkaz: {command}
+| Poslední příkaz: {command} |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Kolo: {cur_turn}                                                                                                                                                                               
-| Hraje: {p_turn}                                                                                                                                                                             
+| Kolo: {cur_turn} |
+| Hraje: {hrac_tah} |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {" "*(153+(15-len(cerny_domecek)))}Cerny domecek: [{"".join(cerny_domecek)}] |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}        {"              ".join(spike_row1[0])}                   {"              ".join(spike_row1[1])}             {"             ".join(spike_row1[2])}{style.RESET}        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -209,10 +231,10 @@ class Game:
 | {"".join(self.sektor_spiku_vrchni(0,self.spikes)[5])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[5])} |
 | {"".join(self.sektor_spiku_vrchni(0,self.spikes)[6])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[6])} |
 |{" "*92}| |{" "*92}|
+|{" "*92}|{len(bar[0])}|{" "*92}|
 |{" "*92}| |{" "*92}|
 |{" "*92}| |{" "*92}|
-|{" "*92}| |{" "*92}|
-|{" "*92}| |{" "*92}|
+|{" "*92}|{len(bar[1])}|{" "*92}|
 |{" "*92}| |{" "*92}|
 | {"".join(self.sektor_spiku_spodni(2,self.spikes)[0])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[0])} |
 | {"".join(self.sektor_spiku_spodni(2,self.spikes)[1])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[1])} |
@@ -224,7 +246,10 @@ class Game:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row2[0])}                   {"             ".join(spike_row2[1])}{style.WHITE}       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {" "*(154+(15-len(bily_domecek)))}Bily domecek: [{"".join(bily_domecek)}] |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |___________________________________________________________________________________________________________________________________________________________________________________________|
+
 """
         # vrati samotny gameboard s doplnenymi hodnotami
         return gameboard
@@ -243,7 +268,7 @@ class Game:
             command = f"{style.GREEN}{command}{style.RESET}"
             self.next_turn(p_turn)
         else:
-            command = f"{style.RED}Prikaz {command} nenalezen{style.RESET}"
+            command = f"{style.RED}Prikaz \'{command}\' nenalezen{style.RESET}"
         self.last_command = command
 
 
@@ -262,13 +287,19 @@ def main() -> object:
     else:
         generovani_kamenu(Kamen.ai_kameny, "cerna")     # jinak se kameny vygeneruji kameny do seznamu pro ai
                                                         # duvod pro tuto implementaci je, ze manipulace s kameny se pro ai lisi od normalni manipulace
+    
+    # generovani domecku
+    hrac1_domecek = Domecek("bila")
+    hrac2_domecek = Domecek("cerna")
+
+    bar = Bar()
 
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.spikes, game1.last_command, game1.turn, game1.player_turn))
+        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar.hrac1_kameny, bar.hrac2_kameny)))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:
