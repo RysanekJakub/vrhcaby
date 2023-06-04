@@ -3,9 +3,9 @@ import os
 import random
 import platform
 
-from kamen import Kamen, generovani_kamenu
 from domecek import Domecek
 from bar import Bar
+from herni_pole import hra
 
 # pro zajisteni barev v konzoli
 os.system("")
@@ -48,8 +48,9 @@ class Game:
         self._player2_barva = ""
         self._last_command = ""
         self._game_mode = "pvp"              # game_mod se nastavi v gamesetup
-        self._spikes = [[[]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
+        self._vykresleni_spikes = [[[0]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
                                                                     # formatovani hry by se jinak rozbilo - takhle to aspon neni tak hrozny
+        self._reversed = 0
 
     @property
     def doubledice(self):
@@ -62,10 +63,6 @@ class Game:
     @property
     def gameboard(self):
         return self._gameboard
-    
-    @property
-    def spikes(self):
-        return self._spikes
     
     @property
     def last_command(self):
@@ -100,12 +97,12 @@ class Game:
         return self._player2
 
     @property
-    def spikes(self):
-        return self._spikes
+    def vykresleni_spikes(self):
+        return self._vykresleni_spikes
     
-    @spikes.setter
-    def spikes(self, value):
-        self._spikes = value
+    @vykresleni_spikes.setter
+    def vykresleni_spikes(self, value):
+        self._vykresleni_spikes = value
 
     @property
     def game_mode(self):
@@ -139,7 +136,16 @@ class Game:
         rows = []   # zde jsou vsechny radky pro vybrany sektor po formatovani
         for i in range(7):  # defaultni vyska radku, pozdeji jeste bude potreba upravit pro pripady, kdy se na spike dostane vice nez 7 kamenu
             row = []    # seznamy radku po jednom
+            
+            if self._reversed < 12:
+                spikes_lists[sektor].reverse()
+                self._reversed +=1
+            else:
+                pass
+            #print(spikes_lists[sektor])
+            #print(" ")
             for spike in spikes_lists[sektor]:  # zde se ze seznamu sektoru vybere pozadovany sektor, ktery obsahuje seznamy vsech spiku
+                #print(spike)
                 default_mezery = " "*(6-i)  # dopocet mezer uvnitr spiku kvuli formatovani
                 vypln = " "*i   # dopocet mezer okolo spiku kvuli formatovani
                 if i < len(spike):  # pokud je *i* mensi nez delka seznamu spiku, kterym se zrovna prochazi, znamena to, ze tam bude kamen
@@ -203,7 +209,7 @@ class Game:
         cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
 
         # tvorba cislovani spiku
-        spike_row1 = ([str(_) for _ in range(1,7)], [str(_) for _ in range(7,10)], [str(_) for _ in range(10,13)])
+        spike_row1 = ([str(_) for _ in range(6, 0, -1)], [str(_) for _ in range(9,6, -1)], [str(_) for _ in range(12, 9, -1)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
 
         # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
@@ -221,28 +227,28 @@ class Game:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | {" "*(153+(15-len(cerny_domecek)))}Cerny domecek: [{"".join(cerny_domecek)}] |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|{style.RED}        {"              ".join(spike_row1[0])}                   {"              ".join(spike_row1[1])}             {"             ".join(spike_row1[2])}{style.RESET}        |
+|{style.RED}       {"             ".join(spike_row1[2])}              {"              ".join(spike_row1[1])}                   {"              ".join(spike_row1[0])}{style.RESET}        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[0])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[0])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[1])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[1])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[2])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[2])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[3])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[3])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[4])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[4])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[5])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[5])} |
-| {"".join(self.sektor_spiku_vrchni(0,self.spikes)[6])} | | {"".join(self.sektor_spiku_vrchni(1,self.spikes)[6])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[0])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[0])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[1])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[1])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[2])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[2])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[3])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[3])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[4])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[4])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[5])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[5])} |
+| {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[6])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[6])} |
 |{" "*92}| |{" "*92}|
 |{" "*92}|{len(bar[0])}|{" "*92}|
 |{" "*92}| |{" "*92}|
 |{" "*92}| |{" "*92}|
 |{" "*92}|{len(bar[1])}|{" "*92}|
 |{" "*92}| |{" "*92}|
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[0])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[0])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[1])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[1])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[2])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[2])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[3])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[3])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[4])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[4])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[5])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[5])} |
-| {"".join(self.sektor_spiku_spodni(2,self.spikes)[6])} | | {"".join(self.sektor_spiku_spodni(3,self.spikes)[6])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[0])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[0])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[1])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[1])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[2])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[2])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[3])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[3])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[4])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[4])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[5])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[5])} |
+| {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[6])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[6])} |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row2[0])}                   {"             ".join(spike_row2[1])}{style.WHITE}       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -255,18 +261,24 @@ class Game:
         return gameboard
     
 
-    def command_detection(self, command:str, cfg:str, p_turn:str) -> str:
+    def command_detection(self, command:str, cfg:str, p_turn:str, tah:int) -> str:
         command = command.lower()
         with open(cfg, 'r') as config_file:
             all_commands = json.load(config_file)['commands']
         
         if command in all_commands:
             if command == "presun":
-                command = f"{style.CYAN}Prikaz \'{command}\' zatím nemá zatím implementovanou funkci{style.RESET}"
+                command = f"{style.GREEN}{command}{style.RESET}"
+                self.doubledice = [int(i) for i in self.doubledice]
+                if int(tah) //2 == 0:
+                    hra.tah(1, sum(self.doubledice))
+                else:
+                    hra.tah(2, sum(self.doubledice))
+                self.next_turn(p_turn)
+                self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
                 self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
-            self.next_turn(p_turn)
         else:
             command = f"{style.RED}Prikaz \'{command}\' nenalezen{style.RESET}"
         self.last_command = command
@@ -279,7 +291,7 @@ def main() -> object:
     #menu1.game_setup()
     
     game1 = Game(1,1, "hrac1", "hrac2")
-
+    """
     # generovani kamenu
     generovani_kamenu(Kamen.hrac1_kameny, "bila")       # hrac1 je vzdy pritomen, neni co kontrolovat
     if game1.game_mode == "pvp":                        # druhy hrac je urceny vybranym modem
@@ -287,12 +299,15 @@ def main() -> object:
     else:
         generovani_kamenu(Kamen.ai_kameny, "cerna")     # jinak se kameny vygeneruji kameny do seznamu pro ai
                                                         # duvod pro tuto implementaci je, ze manipulace s kameny se pro ai lisi od normalni manipulace
-    
+    """
     # generovani domecku
     hrac1_domecek = Domecek("bila")
     hrac2_domecek = Domecek("cerna")
 
     bar = Bar()
+
+    game1.vykresleni_spikes = [[i["kameny"] for i in hra.spikes[0:6]], [i["kameny"] for i in hra.spikes[6:12]], [i["kameny"] for i in hra.spikes[12:18]], [i["kameny"] for i in hra.spikes[18:24]]]
+    
 
     # vypis hry do konzole
     style.clear()
@@ -303,10 +318,10 @@ def main() -> object:
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:
-            game1.command_detection(cmd_line, config_file, game1.player_turn)
+            game1.command_detection(cmd_line, config_file, game1.player_turn, game1.turn)
         except FileNotFoundError:                                               # terminal ve VS Codu ma oproti normalnimu cmd problem najit cfg soubor
             config_file = "src/cfg.json"                                        # proto tento odchyt vyjimky
-            game1.command_detection(cmd_line, config_file, game1.player_turn)
+            game1.command_detection(cmd_line, config_file, game1.player_turn, game1.turn)
 
 
 if __name__ == "__main__":

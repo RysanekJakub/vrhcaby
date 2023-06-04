@@ -43,11 +43,4 @@ class Domecek:
 # KOD POD TIMTO KOMENTAREM BUDE PO VYSVETLENI SMAZAN
 # JE ZDE CISTE ZA UCELEM DEMONSTRACE FUNKCE
 
-dom1 = Domecek("bila")
-dom2 = Domecek("cerna")
 
-print(dom2.kontrola_pozic_kamenu([{"barva":"cerna", "pamet":[(1,2), (2,7)]}, {"barva":"cerna", "pamet":[(2,9)]},{"barva":"cerna", "pamet":[(1,19)]},], "cerna"))
-
-if dom2.kontrola_pozic_kamenu([{"barva":"cerna", "pamet":[(1,2), (2,7)]}, {"barva":"cerna", "pamet":[(2,9)]},{"barva":"cerna", "pamet":[(1,11)]},], "cerna") == True:
-    dom2._kameny.append({"barva":"cerna", "pamet":[(1,2), (2,7)]})
-print(dom2._kameny)
