@@ -8,7 +8,8 @@ class Domecek:
         return self._kameny
 
 
-    def kontrola_pozic_kamenu(self, kameny:list, barva_hrace:str) -> bool:
+    @staticmethod
+    def kontrola_pozic_kamenu(kameny:list, barva_hrace:str) -> bool:
         vsechny_pozice_kamenu = []
         
         for kamen in kameny:

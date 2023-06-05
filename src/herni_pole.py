@@ -88,6 +88,7 @@ class Hernipole:
     def tah(self, id_hrace, hod_kostkou):
         
         # id_hrac = 1 ..... bila
+        global start, end
         if id_hrace == 1:
             
             # zkoumani podezrelych tahu
