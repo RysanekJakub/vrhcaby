@@ -46,7 +46,7 @@ class Hernipole:
         for i in range(len(self.spikes)):
             
 #                 spike s barvou hrace
-            if self.spikes[i]["barva"] == barva_hrace and i+parametr*hod_kostkou >= 0:
+            if self.spikes[i]["barva"] == barva_hrace and i+parametr*hod_kostkou >= 0 and i+parametr*hod_kostkou <= 24:
 
 #                 parametr udava smer
                 budouci_pozice = i + parametr*hod_kostkou
@@ -73,7 +73,7 @@ class Hernipole:
 #                    ODKAZUJICI NA INDEX V MOZNE_TAHY
             temp = 0
             for x1, x2 in mozne_tahy:
-                print(f"({temp}) KAMEN Z S{x1} -> S{x2}")
+                print(f"({temp}) KAMEN Z S{x1+1} -> S{x2+1}")
                 temp += 1
             
             volba = input("VOLIM : ")
@@ -150,17 +150,8 @@ class Hernipole:
             self.spikes[klic[1]]["kameny"].append(presouvany_kamen)#       pridani na spike
             return
             
-hra1 = Hernipole()
-hra1.vytvorit_pole()
+hra = Hernipole()
+hra.vytvorit_pole()
 
-indx = 0
-for spike in hra1.spikes:
-    print(spike, indx, len(spike["kameny"]))
-    indx += 1
 
-hra1.tah("bila", 7)
 
-indx = 0
-for spike in hra1.spikes:
-    print(spike, indx, len(spike["kameny"]))
-    indx += 1
