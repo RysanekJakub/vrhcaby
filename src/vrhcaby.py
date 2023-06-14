@@ -181,7 +181,7 @@ class Game:
             rows.append(row)
         return rows
 
-    def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, domecky_kameny: list, bar: list) -> str:
+    def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, domecky_kameny: list, bar: list, spikes:list) -> str:
         # dopocet chybejicich mezer kvuli formatovani
         # asi by to slo elegantneji... treba pozdeji :)
         if len(values) == 2:
@@ -192,18 +192,19 @@ class Game:
             spaces = 170*" "
         
         # dopocitani mezer u radku s poslednim prikazem
+        # buguje se - tusim proc => pozdeji vyresim
         delka_prikazu = len(command)
         if delka_prikazu > 0:
             command = command + (177-delka_prikazu)*" "
         else:
             command = (168-delka_prikazu)*" "
 
-        delka_tah = len(str(cur_turn))                              # -|
-        if delka_tah > 0:                                           #  |
-            cur_turn = f"{cur_turn}{(179-delka_tah)*' '}"         #  | nevim proc, ale tahle cast se pri vypisu do konzole buguje a je potřeba vzdy rucne upravit 
-                                                                    #  | velikost okna konzole
-        delka_jmena_hrace = len(hrac_tah)                           #  |
-        hrac_tah = f"{hrac_tah}{(178-delka_jmena_hrace)*' '}"     # -|
+        delka_tah = len(str(cur_turn))                              
+        if delka_tah > 0:                                           
+            cur_turn = f"{cur_turn+1}{(179-delka_tah)*' '}"         
+                                                                    
+        delka_jmena_hrace = len(hrac_tah)                           
+        hrac_tah = f"{hrac_tah}{(178-delka_jmena_hrace)*' '}"     
 
         bily_domecek = ["O" for _ in range(len(domecky_kameny[0]))]
         cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
@@ -212,9 +213,18 @@ class Game:
         spike_row1 = ([str(_) for _ in range(6, 0, -1)], [str(_) for _ in range(9,6, -1)], [str(_) for _ in range(12, 9, -1)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
 
-        # zatim je v tom bordel, pochopitelne to neni ani zdaleka finalni
-        gameboard = f"""
+        # popisky spiku (barvy)
+        def center_value(value):
+            if value is not None:
+                return value.center(15, " ")
+            else:
+                return "prazdne".center(15, " ")
 
+        sectors = [[center_value(barva["barva"]) for barva in spikes[i:i+6]] for i in range(0, 24, 6)]
+        sektor1, sektor2, sektor3, sektor4 = sectors
+
+
+        gameboard = f"""
  ____________________________________________________________________________________________________________________________________________________________________________________________
 |                                                                                          {style.BLUE}VRHCABY{style.RESET}                                                                                          |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -229,6 +239,7 @@ class Game:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row1[2])}              {"              ".join(spike_row1[1])}                   {"              ".join(spike_row1[0])}{style.RESET}        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| {"".join(sektor2[::-1])} | | {"".join(sektor1[::-1])} |
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[0])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[0])} |
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[1])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[1])} |
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[2])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[2])} |
@@ -249,6 +260,7 @@ class Game:
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[4])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[4])} |
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[5])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[5])} |
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[6])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[6])} |
+| {"".join(sektor3)} | | {"".join(sektor4)} |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row2[0])}                   {"             ".join(spike_row2[1])}{style.WHITE}       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -270,10 +282,10 @@ class Game:
             if command == "presun":
                 command = f"{style.GREEN}{command}{style.RESET}"
                 self.doubledice = [int(i) for i in self.doubledice]
-                if int(tah) //2 == 0:
-                    hra.tah(1, sum(self.doubledice))
+                if int(tah) % 2 == 0:
+                    hra.tah("bila", sum(self.doubledice))
                 else:
-                    hra.tah(2, sum(self.doubledice))
+                    hra.tah("cerna", sum(self.doubledice))
                 self.next_turn(p_turn)
                 self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
@@ -314,7 +326,7 @@ def main() -> object:
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar.hrac1_kameny, bar.hrac2_kameny)))
+        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar.hrac1_kameny, bar.hrac2_kameny), hra.spikes))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:
