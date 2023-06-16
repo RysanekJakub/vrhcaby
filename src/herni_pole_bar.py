@@ -72,7 +72,7 @@ class Hernipole:
         for i in range(len(self.spikes)):
             
 #                 spike s barvou hrace
-            if self.spikes[i]["barva"] == barva_hrace and i+parametr*hod_kostkou >= 0:
+            if self.spikes[i]["barva"] == barva_hrace and i+parametr*hod_kostkou >= 0 and i+parametr*hod_kostkou <= 24:
 
 #                 parametr udava smer
                 budouci_pozice = i + parametr*hod_kostkou
