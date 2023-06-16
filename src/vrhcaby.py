@@ -4,8 +4,8 @@ import random
 import platform
 
 from domecek import Domecek
-from bar import Bar
-from herni_pole import hra
+from bar import bar
+from herni_pole_bar import hra
 
 # pro zajisteni barev v konzoli
 os.system("")
@@ -283,9 +283,9 @@ class Game:
                 command = f"{style.GREEN}{command}{style.RESET}"
                 self.doubledice = [int(i) for i in self.doubledice]
                 if int(tah) % 2 == 0:
-                    hra.tah("bila", sum(self.doubledice))
+                    hra.tah("bila", sum(self.doubledice), bar._kameny)
                 else:
-                    hra.tah("cerna", sum(self.doubledice))
+                    hra.tah("cerna", sum(self.doubledice), bar._kameny)
                 self.next_turn(p_turn)
                 self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
@@ -303,20 +303,12 @@ def main() -> object:
     #menu1.game_setup()
     
     game1 = Game(1,1, "hrac1", "hrac2")
-    """
-    # generovani kamenu
-    generovani_kamenu(Kamen.hrac1_kameny, "bila")       # hrac1 je vzdy pritomen, neni co kontrolovat
-    if game1.game_mode == "pvp":                        # druhy hrac je urceny vybranym modem
-        generovani_kamenu(Kamen.hrac2_kameny, "cerna")  # pokud je pritmen skutecny hrac, vygeneruji se kameny do jeho seznamu kamenu
-    else:
-        generovani_kamenu(Kamen.ai_kameny, "cerna")     # jinak se kameny vygeneruji kameny do seznamu pro ai
-                                                        # duvod pro tuto implementaci je, ze manipulace s kameny se pro ai lisi od normalni manipulace
-    """
+
     # generovani domecku
     hrac1_domecek = Domecek("bila")
     hrac2_domecek = Domecek("cerna")
 
-    bar = Bar()
+
 
     game1.vykresleni_spikes = [[i["kameny"] for i in hra.spikes[0:6]], [i["kameny"] for i in hra.spikes[6:12]], [i["kameny"] for i in hra.spikes[12:18]], [i["kameny"] for i in hra.spikes[18:24]]]
     
@@ -326,7 +318,7 @@ def main() -> object:
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar.hrac1_kameny, bar.hrac2_kameny), hra.spikes))
+        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar._kameny, bar._kameny), hra.spikes))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:
