@@ -64,7 +64,7 @@ class Dvojkostka:
 
 class Game:
     
-    def __init__(self, turn, player_turn, doubledice, player1, player2, game_mode, spikes, bar, domecky, save_nazev) -> None:
+    def __init__(self, turn, player_turn, doubledice, player1, player2, game_mode, spikes, bar, save_nazev) -> None:
         self._turn = turn
         self._player_turn = player_turn     
         self._doubledice = doubledice
@@ -74,7 +74,6 @@ class Game:
         self._game_mode = "pvp"              # game_mod se nastavi v gamesetup
         self._spikes = spikes
         self._bar = bar
-        self._domecky = domecky
         self._save_nazev = save_nazev
         self._vykresleni_spikes = [[[0]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
                                                                     # formatovani hry by se jinak rozbilo - takhle to aspon neni tak hrozny
@@ -139,7 +138,7 @@ class Game:
                 for kamen in spike["kameny"]:
                     spikes_info.append((idx, kamen.barva, kamen.pamet))
         self._spikes = spikes_info
-    
+
     
     def next_turn(self, p_turn:int) -> int:
         self.turn += 1
@@ -237,6 +236,9 @@ class Game:
             else:
                 cerny_bar += 1
 
+        # prevod na str, int nefunguje s joinem
+        values = [str(value) for value in values]
+
         # tvorba cislovani spiku
         spike_row1 = ([str(_) for _ in range(6, 0, -1)], [str(_) for _ in range(9,6, -1)], [str(_) for _ in range(12, 9, -1)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
@@ -330,22 +332,12 @@ class Game:
 def main():
     config_file = './cfg.json'
 
-    hra.vytvorit_pole()
-    if len(menu._spikes) == 0:
-        menu._spikes = hra.spikes
-    game1 = Game(menu._round, menu._player_turn, menu._last_dice, menu._player1, menu._player2, menu._game_mod, menu._spikes, menu._bar, menu._domecky, menu._save_nazev)
+    hra.vytvorit_pole(menu._spikes)
+    """if len(menu._spikes) == 0:
+        menu._spikes = hra.spikes"""
+    game1 = Game(menu._round, menu._player_turn, menu._last_dice, menu._player1, menu._player2, menu._game_mod, menu._spikes, menu._bar, menu._save_nazev)
     print(game1._save_nazev)
 
-    """
-            self._game_mod = save_data[0]
-            self._round = save_data[1]
-            self._player_turn = save_data[2]
-            self._last_dice = save_data[3]
-            self._spikes = save_data[4]
-            self._bar = save_data[5]
-            self._domecky = save_data[6]
-            self._player1 = save_data[7]
-            self._player2 = save_data[8]"""
     #menu.save((game1.game_mode, game1.turn, game1.player_turn, game1.doubledice, game1._spikes, game1._bar, game1._domecky, game1.player1, game1.player2, game1._save_nazev))
 
     # generovani domecku

@@ -66,14 +66,15 @@ class Menu:
             save_nazev = input("Zvolte nazev savu: ")
             self._save_nazev = save_nazev
         else:
+            # menu.save((self.game_mode, self.turn, self.player_turn, self.doubledice, self._spikes, self._bar, self.player1, self.player2, self._save_nazev))
             self._game_mod = save_data[0]
             self._round = save_data[1]
             self._player_turn = save_data[2]
             self._last_dice = save_data[3]
             self._spikes = save_data[4]
             self._bar = save_data[5]
-            self._player1 = save_data[7]
-            self._player2 = save_data[8]
+            self._player1 = save_data[6]
+            self._player2 = save_data[7]
 
         data = {
                 "game_save":{
@@ -97,7 +98,6 @@ class Menu:
 
         # existujici soubor, ktery se prepise
         save_nazev = str(self._save_nazev)
-        print(save_nazev)
         with open(f"saves/{save_nazev}.json", "w") as f:
             json.dump(data, f, indent=4)
 

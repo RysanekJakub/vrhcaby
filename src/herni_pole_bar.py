@@ -15,21 +15,31 @@ class Hernipole:
     def __init__(self):
         self.spikes = []
         
-    def vytvorit_pole(self):
+    def vytvorit_pole(self, save_spikes:list):
+        
         for i in range(24):
             self.spikes.append({
                 "kameny":[],
                 "barva":None
             })
-#                indx   barva   pocet
-        rozdani = [(0, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (13, "bila", 5), (16, "cerna", 3), (19, "cerna", 5), (23, "bila", 2)]
-        
-        for indx, barva, pocet in rozdani:
-            self.spikes[indx]["barva"] = barva
-            for i in range(pocet):
-                sutr = Kamen(barva)
-                self.spikes[indx]["kameny"].append(sutr)
-                
+        if len(save_spikes) == 0:
+    #                indx   barva   pocet
+            rozdani = [(0, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (13, "bila", 5), (16, "cerna", 3), (19, "cerna", 5), (23, "bila", 2)]
+            
+            for indx, barva, pocet in rozdani:
+                self.spikes[indx]["barva"] = barva
+                for i in range(pocet):
+                    sutr = Kamen(barva)
+                    self.spikes[indx]["kameny"].append(sutr)
+        else:
+            for save_kamen in save_spikes:
+                print(save_kamen)
+                #for indx, barva, pamet in save_kamen:
+                self.spikes[save_kamen[0]]["barva"] = save_kamen[1]
+                sutr = Kamen(save_kamen[1])
+                sutr.pamet = save_kamen[2]
+                self.spikes[save_kamen[0]]["kameny"].append(sutr)
+                    
 #                  1   /   2
     def tah(self, barva_hrace, hod_kostkou, bar):
 

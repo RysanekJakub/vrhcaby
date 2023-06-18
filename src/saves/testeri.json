@@ -2,49 +2,54 @@
     "game_save": {
         "game_stat": {
             "game_mod": "pvp",
-            "round": 8,
-            "player_turn": "frajeri",
+            "round": 1,
+            "player_turn": "tester2",
             "last_dice": [
-                1,
-                4
+                3,
+                5
             ],
             "spikes": [
                 [
                     0,
-                    "bila",
-                    [
-                        0
-                    ]
+                    "cerna",
+                    []
                 ],
                 [
                     0,
+                    "cerna",
+                    []
+                ],
+                [
+                    5,
+                    "bila",
+                    []
+                ],
+                [
+                    5,
+                    "bila",
+                    []
+                ],
+                [
+                    5,
+                    "bila",
+                    []
+                ],
+                [
+                    5,
+                    "bila",
+                    []
+                ],
+                [
+                    5,
+                    "bila",
+                    []
+                ],
+                [
+                    5,
                     "bila",
                     [
-                        6,
-                        0
+                        5
                     ]
-                ],
-                [
-                    1,
-                    "bila",
-                    [
-                        1
-                    ]
-                ],
-                [
-                    5,
-                    "bila",
-                    []
-                ],
-                [
-                    5,
-                    "bila",
-                    []
-                ],
-                [
-                    5,
-                    "bila",
-                    []
                 ],
                 [
                     7,
@@ -77,6 +82,16 @@
                     []
                 ],
                 [
+                    11,
+                    "cerna",
+                    []
+                ],
+                [
+                    11,
+                    "cerna",
+                    []
+                ],
+                [
                     13,
                     "bila",
                     []
@@ -110,28 +125,6 @@
                     16,
                     "cerna",
                     []
-                ],
-                [
-                    16,
-                    "cerna",
-                    [
-                        16
-                    ]
-                ],
-                [
-                    17,
-                    "cerna",
-                    [
-                        17
-                    ]
-                ],
-                [
-                    18,
-                    "cerna",
-                    [
-                        8,
-                        18
-                    ]
                 ],
                 [
                     19,
@@ -173,10 +166,10 @@
             "domecky": []
         },
         "player1": {
-            "name": "frajeri"
+            "name": "tester2"
         },
         "player2": {
-            "name": "frajeri"
+            "name": "testeri"
         }
     }
 }
