@@ -1,4 +1,4 @@
-
+import random
 
 
 class Kamen:
@@ -42,7 +42,10 @@ class Hernipole:
                     
 #                  1   /   2                      ai = True, False
     def tah(self, barva_hrace, hod_kostkou, bar, ai):
-
+        if ai == "AI":
+            ai = True
+        else:
+            ai = False
         
         if barva_hrace == "bila":
             parametr = -1

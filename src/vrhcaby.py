@@ -71,7 +71,7 @@ class Game:
         self._player1 = player1
         self._player2 = player2
         self._last_command = ""
-        self._game_mode = "pvp"              # game_mod se nastavi v gamesetup
+        self._game_mode = game_mode              # game_mod se nastavi v gamesetup
         self._spikes = spikes
         self._bar = bar
         self._save_nazev = save_nazev
@@ -313,9 +313,9 @@ class Game:
                 command = f"{style.GREEN}{command}{style.RESET}"
                 self.doubledice = [int(i) for i in self.doubledice]
                 if int(tah) % 2 == 0:
-                    hra.tah("bila", sum(self.doubledice), bar._kameny)
+                    hra.tah("bila", sum(self.doubledice), bar._kameny, self._player_turn)
                 else:
-                    hra.tah("cerna", sum(self.doubledice), bar._kameny)
+                    hra.tah("cerna", sum(self.doubledice), bar._kameny, self._player_turn)
                 self.next_turn(p_turn)
                 self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
