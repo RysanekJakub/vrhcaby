@@ -132,14 +132,24 @@ class Game:
     def game_mode(self):
         return self._game_mode
 
-
+    def kameny_to_json(self):
+        spikes_info = []
+        for idx, spike in enumerate(hra.spikes):
+            if len(spike) > 0:
+                for kamen in spike["kameny"]:
+                    spikes_info.append((idx, kamen.barva, kamen.pamet))
+        self._spikes = spikes_info
+    
+    
     def next_turn(self, p_turn:int) -> int:
         self.turn += 1
         if p_turn == self.player1:
             self.player_turn = self.player2
         else:
             self.player_turn = self.player1
-        #menu.save((self.game_mode, self.turn, self.player_turn, self.doubledice, self._spikes, self._bar, self._domecky, self.player1, self.player2, self._save_nazev))
+        
+        self.kameny_to_json()
+        menu.save((self.game_mode, self.turn, self.player_turn, self.doubledice, self._spikes, self._bar, self.player1, self.player2, self._save_nazev))
     
 
     def sektor_spiku_vrchni(self, sektor:int, spikes_lists:list) -> list:

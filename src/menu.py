@@ -72,7 +72,6 @@ class Menu:
             self._last_dice = save_data[3]
             self._spikes = save_data[4]
             self._bar = save_data[5]
-            self._domecky = save_data[6]
             self._player1 = save_data[7]
             self._player2 = save_data[8]
 
@@ -100,7 +99,7 @@ class Menu:
         save_nazev = str(self._save_nazev)
         print(save_nazev)
         with open(f"saves/{save_nazev}.json", "w") as f:
-            json.dump(data, f)
+            json.dump(data, f, indent=4)
 
             
     def load(self, save_nazev):
@@ -122,6 +121,7 @@ class Menu:
         self._player1 = data["game_save"]["player1"]["name"]
         #player2
         self._player2 = data["game_save"]["player2"]["name"]
+        self._save_nazev = save_nazev
 
     def quit_game(self):
         quit()
