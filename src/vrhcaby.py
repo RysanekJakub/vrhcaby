@@ -3,9 +3,12 @@ import os
 import random
 import platform
 
+
+from menu import *
 from domecek import Domecek
 from bar import bar
 from herni_pole_bar import hra
+
 
 # pro zajisteni barev v konzoli
 os.system("")
@@ -31,23 +34,48 @@ class style:
         elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system("clear")
 
+class Dvojkostka:
+
+    def __init__(self) -> None:
+        self._dvojkostka = []
+
+    """@property
+    def dvojkostka(self):
+        return self._dvojkostka
+
+    @dvojkostka.setter
+    def dvojkostka(self, value):
+        self._dvojkostka = value"""
+
+    def hodit(self) -> list:
+        self._dvojkostka.clear()
+        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
+        # kontrola hozenych hodnot
+        if hod1 != hod2:
+            self._dvojkostka.append(str(hod1))
+            self._dvojkostka.append(str(hod2))
+            return self._dvojkostka
+        # pokud se cisla rovnaji, vrati se 4x
+        else:
+            for _ in range(4):
+                self._dvojkostka.append(str(hod1))
+            return self._dvojkostka
+
+
 class Game:
     
-    def __init__(self, gameboard, pozice, player1, player2) -> None:
-        # herni pole
-        self._gameboard = gameboard
-        # dvojkostka
-        self._doubledice = []
-        self._bar = ...
-        self._stone = pozice
-        self._turn = 0
-        self._player_turn = player1     # defaultni hodnota
+    def __init__(self, turn, player_turn, doubledice, player1, player2, game_mode, spikes, bar, domecky, save_nazev) -> None:
+        self._turn = turn
+        self._player_turn = player_turn     
+        self._doubledice = doubledice
         self._player1 = player1
-        self._player1_barva = ""
         self._player2 = player2
-        self._player2_barva = ""
         self._last_command = ""
         self._game_mode = "pvp"              # game_mod se nastavi v gamesetup
+        self._spikes = spikes
+        self._bar = bar
+        self._domecky = domecky
+        self._save_nazev = save_nazev
         self._vykresleni_spikes = [[[0]for _ in range(6)] for _ in range(4)]    # default kdyby se neco pokazilo
                                                                     # formatovani hry by se jinak rozbilo - takhle to aspon neni tak hrozny
         self._reversed = 0
@@ -59,10 +87,6 @@ class Game:
     @doubledice.setter
     def doubledice(self, value):
         self._doubledice = value
-    
-    @property
-    def gameboard(self):
-        return self._gameboard
     
     @property
     def last_command(self):
@@ -115,21 +139,7 @@ class Game:
             self.player_turn = self.player2
         else:
             self.player_turn = self.player1
-
-
-    def throw_dice(self, dice:list) -> list:
-        dice.clear()
-        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
-        # kontrola hozenych hodnot
-        if hod1 != hod2:
-            dice.append(str(hod1))
-            dice.append(str(hod2))
-            return dice
-        # pokud se cisla rovnaji, vrati se 4x
-        else:
-            for _ in range(4):
-                dice.append(str(hod1))
-            return dice
+        #menu.save((self.game_mode, self.turn, self.player_turn, self.doubledice, self._spikes, self._bar, self._domecky, self.player1, self.player2, self._save_nazev))
     
 
     def sektor_spiku_vrchni(self, sektor:int, spikes_lists:list) -> list:
@@ -209,6 +219,14 @@ class Game:
         bily_domecek = ["O" for _ in range(len(domecky_kameny[0]))]
         cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
 
+        bily_bar = 0
+        cerny_bar = 0
+        for kamen in bar:
+            if kamen.barva == "bila":
+                bily_bar += 1
+            else:
+                cerny_bar += 1
+
         # tvorba cislovani spiku
         spike_row1 = ([str(_) for _ in range(6, 0, -1)], [str(_) for _ in range(9,6, -1)], [str(_) for _ in range(12, 9, -1)])
         spike_row2 = ([str(_) for _ in range(13,19)], [str(_) for _ in range(19, 25)])
@@ -235,7 +253,7 @@ class Game:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Hozené hodnoty: {style.LIGHT_BLUE}{"  ".join(values)}{style.RESET}{spaces}| 
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| {" "*(153+(15-len(cerny_domecek)))}Cerny domecek: [{"".join(cerny_domecek)}] |
+| {" "*(154+(15-len(bily_domecek)))}Bily domecek: [{"".join(bily_domecek)}] |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row1[2])}              {"              ".join(spike_row1[1])}                   {"              ".join(spike_row1[0])}{style.RESET}        |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -247,12 +265,12 @@ class Game:
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[4])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[4])} |
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[5])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[5])} |
 | {"".join(self.sektor_spiku_vrchni(1,self.vykresleni_spikes)[6])} | | {"".join(self.sektor_spiku_vrchni(0,self.vykresleni_spikes)[6])} |
+|{" "*92}|B|{" "*92}|
+|{" "*92}|{bily_bar}|{" "*92}|
 |{" "*92}| |{" "*92}|
-|{" "*92}|{len(bar[0])}|{" "*92}|
 |{" "*92}| |{" "*92}|
-|{" "*92}| |{" "*92}|
-|{" "*92}|{len(bar[1])}|{" "*92}|
-|{" "*92}| |{" "*92}|
+|{" "*92}|{cerny_bar}|{" "*92}|
+|{" "*92}|C|{" "*92}|
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[0])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[0])} |
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[1])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[1])} |
 | {"".join(self.sektor_spiku_spodni(2,self.vykresleni_spikes)[2])} | | {"".join(self.sektor_spiku_spodni(3,self.vykresleni_spikes)[2])} |
@@ -264,7 +282,7 @@ class Game:
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |{style.RED}       {"             ".join(spike_row2[0])}                   {"             ".join(spike_row2[1])}{style.WHITE}       |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| {" "*(154+(15-len(bily_domecek)))}Bily domecek: [{"".join(bily_domecek)}] |
+| {" "*(153+(15-len(cerny_domecek)))}Cerny domecek: [{"".join(cerny_domecek)}] |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |___________________________________________________________________________________________________________________________________________________________________________________________|
 
@@ -289,7 +307,9 @@ class Game:
                 self.next_turn(p_turn)
                 self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
-                self.throw_dice(self.doubledice)
+                dvojkostka = Dvojkostka()
+                self.doubledice = dvojkostka.hodit()
+                #self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
         else:
             command = f"{style.RED}Prikaz \'{command}\' nenalezen{style.RESET}"
@@ -297,19 +317,33 @@ class Game:
 
 
 
-def main() -> object:
+def main():
     config_file = './cfg.json'
-    #menu1 = Menu('', 'cfg.json')
-    #menu1.game_setup()
-    
-    game1 = Game(1,1, "hrac1", "hrac2")
+
+    hra.vytvorit_pole()
+    if len(menu._spikes) == 0:
+        menu._spikes = hra.spikes
+    game1 = Game(menu._round, menu._player_turn, menu._last_dice, menu._player1, menu._player2, menu._game_mod, menu._spikes, menu._bar, menu._domecky, menu._save_nazev)
+    print(game1._save_nazev)
+
+    """
+            self._game_mod = save_data[0]
+            self._round = save_data[1]
+            self._player_turn = save_data[2]
+            self._last_dice = save_data[3]
+            self._spikes = save_data[4]
+            self._bar = save_data[5]
+            self._domecky = save_data[6]
+            self._player1 = save_data[7]
+            self._player2 = save_data[8]"""
+    #menu.save((game1.game_mode, game1.turn, game1.player_turn, game1.doubledice, game1._spikes, game1._bar, game1._domecky, game1.player1, game1.player2, game1._save_nazev))
 
     # generovani domecku
     hrac1_domecek = Domecek("bila")
     hrac2_domecek = Domecek("cerna")
 
 
-
+    
     game1.vykresleni_spikes = [[i["kameny"] for i in hra.spikes[0:6]], [i["kameny"] for i in hra.spikes[6:12]], [i["kameny"] for i in hra.spikes[12:18]], [i["kameny"] for i in hra.spikes[18:24]]]
     
 
@@ -318,7 +352,7 @@ def main() -> object:
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), (bar._kameny, bar._kameny), hra.spikes))
+        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), bar._kameny, hra.spikes))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:

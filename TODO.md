@@ -28,7 +28,7 @@
     </tr>
     <tr>
       <td>trasování chodu každého jednotlivého kamene (od vstupu z baru po vyhození/vyvedení), herní pole se chovají jako zásobník</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>uložení a obnova stavu hry (s návrhem vlastního JSON formátu pro uložení)</td>
@@ -48,7 +48,7 @@
     </tr>
     <tr>
       <td>pozice všech kamenů na desce (včetně těch "na baru")</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>stručný komentář toho, co se ve hře událo a nemusí být zřejmé ze zobrazení na desce (kámen vstoupil do hry, byl "vyhozen", opustil hru, hráč nemůže hrát tj. ani házet, pod.)</td>
@@ -72,11 +72,11 @@
     </tr>
     <tr>
       <td>Hra (Herní deska)</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>HerníPole (modifikovaný zásobník, lze vkládat jen kameny stejných barev)</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>Dvojkostka (vrací seznam možných dvojic či čtveřic)</td>
@@ -84,11 +84,11 @@
     </tr>
     <tr>
       <td>Bar (továrna na herní kameny, s řízenou produkcí)</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>Herní kámen (s pamětí, kde se postupně nacházel)</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td></td>
@@ -100,7 +100,7 @@
     </tr>
     <tr>
       <td>KonzolovýHráč</td>
-      <td></td>
+      <td>DONE</td>
     </tr>
     <tr>
       <td>AIHráč</td>

@@ -188,5 +188,5 @@ class Hernipole:
             return
             
 hra = Hernipole()
-hra.vytvorit_pole()
+
 

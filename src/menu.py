@@ -1,47 +1,23 @@
 import random
 import json
+import os
+import platform
 
 class Menu:
-    def __init__(self, options, config) -> None:
-        self._player2_barvy = None
-        self._player1_barvy = None
-        self._player1 = None
-        self._player2 = None
-        self._options = options
-        self._conf = config
+    def __init__(self) -> None:
+        self._player1 = ""
+        self._player2 = ""
+        self._game_mod = ""
+        self._round = 0
+        self._player_turn = ""
+        self._last_dice = []
+        self._spikes = []
+        self._bar = []
+        self._domecky = []
+        self._save_nazev = ""
 
-    @property
-    def self_options(self):
-        return self._options
-    
-    @property
-    def self_conf(self):
-        return self._conf
-
-    def __init__(self, options, config) -> None:
-        self._options = options
-        self._conf = config
-
-    """
-        Predstava funkce menu:
-            -> uzivatel vybere moznost PLAY:
-                -> podle vyberu herniho modu se pokracuje
-                    PvE:
-                    - zatim nic
-                    PvP:
-                    - pokud pote vybere moznost nacist, hra pres load() vezme data z configu a pokracuje se ve hre
-                    - pokud vybere moznost Nova hra, spusti se funkce game_setup(), 
-                        data se ulozi/prepisou do configu a nasledne se spusti funkce load()
-            -> uzivatel vybere moznost QUIT:
-                - cela hra se vypne 
-    """
-    @property
-    def herni_nastaveni(self):
-        pass
-
-    @property
     def game_setup(self):
-
+        os.system("cls")
         # volba PVP, PVE
         print(" VITEJTE VE HRE VRHCABY! \n      MOZNOSTI HRY        \n       PvE    PvP\n")
 
@@ -59,139 +35,132 @@ class Menu:
         def zmena_jmena(i: int):
 
             while True:
-                max_delka = 10
                 print(f"\nZadejte jmeno pro hrace ({i}) | delka jmena 3 - 10")
                 vybrane_jmeno = input("Zvolene jmeno: ")
-
                 if len(vybrane_jmeno) < 3 or len(vybrane_jmeno) > 10:
                     print("Jmeno nesplnuje podminky!")
 
                 else:
                     return vybrane_jmeno
 
-        def nastaveni_barvy(barvy: list):
-            while True:
-                print(f"\nVyberte barvu z nasledujicich: {barvy}")
-                vybrana_barva = input("Zvolena barva: ")
-
-                if vybrana_barva in barvy:
-                    barvy.remove(vybrana_barva)
-                    return vybrana_barva, barvy
-
-                else:
-                    print("Tato barva se nenachazi v moznostech!")
-
-
         # volba jmen PVP
         if volba == "pvp":
-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
-
             self._player1 = zmena_jmena(1)
-            self._player1_barvy = nastaveni_barvy(barvy)
             self._player2 = zmena_jmena(2)
-            self._player2_barvy = nastaveni_barvy(barvy)
             self._game_mod = "pvp"
-            
+            self._player_turn = self._player1
 
         # volba jmen PvE
         if volba == "pve":
-
-            barvy = ["a", "b", "c", "d"]                          # zatim orientacne, jen potreba doplnit barvy
             self._player1 = zmena_jmena(1)
-            self._player1_barvy = nastaveni_barvy(barvy)
             self._player2 = "AI"
-            self._player2_barvy = random.choice(barvy)
             self._game_mod = "pve"
+            self._player_turn = self._player1
 
+        
 
-    def save(self):
+    def save(self, save_data:list):
         # ulozeni dat do json souboru zpusobem prepsani
         # aktualni data
+        if len(save_data) == 0:
+            save_nazev = input("Zvolte nazev savu: ")
+            self._save_nazev = save_nazev
+        else:
+            self._game_mod = save_data[0]
+            self._round = save_data[1]
+            self._player_turn = save_data[2]
+            self._last_dice = save_data[3]
+            self._spikes = save_data[4]
+            self._bar = save_data[5]
+            self._domecky = save_data[6]
+            self._player1 = save_data[7]
+            self._player2 = save_data[8]
+
         data = {
-            "menu_options": ["PLAY (AI)", "PLAY (PvP)", "QUIT"],
-            "commands": ["hod"],
-
-            "game_save": {
-
-                "game_stat":
-                    {
-                    "round": 0,                           # provizorne
-                    "player_turn": "?",                   # ?
-                    "last_dice": []                       # provizorne
-                    },
-
-                "player1":
-                    {
-                    "name": self.player1,
-                    "color": self._player1_barvy,
-                    "score": "",                         # provizorne
-                    },
-
-                "player2":
-                    {
-                    "name": self.player2,
-                    "color": self._player2_barvy,
-                    "score": "",                         # provizorne
+                "game_save":{
+                    "game_stat":{
+                        "game_mod": self._game_mod,
+                        "round": self._round,
+                        "player_turn": self._player_turn,
+                        "last_dice": self._last_dice,
+                        "spikes": self._spikes,
+                        "bar": self._bar,
+                        "domecky": self._domecky
+                        },
+                        "player1":{
+                            "name": self._player1
+                        },
+                        "player2":{
+                            "name": self._player2
+                        }
                     }
                 }
-            }
 
         # existujici soubor, ktery se prepise
-        with open("cfg.json", "w") as f:
+        save_nazev = str(self._save_nazev)
+        print(save_nazev)
+        with open(f"saves/{save_nazev}.json", "w") as f:
             json.dump(data, f)
 
             
-    def load(self):
+    def load(self, save_nazev):
         # nacteni informaci z json souboru
-        
-        with open("cfg.json", "r") as f:
+        print(save_nazev)
+        with open(f"saves/{save_nazev}.json", "r") as f:
             data = json.load(f)
         
         # game_stat
-        round = data["game_save"]["game_stat"]["round"]                           # provizorne
-        self.player_turn = data["game_save"]["game_stat"]["player_turn"]          # ?
-        last_dice = data["game_save"]["game_stat"]["last_dice"]                   # provizorne
-        
-        #player1
-        self.player1 = data["game_save"]["player1"]["name"]
-        self._player1_barvy = data["game_save"]["player1"]["color"]
-        #self.player_1.score = data["game_save"]["player1"]["score"]              # zatim provizorne, nejsem si jistej k cemu priradit score
-        
-        #player2
-        self.player2 = data["game_save"]["player2"]["name"]
-        self._player2_barvy = data["game_save"]["player2"]["color"]
-        #self.player_2.score = data["game_save"]["player2"]["score"]              # zatim provizorne, nejsem si jistej k cemu priradit score
 
+        self._game_mod = data["game_save"]["game_stat"]["game_mod"]
+        self._round = data["game_save"]["game_stat"]["round"]                           # provizorne
+        self._player_turn = data["game_save"]["game_stat"]["player_turn"]          # ?
+        self._last_dice = data["game_save"]["game_stat"]["last_dice"]                   # provizorne
+        self._spikes = data["game_save"]["game_stat"]["spikes"]
+        self._bar = data["game_save"]["game_stat"]["bar"]
+        self._domecky = data["game_save"]["game_stat"]["domecky"]
+        #player1
+        self._player1 = data["game_save"]["player1"]["name"]
+        #player2
+        self._player2 = data["game_save"]["player2"]["name"]
 
     def quit_game(self):
         quit()
 
-     ## návrh pro implementování událostí
-    # Inicializace herní desky
-    """
-    board = [[0] * 24 for _ in range(2)]
 
-    # Funkce pro vhození kamene do hry
-    def enter_piece(player, point, board=None):
-        board[player][point] += 1
-        print(f"Hráč {player} vhozen kámen na pozici {point}")
+menu = Menu()
+moznosti = ["NOVA HRA", "NACIST", "ODEJIT"]
+vybrano_nacteni = False
+while vybrano_nacteni == False:
+    if platform.system() == "Windows":
+        os.system("cls")
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
+        os.system("clear")
 
-    # Funkce pro vyhození kamene z hry
-    def remove_piece(player, point, board=None):
-        board[player][point] -= 1
-        print(f"Hráč {player} vyhodil kámen z pozice {point}")
-
-    # Funkce pro opuštění hry
-    def leave_game(player):
-        print(f"Hráč {player} opustil hru")
-
-    # Funkce pro zablokování hráče, který nemůže hrát
-    def block_player(player):
-        print(f"Hráč {player} nemůže hrát")
-
-    # Příklady použití funkcí
-    enter_piece(0, 5)  # Hráč 0 vhozen kámen na pozici 5
-    remove_piece(1, 10)  # Hráč 1 vyhodil kámen z pozice 10
-    leave_game(0)  # Hráč 0 opustil hru
-    block_player(1)  # Hráč 1 nemůže hrát"""
+    print(f"| {'VRHCÁBY'.center(187, ' ')} |")  
+    for idx, moznost in enumerate(moznosti):    # vypis moznosti v menu
+        moznost = f"{idx+1}) {moznost}"         
+        print(f"| {moznost.center(187, ' ')} |")
     
+    try:
+        vyber = int(input(">"))
+        # pokud je vyber 1, znamena to, ze hrac chce vytvorit novy save
+        if vyber == 1:
+            menu.game_setup()   # zavolani funkce pro ziskani hodnot k zapsani do savu
+            menu.save([])       # prazdny list pri volani funkce == pouziti save templatu
+        # pokud je vyber 2, znamena to, ze hrac chce nacist save
+        elif vyber == 2:
+            savy = [filename.split(".")[0] for filename in os.listdir('saves')] # nalezeni vsech savu ve slozce 'saves'
+            for idx, nazev in enumerate(savy):                                  # uprava pro vypis do konzole
+                print(f"{idx+1}) {nazev}")
+            while True:
+                y = int(input("vyber save: "))      # po vypsani savu ve slozce 'saves' se ziska chteny save
+                if savy[y-1]:
+                    menu.load(savy[y-1])
+                    vybrano_nacteni = True          # tohle znamena, ze save se nacetl a kod while loop v 'menu.py' neni potreba
+                    break                           
+                else:
+                    print(f"Save {y} neni ve vyberu")
+        elif vyber == 3:
+            menu.quit_game()                        
+    except ValueError:
+        print("zadana moznost neni cislo")
