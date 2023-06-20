@@ -7,7 +7,7 @@ import platform
 from menu import *
 from domecek import Domecek
 from bar import bar
-from herni_pole_bar import hra
+from herni_pole import hra
 
 
 # pro zajisteni barev v konzoli
@@ -38,14 +38,6 @@ class Dvojkostka:
 
     def __init__(self) -> None:
         self._dvojkostka = []
-
-    """@property
-    def dvojkostka(self):
-        return self._dvojkostka
-
-    @dvojkostka.setter
-    def dvojkostka(self, value):
-        self._dvojkostka = value"""
 
     def hodit(self) -> list:
         self._dvojkostka.clear()
@@ -321,7 +313,6 @@ class Game:
             elif command == "hod":
                 dvojkostka = Dvojkostka()
                 self.doubledice = dvojkostka.hodit()
-                #self.throw_dice(self.doubledice)
             command = f"{style.GREEN}{command}{style.RESET}"
         else:
             command = f"{style.RED}Prikaz \'{command}\' nenalezen{style.RESET}"
