@@ -13,5 +13,3 @@ build/
 # Testing
 /.pytest_cache/
 /pytest.ini
-
-/saves
