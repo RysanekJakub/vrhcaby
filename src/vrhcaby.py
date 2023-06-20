@@ -7,7 +7,7 @@ import platform
 from menu import *
 from domecek import Domecek
 from bar import bar
-from herni_pole import hra
+from hp_bar_domecek import hra
 
 
 # pro zajisteni barev v konzoli
@@ -204,11 +204,7 @@ class Game:
         
         # dopocitani mezer u radku s poslednim prikazem
         # buguje se - tusim proc => pozdeji vyresim
-        delka_prikazu = len(command)
-        if delka_prikazu > 0:
-            command = command + (177-delka_prikazu)*" "
-        else:
-            command = (168-delka_prikazu)*" "
+        
 
         delka_tah = len(str(cur_turn))                              
         if delka_tah > 0:                                           
@@ -250,7 +246,7 @@ class Game:
  ____________________________________________________________________________________________________________________________________________________________________________________________
 |                                                                                          {style.BLUE}VRHCABY{style.RESET}                                                                                          |
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Poslední příkaz: {command} |
+| Poslední příkaz: {command} 
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Kolo: {cur_turn} |
 | Hraje: {hrac_tah} |

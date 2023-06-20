@@ -1,4 +1,4 @@
-
+import random
 
 
 class Kamen:
@@ -14,25 +14,44 @@ class Hernipole:
     
     def __init__(self):
         self.spikes = []
-        #                                             0 - DOMECEK          25 - DOMECEK
-    def vytvorit_pole(self):
+        #                                             0 - DOMECEK-bila          25 - DOMECEK-cerna
+    def vytvorit_pole(self, save_spikes:list):
         for i in range(26):
             self.spikes.append({
                 "kameny":[],
                 "barva":None
             })
-#                indx   barva   pocet
-        rozdani = [(1, "cerna", 2), (6, "bila", 5), (8, "bila", 3), (12, "cerna", 5), (14, "bila", 5), (17, "cerna", 3), (20, "cerna", 5), (24, "bila", 2)]
-        
-        for indx, barva, pocet in rozdani:
-            self.spikes[indx]["barva"] = barva
-            for i in range(pocet):
-                sutr = Kamen(barva)
-                self.spikes[indx]["kameny"].append(sutr)
+        if len(save_spikes) == 0:
+    #                indx   barva   pocet
+            rozdani = [(0, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (13, "bila", 5), (16, "cerna", 3), (19, "cerna", 5), (23, "bila", 2)]
+            
+            for indx, barva, pocet in rozdani:
+                self.spikes[indx]["barva"] = barva
+                for i in range(pocet):
+                    sutr = Kamen(barva)
+                    self.spikes[indx]["kameny"].append(sutr)
+        else:
+            for save_kamen in save_spikes:
+                self.spikes[save_kamen[0]]["barva"] = save_kamen[1]
+                sutr = Kamen(save_kamen[1])
+                sutr.pamet = save_kamen[2]
+                self.spikes[save_kamen[0]]["kameny"].append(sutr)
                 
 #                  1   /   2
-    def tah(self, barva_hrace, hod_kostkou, bar):
+    def tah(self, barva_hrace, hod_kostkou, bar, ai):
+        if ai == "AI":
+            ai = True
+        else:
+            ai = False
         
+        if barva_hrace == "bila":
+            parametr = -1
+            
+        if barva_hrace == "cerna":
+            parametr = 1
+
+
+
         if len(self.spikes[25]["kameny"]) == 15:
             return print("hrac cerna vyhra")
         if len(self.spikes[0]["kameny"]) == 15:
@@ -124,26 +143,30 @@ class Hernipole:
                     mozne_tahy.append((i, budouci_pozice))
                 
         
-#                    VYBER TAHU
-        while True:
-            print("-------------------------------")
-            print("VYBERTE SI TAH")
-            print("-------------------------------")
-            
-#                    ODKAZUJICI NA INDEX V MOZNE_TAHY
-            temp = 0
-            for x1, x2 in mozne_tahy:
-                print(f"({temp}) KAMEN Z S{x1+1} -> S{x2+1}")
-                temp += 1
-            
-            volba = input("VOLIM : ")
-            if volba.isdigit() == True:
-                volba = int(volba)
-                if volba >= 0 and volba <= temp:
-                    klic = (mozne_tahy[volba][0], mozne_tahy[volba][1])
-                    break
-            else:
-                print("neplatna volba")
+        if ai == False:
+            while True:
+                print("-------------------------------")
+                print("VYBERTE SI TAH")
+                print("-------------------------------")
+                
+    #                    ODKAZUJICI NA INDEX V MOZNE_TAHY
+                temp = 0
+                for x1, x2 in mozne_tahy:
+                    print(f"({temp}) KAMEN Z S{x1+1} -> S{x2+1}")
+                    temp += 1
+                
+                volba = input("VOLIM : ")
+                if volba.isdigit() == True:
+                    volba = int(volba)
+                    if volba >= 0 and volba <= temp:
+                        klic = (mozne_tahy[volba][0], mozne_tahy[volba][1])
+                        break
+                else:
+                    print("neplatna volba")
+        
+        if ai == True:
+            volba = random.randint(0, len(mozne_tahy)-1)
+            klic = (mozne_tahy[volba][0], mozne_tahy[volba][1])
 
 
 #            start x1         end x2
@@ -219,4 +242,3 @@ class Hernipole:
             return
             
 hra = Hernipole()
-hra.vytvorit_pole()
