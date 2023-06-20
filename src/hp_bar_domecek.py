@@ -7,9 +7,6 @@ class Kamen:
         self.barva = barva
         self.pamet = []
         
-    def zmena(self, index):
-        self.pamet.append(index)
-        
 class Hernipole:
     
     def __init__(self):
@@ -21,6 +18,9 @@ class Hernipole:
                 "kameny":[],
                 "barva":None
             })
+
+        # kontrola, zda se hra bude nacitat ze savu nebo jde o uplne novou hru
+        # kdyz v save_spikes nebudou zadny zaznamy tak jde o novou hru
         if len(save_spikes) == 0:
     #                indx   barva   pocet
             rozdani = [(0, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (13, "bila", 5), (16, "cerna", 3), (19, "cerna", 5), (23, "bila", 2)]
@@ -30,6 +30,7 @@ class Hernipole:
                 for i in range(pocet):
                     sutr = Kamen(barva)
                     self.spikes[indx]["kameny"].append(sutr)
+        # jinak kameny dostanou prislusne vlastnosti ze seznamu save_spikes
         else:
             for save_kamen in save_spikes:
                 self.spikes[save_kamen[0]]["barva"] = save_kamen[1]

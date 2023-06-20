@@ -3,7 +3,7 @@ import os
 import random
 import platform
 
-
+# import funkci z jinych souboru
 from menu import *
 from domecek import Domecek
 from bar import bar
@@ -40,6 +40,7 @@ class Dvojkostka:
         self._dvojkostka = []
 
     def hodit(self) -> list:
+        # procisteni hozenych hodnot
         self._dvojkostka.clear()
         hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
         # kontrola hozenych hodnot
@@ -139,7 +140,10 @@ class Game:
         else:
             self.player_turn = self.player1
         
+        # konvertovani informaci z objektu kamenu na ulozitelny format
+        # funkce o par radku vys
         self.kameny_to_json()
+        # po kazdem kole probehne ulozeni postupu
         menu.save((self.game_mode, self.turn, self.player_turn, self.doubledice, self._spikes, self._bar, self.player1, self.player2, self._save_nazev))
     
 
@@ -194,7 +198,6 @@ class Game:
 
     def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, domecky_kameny: list, bar: list, spikes:list) -> str:
         # dopocet chybejicich mezer kvuli formatovani
-        # asi by to slo elegantneji... treba pozdeji :)
         if len(values) == 2:
             spaces = 166*" "
         elif len(values) == 4:
@@ -202,20 +205,19 @@ class Game:
         else:
             spaces = 170*" "
         
-        # dopocitani mezer u radku s poslednim prikazem
-        # buguje se - tusim proc => pozdeji vyresim
-        
-
+        #dopocet mezer
         delka_tah = len(str(cur_turn))                              
         if delka_tah > 0:                                           
             cur_turn = f"{cur_turn+1}{(179-delka_tah)*' '}"         
-                                                                    
+
+        # dopocitani mezer                                                   
         delka_jmena_hrace = len(hrac_tah)                           
         hrac_tah = f"{hrac_tah}{(178-delka_jmena_hrace)*' '}"     
 
         bily_domecek = ["O" for _ in range(len(domecky_kameny[0]))]
         cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
 
+        # vykresleni poctu kamenu na baru
         bily_bar = 0
         cerny_bar = 0
         for kamen in bar:
@@ -320,26 +322,21 @@ def main():
     config_file = './cfg.json'
 
     hra.vytvorit_pole(menu._spikes)
-    """if len(menu._spikes) == 0:
-        menu._spikes = hra.spikes"""
+    
     game1 = Game(menu._round, menu._player_turn, menu._last_dice, menu._player1, menu._player2, menu._game_mod, menu._spikes, menu._bar, menu._save_nazev)
-    print(game1._save_nazev)
-
-    #menu.save((game1.game_mode, game1.turn, game1.player_turn, game1.doubledice, game1._spikes, game1._bar, game1._domecky, game1.player1, game1.player2, game1._save_nazev))
 
     # generovani domecku
     hrac1_domecek = Domecek("bila")
     hrac2_domecek = Domecek("cerna")
-
-
     
+    # ziskani informaci o spicich pro vykresleni => dulezite pro zjisteni delky seznamu ve funkci, ktera ridi vykresleni
     game1.vykresleni_spikes = [[i["kameny"] for i in hra.spikes[0:6]], [i["kameny"] for i in hra.spikes[6:12]], [i["kameny"] for i in hra.spikes[12:18]], [i["kameny"] for i in hra.spikes[18:24]]]
     
-
     # vypis hry do konzole
     style.clear()
     print(style.YELLOW + "Vítejte ve hře Vrhcáby" + style.RESET)
     while True:
+        # cisteni konzole pri kazdem loopu
         style.clear()
         print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), bar._kameny, hra.spikes))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
