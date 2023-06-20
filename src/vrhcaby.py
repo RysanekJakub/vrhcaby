@@ -130,6 +130,7 @@ class Game:
             if len(spike) > 0:
                 for kamen in spike["kameny"]:
                     spikes_info.append((idx, kamen.barva, kamen.pamet))
+        print(self._bar)
         self._spikes = spikes_info
 
     
@@ -196,7 +197,7 @@ class Game:
             rows.append(row)
         return rows
 
-    def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, domecky_kameny: list, bar: list, spikes:list) -> str:
+    def gameboard_final(self, values:list, command:str, cur_turn: int, hrac_tah: str, bar: list, spikes:list) -> str:
         # dopocet chybejicich mezer kvuli formatovani
         if len(values) == 2:
             spaces = 166*" "
@@ -206,16 +207,18 @@ class Game:
             spaces = 170*" "
         
         #dopocet mezer
-        delka_tah = len(str(cur_turn))                              
-        if delka_tah > 0:                                           
-            cur_turn = f"{cur_turn+1}{(179-delka_tah)*' '}"         
+        delka_tah = len(str(cur_turn))
+        if delka_tah > 0:
+            cur_turn = f"{cur_turn+1}{(179-delka_tah)*' '}"
+        elif delka_tah > 1:
+            cur_turn = f"{cur_turn+1}{(177-delka_tah)*' '}"
 
         # dopocitani mezer                                                   
-        delka_jmena_hrace = len(hrac_tah)                           
+        delka_jmena_hrace = len(hrac_tah)                       
         hrac_tah = f"{hrac_tah}{(178-delka_jmena_hrace)*' '}"     
 
-        bily_domecek = ["O" for _ in range(len(domecky_kameny[0]))]
-        cerny_domecek = ["O" for _ in range(len(domecky_kameny[1]))]
+        bily_domecek = ["O" for _ in range(len([i for i in spikes[0]["kameny"]]))]
+        cerny_domecek = ["O" for _ in range(len([i for i in spikes[25]["kameny"]]))]
 
         # vykresleni poctu kamenu na baru
         bily_bar = 0
@@ -338,7 +341,7 @@ def main():
     while True:
         # cisteni konzole pri kazdem loopu
         style.clear()
-        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, (hrac1_domecek.kameny, hrac2_domecek.kameny), bar._kameny, hra.spikes))
+        print(game1.gameboard_final(game1.doubledice, game1.last_command, game1.turn, game1.player_turn, bar._kameny, hra.spikes))
         print(style.GREEN + "Made by: Jakub Ryšánek, Ondřej Thomas, Jakub Kepič" + style.RESET)
         cmd_line = input("> ")
         try:
