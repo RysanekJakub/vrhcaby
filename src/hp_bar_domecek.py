@@ -23,7 +23,7 @@ class Hernipole:
         # kdyz v save_spikes nebudou zadny zaznamy tak jde o novou hru
         if len(save_spikes) == 0:
     #                indx   barva   pocet
-            rozdani = [(0, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (13, "bila", 5), (16, "cerna", 3), (19, "cerna", 5), (23, "bila", 2)]
+            rozdani = [(1, "cerna", 2), (5, "bila", 5), (7, "bila", 3), (11, "cerna", 5), (12, "bila", 5), (16, "cerna", 3), (18, "cerna", 5), (22, "bila", 2)]
             
             for indx, barva, pocet in rozdani:
                 self.spikes[indx]["barva"] = barva

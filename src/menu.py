@@ -100,15 +100,22 @@ class Menu:
 
         # existujici soubor, ktery se prepise
         save_nazev = str(self._save_nazev)
-        with open(f"saves/{save_nazev}.json", "w") as f:
-            json.dump(data, f, indent=4)
-
+        try:
+            with open(f"saves/{save_nazev}.json", "w") as f:
+                json.dump(data, f, indent=4)
+        except FileNotFoundError:
+            with open(f"src/saves/{save_nazev}.json", "w") as f:
+                json.dump(data, f, indent=4)
             
     def load(self, save_nazev):
         # nacteni informaci z json souboru
         print(save_nazev)
-        with open(f"saves/{save_nazev}.json", "r") as f:
-            data = json.load(f)
+        try:
+            with open(f"saves/{save_nazev}.json", "r") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            with open(f"src/saves/{save_nazev}.json", "r") as f:
+                data = json.load(f)
 
         self._game_mod = data["game_save"]["game_stat"]["game_mod"]
         self._round = data["game_save"]["game_stat"]["round"]                           
@@ -150,7 +157,11 @@ while vybrano_nacteni == False:
             menu.save([])       # prazdny list pri volani funkce == pouziti save templatu
         # pokud je vyber 2, znamena to, ze hrac chce nacist save
         elif vyber == 2:
-            savy = [filename.split(".")[0] for filename in os.listdir('saves')] # nalezeni vsech savu ve slozce 'saves'
+            try:
+                savy = [filename.split(".")[0] for filename in os.listdir('saves')] # nalezeni vsech savu ve slozce 'saves'
+            except FileNotFoundError:
+                savy = [filename.split(".")[0] for filename in os.listdir('src/saves')]
+            
             for idx, nazev in enumerate(savy):                                  # uprava pro vypis do konzole
                 print(f"{idx+1}) {nazev}")
             while True:

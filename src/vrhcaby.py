@@ -1,6 +1,6 @@
 import json
 import os
-import random
+#import random
 import platform
 
 # import funkci z jinych souboru
@@ -8,7 +8,7 @@ from menu import *
 from domecek import Domecek
 from bar import bar
 from hp_bar_domecek import hra
-
+from dvojkostka import *
 
 # pro zajisteni barev v konzoli
 os.system("")
@@ -33,26 +33,6 @@ class style:
             os.system("cls")
         elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system("clear")
-
-class Dvojkostka:
-
-    def __init__(self) -> None:
-        self._dvojkostka = []
-
-    def hodit(self) -> list:
-        # procisteni hozenych hodnot
-        self._dvojkostka.clear()
-        hod1, hod2 = random.randint(1, 6), random.randint(1, 6)
-        # kontrola hozenych hodnot
-        if hod1 != hod2:
-            self._dvojkostka.append(str(hod1))
-            self._dvojkostka.append(str(hod2))
-            return self._dvojkostka
-        # pokud se cisla rovnaji, vrati se 4x
-        else:
-            for _ in range(4):
-                self._dvojkostka.append(str(hod1))
-            return self._dvojkostka
 
 
 class Game:
@@ -312,9 +292,11 @@ class Game:
                 self.next_turn(p_turn)
                 self.doubledice = [str(i) for i in self.doubledice]
             elif command == "hod":
-                dvojkostka = Dvojkostka()
+                
                 self.doubledice = dvojkostka.hodit()
             command = f"{style.GREEN}{command}{style.RESET}"
+        elif command == "q" or command == "quit":
+            quit()
         else:
             command = f"{style.RED}Prikaz \'{command}\' nenalezen{style.RESET}"
         self.last_command = command
@@ -327,10 +309,6 @@ def main():
     hra.vytvorit_pole(menu._spikes)
     
     game1 = Game(menu._round, menu._player_turn, menu._last_dice, menu._player1, menu._player2, menu._game_mod, menu._spikes, menu._bar, menu._save_nazev)
-
-    # generovani domecku
-    hrac1_domecek = Domecek("bila")
-    hrac2_domecek = Domecek("cerna")
     
     # ziskani informaci o spicich pro vykresleni => dulezite pro zjisteni delky seznamu ve funkci, ktera ridi vykresleni
     game1.vykresleni_spikes = [[i["kameny"] for i in hra.spikes[0:6]], [i["kameny"] for i in hra.spikes[6:12]], [i["kameny"] for i in hra.spikes[12:18]], [i["kameny"] for i in hra.spikes[18:24]]]
